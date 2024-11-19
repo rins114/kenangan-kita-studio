@@ -2,7 +2,6 @@
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import NavBar from "@/components/molecules/NavBar";
 import SideBar from "@/components/molecules/SideBar";
-import SideBar2 from "@/components/molecules/SideBar2";
 import React from "react";
 
 export default function DashboardLayout({ children }) {

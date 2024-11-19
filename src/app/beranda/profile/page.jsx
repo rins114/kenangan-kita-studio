@@ -32,6 +32,7 @@ export default function ProfilePage() {
             >
               <Input
                 type="text"
+                size="sm"
                 variant="underlined"
                 className="w-60"
                 value={username}
