@@ -15,12 +15,13 @@ import {
   Button,
 } from "@nextui-org/react";
 import { RiMenuFold2Line, RiMenuUnfold2Line } from "react-icons/ri";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
   return (
-    <Navbar className="shadow-md justify-between bg-white">
+    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5">
       {/* <NavbarBrand>
         <Logo></Logo>
         <p className="font-bold text-inherit">ACME</p>
@@ -33,16 +34,18 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 isIconOnly
                 color="default"
                 onClick={() => setIsMenuOpen(false)}
+                className="!rounded-none !rounded-r-full"
               >
-                <RiMenuFold2Line className="text-xl" />
+                <IoIosArrowForward  className="text-lg"/>
               </Button>
             ) : (
               <Button
                 isIconOnly
                 color="default"
                 onClick={() => setIsMenuOpen(true)}
+                className="!rounded-none !rounded-r-full"
               >
-                <RiMenuUnfold2Line className="text-xl" />
+                <IoIosArrowBack className="text-lg"/>
               </Button>
             )}
           </NavbarItem>

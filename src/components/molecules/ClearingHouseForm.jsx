@@ -14,87 +14,109 @@ export default function ClearingHouseForm({
     <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
       <div className="flex flex-col w-full gap-3">
         <Input
-          size="sm"
+          labelPlacement="outside"
+          placeholder="Masukkan nama pemohon"
+          size="md"
           key="outside"
           label="Nama Pemohon"
           radius="sm"
           variant="bordered"
           name="nama_pemohon"
-        ></Input>
+        />
         <div className="flex gap-3">
           <div className="flex flex-col w-1/2 gap-3">
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan nama Organisasi Perangkat Daerah"
+              size="md"
               label="Nama Organisasi Perangkat Daerah"
               radius="sm"
               variant="bordered"
               name="opd"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan nama Paket Kegiatan"
+              size="md"
               label="Nama Paket Kegiatan"
               radius="sm"
               variant="bordered"
               name="paket_kegiatan"
-            ></Input>
+            />
             <Input
+              labelPlacement="outside"
+              placeholder="Masukkan nama Barang/Jasa"
               label="Nama Barang/Jasa"
               radius="sm"
               variant="bordered"
-              size="sm"
+              size="md"
               name="barang_jasa"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan nama K/L/PD"
+              size="md"
               label="Nama K/L/PD"
               radius="sm"
               variant="bordered"
               name="klpd"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Nomor Sirup"
+              size="md"
               label="Nomor Sirup"
               radius="sm"
               variant="bordered"
               name="nomor_sirup"
-            ></Input>
+            />
           </div>
           <div className="flex flex-col w-1/2 gap-3">
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Tahun Anggaran"
+              size="md"
               label="Tahun Anggaran"
               radius="sm"
               variant="bordered"
               name="tahun_anggaran"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Pagu Anggaran"
+              size="md"
               label="Pagu Anggaran"
               radius="sm"
               variant="bordered"
               name="pagu_anggaran"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Nilai HPS"
+              size="md"
               label="Nilai HPS"
               radius="sm"
               variant="bordered"
               name="nilai_hps"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Lokasi Pelaksanaan"
+              size="md"
               label="Lokasi Pelaksanaan"
               radius="sm"
               variant="bordered"
               name="lokasi_pelaksanaan"
-            ></Input>
+            />
             <Input
-              size="sm"
+              labelPlacement="outside"
+              placeholder="Masukkan Metode Pemilihan"
+              size="md"
               label="Metode Pemilihan"
               radius="sm"
               variant="bordered"
               name="metode_pemilihan"
-            ></Input>
+            />
           </div>
         </div>
         <h1>Upload Surat Permohonan</h1>
@@ -168,12 +190,14 @@ export default function ClearingHouseForm({
         <Textarea
           label="Catatan"
           variant="bordered"
+          size="md"
+          labelPlacement="outside"
           placeholder="Tuliskan catatan khusus disini"
           disableAnimation
           disableAutosize
           classNames={{
-            base: "w-full",
-            input: "resize-y min-h-[100px]",
+            base: "w-full catatan",
+            input: "resize-y min-h-[170px] !rounded-none",
           }}
         />
       </div>

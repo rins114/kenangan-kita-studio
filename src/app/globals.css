@@ -16,10 +16,23 @@ body {
   scrollbar-width: thin;
 }
 
+.nav-nextui header {
+  max-width: 100%;
+  padding-left: 0px;
+}
+
 .side2 nav div {
   background-color: black;
 }
 
 .sideHide div {
   scrollbar-width: none;
+}
+
+.catatan label {
+  font-size: 0.9rem;
+}
+
+.catatan div {
+  border-radius: 7px;
 }

@@ -63,7 +63,10 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             >
               Clearing House
             </Sidebar.Item>
-            <Sidebar.Item href="#" icon={isMenuOpen ? HiArrowSmRight : ""}>
+            <Sidebar.Item
+              href="/beranda/verifikasi-berkas"
+              icon={isMenuOpen ? HiArrowSmRight : ""}
+            >
               Verifikasi Berkas
             </Sidebar.Item>
           </Sidebar.Collapse>

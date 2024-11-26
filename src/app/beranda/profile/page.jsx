@@ -18,7 +18,7 @@ export default function ProfilePage() {
       >
         <Avatar
           showFallback
-          src="https://images.unsplash.com/broken"
+          src="https://i.pravatar.cc/150?u=a04258114e29026708c"
           className="h-48 w-48 mb-3"
         />
         {isNameEditMode ? (
