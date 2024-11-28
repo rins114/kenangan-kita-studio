@@ -94,14 +94,14 @@ export default function SignUpForm() {
       </div>
       <Button
         type="submit"
-        className="w-full rounded-sm bg-orange-500 text-white"
+        className="w-full rounded-sm bg-mainColor text-white"
       >
         Daftar
       </Button>
       <p>
         Sudah punya akun?{" "}
         <span>
-          <Link href="/signin" className="text-orange-500 hover:underline">
+          <Link href="/signin" className="text-mainColor hover:underline">
             Sign In
           </Link>
         </span>

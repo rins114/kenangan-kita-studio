@@ -3,7 +3,7 @@ import React from "react";
 import NavBar from "../molecules/NavBar";
 import { usePathname } from "next/navigation";
 
-const disableNavbar = ["/signin", "/signup", "/sandbox"];
+const disableNavbar = ["/signin", "/signup", "/sandbox", "/landing"];
 
 export default function Header() {
   const pathname = usePathname();

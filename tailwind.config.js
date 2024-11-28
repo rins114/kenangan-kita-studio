@@ -17,6 +17,15 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mainColor: "rgba(0, 152, 218)",
+        secondaryColor: "rgba(52, 168, 83)",
+        thirdColor: "rgba(184, 0, 255)",
+      },
+      backgroundImage: {
+        "custom-gradient":
+          "linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to))",
+        "diagonal-gradient":
+          "linear-gradient(to top left, var(--tw-gradient-from), var(--tw-gradient-to))",
       },
     },
   },

@@ -52,13 +52,13 @@ export default function SignInForm() {
       </div>
       <Button
         type="submit"
-        className="w-full rounded-sm bg-orange-500 text-white"
+        className="w-full rounded-sm bg-mainColor text-white"
       >
         Masuk
       </Button>
       <Button
         type="button"
-        className="w-full rounded-sm border-2 border-orange-500 text-orange-500 bg-white"
+        className="w-full rounded-sm border-2 border-mainColor text-mainColor bg-white"
         onClick={() => navigate.push("/signup")}
       >
         Buat Akun

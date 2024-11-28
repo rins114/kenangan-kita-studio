@@ -7,17 +7,19 @@ export default function Logo({
   alt = "logo",
   bordered = false,
   hoverEffect = false,
+  rounded = true,
+  className = "",
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-full ${
+      className={`${className} overflow-hidden ${rounded && "rounded-full"} ${
         bordered && "border-2"
       } cursor-pointer ${hoverEffect && "hover:scale-105"} transition-all`}
     >
       <Image
         src={path}
         alt={alt}
-        className={`object-cover`}
+        className={`object-contain`}
         style={{ width: `${size}px`, height: `${size}px` }}
         width={500}
         height={500}
