@@ -18,7 +18,7 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         mainColor: "rgba(0, 152, 218)",
-        secondaryColor: "rgba(52, 168, 83)",
+        secondaryColor: "rgb(1, 156, 74)",
         thirdColor: "rgba(184, 0, 255)",
       },
       backgroundImage: {

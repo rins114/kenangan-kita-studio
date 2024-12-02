@@ -20,7 +20,7 @@ export default function SignUpForm() {
           isRequired
           label="Tipe Akun"
           // defaultSelectedKeys={"0"}
-          className="max-w-xs"
+          className="w-full"
           variant="bordered"
           radius="none"
         >
@@ -36,7 +36,7 @@ export default function SignUpForm() {
           type="text"
           label="Nama Lengkap"
           variant="bordered"
-          className="max-w-xs !border-transparent"
+          className="w-full !border-transparent"
           radius="none"
         />
         <Input
@@ -44,7 +44,7 @@ export default function SignUpForm() {
           type="email"
           label="Email"
           variant="bordered"
-          className="max-w-xs !border-transparent"
+          className="w-full !border-transparent"
           radius="none"
         />
         <Input
@@ -67,7 +67,7 @@ export default function SignUpForm() {
             </button>
           }
           type={isVisible ? "text" : "password"}
-          className="max-w-xs"
+          className="w-full"
         />
         <Input
           label="Confirm Password"
@@ -89,7 +89,7 @@ export default function SignUpForm() {
             </button>
           }
           type={isVisible ? "text" : "password"}
-          className="max-w-xs"
+          className="w-full"
         />
       </div>
       <Button

@@ -21,7 +21,7 @@ export default function SignInForm() {
           type="email"
           label="Email"
           variant="bordered"
-          className="max-w-xs !border-transparent"
+          className="w-full !border-transparent"
           radius="none"
         />
         <Input
@@ -44,7 +44,7 @@ export default function SignInForm() {
             </button>
           }
           type={isVisible ? "text" : "password"}
-          className="max-w-xs"
+          className="w-full"
         />
         <Link href="#">
           <p className="text-sm hover:underline">Lupa Password?</p>

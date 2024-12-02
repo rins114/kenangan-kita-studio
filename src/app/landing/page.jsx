@@ -1,6 +1,15 @@
 "use client";
 import React from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useNavigation } from "@/contexts/NavigationContext";
+import Card from "@/components/molecules/Card";
+import { HiDocumentCheck } from "react-icons/hi2";
+import { HiMiniClipboardDocumentList } from "react-icons/hi2";
+const AnimatedScroll = dynamic(
+  () => import("@/components/gsap/AnimatedScroll"),
+  { ssr: false }
+);
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -195,55 +204,191 @@ export default function LandingPage() {
       },
     },
   };
+  const { aboutRef, contactRef } = useNavigation();
   return (
     //bg-custom-gradient from-mainColor/60 to-thirdColor/40
-    <div className=" flex flex-col justify-start items-center">
-      <div className="flex flex-col px-5 py-10 gap-7 justify-center items-center max-w-7xl w-full">
+    <div className=" flex flex-col justify-start items-center text-montserrat">
+      <AnimatedScroll yFrom={150} opacityFrom={0} duration={1}>
+        <section
+          ref={aboutRef}
+          className="flex flex-col justify-center items-center gap-10 py-24 px-5 w-full max-w-7xl scroll-mt-96"
+        >
+          <h1 className="text-3xl font-semibold">Apa itu SIMPRO PBJ?</h1>
+          <div className="flex gap-10">
+            <AnimatedScroll
+              className="w-1/2"
+              xFrom={-200}
+              opacityFrom={0}
+              duration={1}
+            >
+              <div>
+                <p className="text-justify">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Repellat esse deserunt nisi quas possimus perferendis
+                  explicabo laboriosam deleniti, error nihil! Repudiandae
+                  officia repellat obcaecati nihil eos eveniet tempora, non
+                  consequuntur? Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Repellat esse deserunt nisi quas possimus
+                  perferendis explicabo laboriosam deleniti, error nihil!
+                  Repudiandae officia repellat obcaecati nihil eos eveniet
+                  tempora, non consequuntur? Lorem ipsum dolor sit amet
+                  consectetur adipisicing elit. Repellat esse deserunt nisi quas
+                  possimus perferendis explicabo laboriosam deleniti, error
+                  nihil! Repudiandae officia repellat obcaecati nihil eos
+                  eveniet tempora, non consequuntur?
+                </p>
+              </div>
+            </AnimatedScroll>
+            <AnimatedScroll
+              className="w-1/2"
+              xFrom={200}
+              opacityFrom={0}
+              duration={1}
+            >
+              <div className="min-w-xl min-h-xl">
+                <Image
+                  alt="img"
+                  src={"/assets/images/auth-2.jpg"}
+                  width={2000}
+                  height={2000}
+                ></Image>
+              </div>
+            </AnimatedScroll>
+          </div>
+        </section>
+      </AnimatedScroll>
+      <div className="relative w-full flex flex-col justify-start items-center">
+        <svg
+          width="100%"
+          height="50%"
+          id="svg"
+          viewBox="0 0 1440 650"
+          xmlns="http://www.w3.org/2000/svg"
+          className="transition duration-300 ease-in-out delay-150"
+        >
+          <path
+            d="M 0,700 L 0,262 C 174,226.66666666666669 348,191.33333333333334 507,199 C 666,206.66666666666666 810,257.3333333333333 963,275 C 1116,292.6666666666667 1278,277.33333333333337 1440,262 L 1440,700 L 0,700 Z"
+            stroke="none"
+            strokeWidth="0"
+            fill="#0098da"
+            fillOpacity="1"
+            className="transition-all duration-300 ease-in-out delay-150 path-0"
+            transform="rotate(-180 720 350)"
+          ></path>
+        </svg>
+        <section className="absolute w-full justify-center items-center flex pt-10">
+          <div className="flex flex-col gap-10 justify-center items-center max-w-7xl w-full">
+            <AnimatedScroll yFrom={70} duration={0.5} opacityFrom={0}>
+              <h1 className="text-3xl text-white font-semibold">
+                Apa Saja Layanan SIMPRO PBJ?
+              </h1>
+            </AnimatedScroll>
+            <div className="flex gap-7 w-full justify-center items-center">
+              <AnimatedScroll
+                className="w-[40%]"
+                yFrom={-100}
+                ease="bounce"
+                duration={0.8}
+              >
+                <Card
+                  title="1. Clearing House"
+                  icon={HiMiniClipboardDocumentList}
+                  text="Clearing house adalah sebuah lembaga atau sistem yang berfungsi sebagai perantara untuk menyelesaikan transaksi keuangan atau perdagangan antara dua pihak yang terlibat dalam suatu transaksi. Tugas utamanya adalah untuk memastikan bahwa transaksi yang terjadi antara pembeli dan penjual dapat diselesaikan dengan aman dan efisien, serta untuk mengurangi risiko kegagalan atau penipuan dalam transaksi tersebut."
+                ></Card>
+              </AnimatedScroll>
+              <AnimatedScroll
+                className="w-[40%]"
+                yFrom={-100}
+                ease="bounce"
+                duration={1.2}
+              >
+                <Card
+                  title="2. Verifikasi Berkas"
+                  icon={HiDocumentCheck}
+                  text="Verifikasi berkas adalah proses pemeriksaan dan pengecekan dokumen atau informasi yang diberikan oleh suatu pihak untuk memastikan keaslian, kebenaran, dan kelengkapan dari dokumen tersebut. Verifikasi berkas umumnya dilakukan oleh lembaga atau instansi yang berwenang untuk memastikan bahwa data atau dokumen yang diserahkan sesuai dengan ketentuan atau persyaratan yang berlaku."
+                ></Card>
+              </AnimatedScroll>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section className="flex flex-col px-5 justify-center items-center max-w-7xl w-full">
         {/* <div className="text-montserrat text-3xl font-bold">
           <h1 className="text-white">Grafik Kinerja Clearing House</h1>
         </div> */}
         <div className="flex flex-row w-full justify-start items-center gap-16 h-96">
-          <div className="flex flex-col w-1/2 rounded-none justify-center items-center h-full bg-white min-h-96">
-            <ReactApexChart
-              options={columnChart.options}
-              series={columnChart.series}
-              type="bar"
-              height={300}
-              width={500}
-              className=""
-            />
-          </div>
-          <div className="flex flex-col w-1/2 h-full justify-center items-start">
-            <h1 className="text-2xl mb-3">Kinerja Clearing House</h1>
-            <p className="text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-              accusamus provident quo ut aspernatur, fugit ipsum dolores
-              eligendi quia nam officiis, et laboriosam vel eum maiores? Nihil
-              quasi cum iure?
-            </p>
-          </div>
+          <AnimatedScroll
+            className="w-1/2"
+            xFrom={-200}
+            opacityFrom={0}
+            duration={1}
+          >
+            <div className="flex flex-col rounded-none justify-center items-center h-full bg-white min-h-96">
+              <ReactApexChart
+                options={columnChart.options}
+                series={columnChart.series}
+                type="bar"
+                height={300}
+                width={500}
+                className=""
+                fallback={<div>Loading chart...</div>}
+              />
+            </div>
+          </AnimatedScroll>
+
+          <AnimatedScroll
+            className="w-1/2"
+            xFrom={200}
+            opacityFrom={0}
+            duration={1}
+          >
+            <div className="flex flex-col h-full justify-center items-start">
+              <h1 className="text-2xl mb-3">Kinerja Clearing House</h1>
+              <p className="text-justify">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                accusamus provident quo ut aspernatur, fugit ipsum dolores
+                eligendi quia nam officiis, et laboriosam vel eum maiores? Nihil
+                quasi cum iure?
+              </p>
+            </div>
+          </AnimatedScroll>
         </div>
+
         <div className="flex w-full justify-start items-center gap-16 h-96 flex-row-reverse">
-          <div className="flex flex-col w-1/2 rounded-none justify-center items-center h-full bg-white min-h-96">
-            <ReactApexChart
-              options={mixedChart.options}
-              series={mixedChart.series}
-              type="line"
-              width={500}
-              height={300}
-            />
-          </div>
-          <div className="flex flex-col w-1/2 h-full justify-center items-end">
-            <h1 className="text-2xl mb-3">Kinerja Verifikasi Berkas</h1>
-            <p className="text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-              accusamus provident quo ut aspernatur, fugit ipsum dolores
-              eligendi quia nam officiis, et laboriosam vel eum maiores? Nihil
-              quasi cum iure?
-            </p>
-          </div>
+          <AnimatedScroll
+            className="w-1/2"
+            xFrom={200}
+            opacityFrom={0}
+            duration={1}
+          >
+            <div className="flex flex-col rounded-none justify-center items-center h-full bg-white min-h-96">
+              <ReactApexChart
+                options={mixedChart.options}
+                series={mixedChart.series}
+                type="line"
+                width={500}
+                height={300}
+              />
+            </div>
+          </AnimatedScroll>
+          <AnimatedScroll
+            className="w-1/2"
+            xFrom={-200}
+            opacityFrom={0}
+            duration={1}
+          >
+            <div className="flex flex-col h-full justify-center items-end">
+              <h1 className="text-2xl mb-3">Kinerja Verifikasi Berkas</h1>
+              <p className="text-justify">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                accusamus provident quo ut aspernatur, fugit ipsum dolores
+                eligendi quia nam officiis, et laboriosam vel eum maiores? Nihil
+                quasi cum iure?
+              </p>
+            </div>
+          </AnimatedScroll>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
