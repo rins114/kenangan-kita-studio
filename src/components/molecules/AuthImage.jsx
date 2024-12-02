@@ -12,7 +12,7 @@ export default function AuthImage() {
         height={3000}
         className="w-full h-full object-cover"
       ></Image>
-      <div className="h-full w-full flex flex-col bg-diagonal-gradient from-mainColor/70 to-thirdColor/70 z-10 absolute top-0 left-0 justify-center items-center gap-1">
+      <div className="h-full w-full flex flex-col bg-diagonal-gradient from-secondaryColor/70 to-mainColor/70 z-10 absolute top-0 left-0 justify-center items-center gap-1">
         <Logo
           size={200}
           path="/assets/images/logosbw.png"
