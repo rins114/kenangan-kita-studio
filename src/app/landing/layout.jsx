@@ -7,11 +7,11 @@ import React from "react";
 export default function LandingPageLayout({ children }) {
   return (
     <NavigationProvider>
-      <div className="flex flex-col">
+      <div className="w-full">
         <InfoBar></InfoBar>
         <NavbarCustom></NavbarCustom>
         <Hero></Hero>
-        {children}
+        <div className="w-full">{children}</div>
       </div>
     </NavigationProvider>
   );

@@ -74,14 +74,14 @@ export default function Hero() {
         {/* Tambahkan slide lainnya jika perlu */}
       </Swiper>
 
-      <div className="bg-custom-gradient from-mainColor/60 via-mainColor/40 to-secondaryColor/40 z-10 absolute top-0 left-0 w-full h-full flex flex-col text-white justify-center items-center">
-        <div className="flex flex-col text-7xl font-bold max-w-4xl justify-center items-center border-b-2 py-3 overflow-hidden">
-          <h1 id="heroTitle" className="text-center ">
+      <div className="bg-custom-gradient from-mainColor/60 via-mainColor/40 to-secondaryColor/40 z-10 absolute top-0 left-0 w-full h-full flex flex-col text-white justify-center items-center px-7">
+        <div className="flex flex-col font-bold max-w-4xl justify-center items-center border-b-2 py-3 overflow-hidden">
+          <h1 id="heroTitle" className="text-center text-5xl md:text-7xl">
             SELAMAT DATANG DI SIMPRO PBJ
           </h1>
         </div>
-        <div className="flex flex-col text-3xl font-bold max-w-2xl justify-center items-center py-3 overflow-hidden">
-          <h1 id="heroSubTitle" className="text-center">
+        <div className="flex flex-col font-bold max-w-2xl justify-center items-center py-3 overflow-hidden">
+          <h1 id="heroSubTitle" className="text-center text-md md:text-3xl">
             SISTEM INFORMASI PROAKTIF PENGADAAN BARANG DAN JASA
           </h1>
         </div>

@@ -20,6 +20,7 @@ module.exports = {
         mainColor: "rgba(0, 152, 218)",
         secondaryColor: "rgb(1, 156, 74)",
         thirdColor: "rgba(184, 0, 255)",
+        grayBg: "rgb(245, 245, 245)",
       },
       backgroundImage: {
         "custom-gradient":

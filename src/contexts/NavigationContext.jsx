@@ -6,18 +6,22 @@ const NavigationContext = createContext();
 export const NavigationProvider = ({ children }) => {
   const homeRef = useRef(null);
   const aboutRef = useRef(null);
-  const contactRef = useRef(null);
+  const layananRef = useRef(null);
+  const kinerjaRef = useRef(null);
 
   const scrollToSection = (section) => {
     switch (section) {
       case "about":
         aboutRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      case "contact":
-        contactRef.current?.scrollIntoView({ behavior: "smooth" });
+      case "layanan":
+        layananRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
       case "home":
         homeRef.current?.scrollIntoView({ behavior: "smooth" });
+        break;
+      case "kinerja":
+        kinerjaRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
       default:
         console.warn(`Section "${section}" not found`);
@@ -26,7 +30,7 @@ export const NavigationProvider = ({ children }) => {
 
   return (
     <NavigationContext.Provider
-      value={{ homeRef, aboutRef, contactRef, scrollToSection }}
+      value={{ homeRef, aboutRef, layananRef, kinerjaRef, scrollToSection }}
     >
       {children}
     </NavigationContext.Provider>

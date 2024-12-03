@@ -70,7 +70,7 @@ export default function InfoBar() {
   return (
     <section
       ref={infoBarRef}
-      className="h-auto bg-secondaryColor flex justify-between items-center py-1 px-0 md:px-44 text-inter fixed z-[99] w-full"
+      className="h-auto bg-secondaryColor hidden justify-between items-center py-1 px-0 md:flex xl:px-44 text-inter fixed z-[99] w-full"
     >
       <div className="flex">
         <div

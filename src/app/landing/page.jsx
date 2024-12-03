@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useNavigation } from "@/contexts/NavigationContext";
 import Card from "@/components/molecules/Card";
 import { HiDocumentCheck } from "react-icons/hi2";
 import { HiMiniClipboardDocumentList } from "react-icons/hi2";
+import LogoLink from "@/components/atoms/LogoLink";
 const AnimatedScroll = dynamic(
   () => import("@/components/gsap/AnimatedScroll"),
   { ssr: false }
@@ -16,6 +17,19 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function LandingPage() {
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+
+  // Detect screen size on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMediumScreen(window.innerWidth >= 768);
+    };
+
+    handleResize(); // Set the initial screen size on load
+    window.addEventListener("resize", handleResize); // Update on resize
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup on component unmount
+  }, []);
   const columnChart = {
     series: [
       {
@@ -204,67 +218,74 @@ export default function LandingPage() {
       },
     },
   };
-  const { aboutRef, contactRef } = useNavigation();
+  const { aboutRef, layananRef, kinerjaRef } = useNavigation();
   return (
     //bg-custom-gradient from-mainColor/60 to-thirdColor/40
-    <div className=" flex flex-col justify-start items-center text-montserrat">
-      <AnimatedScroll yFrom={150} opacityFrom={0} duration={1}>
-        <section
-          ref={aboutRef}
-          className="flex flex-col justify-center items-center gap-10 py-24 px-5 w-full max-w-7xl scroll-mt-96"
+    <div className="w-full flex flex-col justify-start items-center text-montserrat">
+      <div className="w-full bg-grayBg">
+        <AnimatedScroll
+          yFrom={150}
+          opacityFrom={0}
+          duration={1}
+          className={"flex w-full justify-center items-start"}
         >
-          <h1 className="text-3xl font-semibold">Apa itu SIMPRO PBJ?</h1>
-          <div className="flex gap-10">
-            <AnimatedScroll
-              className="w-1/2"
-              xFrom={-200}
-              opacityFrom={0}
-              duration={1}
-            >
-              <div>
-                <p className="text-justify">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Repellat esse deserunt nisi quas possimus perferendis
-                  explicabo laboriosam deleniti, error nihil! Repudiandae
-                  officia repellat obcaecati nihil eos eveniet tempora, non
-                  consequuntur? Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Repellat esse deserunt nisi quas possimus
-                  perferendis explicabo laboriosam deleniti, error nihil!
-                  Repudiandae officia repellat obcaecati nihil eos eveniet
-                  tempora, non consequuntur? Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Repellat esse deserunt nisi quas
-                  possimus perferendis explicabo laboriosam deleniti, error
-                  nihil! Repudiandae officia repellat obcaecati nihil eos
-                  eveniet tempora, non consequuntur?
-                </p>
-              </div>
-            </AnimatedScroll>
-            <AnimatedScroll
-              className="w-1/2"
-              xFrom={200}
-              opacityFrom={0}
-              duration={1}
-            >
-              <div className="min-w-xl min-h-xl">
-                <Image
-                  alt="img"
-                  src={"/assets/images/auth-2.jpg"}
-                  width={2000}
-                  height={2000}
-                ></Image>
-              </div>
-            </AnimatedScroll>
-          </div>
-        </section>
-      </AnimatedScroll>
-      <div className="relative w-full flex flex-col justify-start items-center">
-        <svg
+          <section
+            ref={aboutRef}
+            className="flex flex-col justify-center items-center gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
+          >
+            <h1 className="text-3xl font-semibold">Apa itu SIMPRO PBJ?</h1>
+            <div className="flex flex-col-reverse md:flex-row gap-10 w-full">
+              <AnimatedScroll
+                className="md:w-1/2"
+                xFrom={-10}
+                opacityFrom={0}
+                duration={1}
+              >
+                <div>
+                  <p className="text-justify">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Quidem ipsa at veritatis unde rem? Itaque assumenda aperiam
+                    ab laborum quasi error rerum dicta voluptate voluptatem ex
+                    accusamus, at impedit quos!
+                  </p>
+                </div>
+              </AnimatedScroll>
+              <AnimatedScroll
+                className="md:w-1/2"
+                xFrom={10}
+                opacityFrom={0}
+                duration={1}
+              >
+                <div className="relative w-full h-64 md:h-96 min-h-80">
+                  <Image
+                    alt="img"
+                    src={"/assets/images/auth-2.jpg"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </AnimatedScroll>
+            </div>
+          </section>
+        </AnimatedScroll>
+      </div>
+
+      <div
+        className="relative w-full flex flex-col justify-start items-center bg-center"
+        style={{
+          backgroundImage: 'url("/assets/images/DIV.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* <svg
           width="100%"
-          height="50%"
+          height="100%"
           id="svg"
-          viewBox="0 0 1440 650"
+          viewBox="0 0 1440 595"
           xmlns="http://www.w3.org/2000/svg"
-          className="transition duration-300 ease-in-out delay-150"
+          className="transition duration-300 ease-in-out delay-150 mb-[1150px] xs:mb-[1090px] sm:mb-[1000px] md:mb-[320px] lg:mb-[230px] xl:mb-28 2xl:mb-0"
         >
           <path
             d="M 0,700 L 0,262 C 174,226.66666666666669 348,191.33333333333334 507,199 C 666,206.66666666666666 810,257.3333333333333 963,275 C 1116,292.6666666666667 1278,277.33333333333337 1440,262 L 1440,700 L 0,700 Z"
@@ -275,20 +296,28 @@ export default function LandingPage() {
             className="transition-all duration-300 ease-in-out delay-150 path-0"
             transform="rotate(-180 720 350)"
           ></path>
-        </svg>
-        <section className="absolute w-full justify-center items-center flex pt-10">
+        </svg> */}
+        <section
+          ref={layananRef}
+          className="w-full justify-center items-center flex pt-5 scroll-mt-[11rem]"
+        >
           <div className="flex flex-col gap-10 justify-center items-center max-w-7xl w-full">
-            <AnimatedScroll yFrom={70} duration={0.5} opacityFrom={0}>
-              <h1 className="text-3xl text-white font-semibold">
+            <AnimatedScroll
+              yFrom={70}
+              duration={0.5}
+              opacityFrom={0}
+              className={"px-7"}
+            >
+              <h1 className="text-3xl text-black font-semibold">
                 Apa Saja Layanan SIMPRO PBJ?
               </h1>
             </AnimatedScroll>
-            <div className="flex gap-7 w-full justify-center items-center">
+            <div className="md:flex-row flex-col flex gap-5 w-full px-5 justify-center items-center">
               <AnimatedScroll
-                className="w-[40%]"
+                className="md:w-[40%]"
                 yFrom={-100}
                 ease="bounce"
-                duration={0.8}
+                duration={1}
               >
                 <Card
                   title="1. Clearing House"
@@ -297,7 +326,7 @@ export default function LandingPage() {
                 ></Card>
               </AnimatedScroll>
               <AnimatedScroll
-                className="w-[40%]"
+                className="md:w-[40%]"
                 yFrom={-100}
                 ease="bounce"
                 duration={1.2}
@@ -312,37 +341,34 @@ export default function LandingPage() {
           </div>
         </section>
       </div>
-      <section className="flex flex-col px-5 justify-center items-center max-w-7xl w-full">
-        {/* <div className="text-montserrat text-3xl font-bold">
-          <h1 className="text-white">Grafik Kinerja Clearing House</h1>
-        </div> */}
-        <div className="flex flex-row w-full justify-start items-center gap-16 h-96">
+      <div
+        ref={kinerjaRef}
+        className="flex flex-col px-5 justify-center items-center max-w-7xl w-full gap-5 scroll-mt-[10rem] mt-10"
+      >
+        <div className="flex flex-col-reverse md:flex-row w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
           <AnimatedScroll
-            className="w-1/2"
-            xFrom={-200}
+            className="w-full md:w-1/2"
+            xFrom={-10}
             opacityFrom={0}
             duration={1}
           >
-            <div className="flex flex-col rounded-none justify-center items-center h-full bg-white min-h-96">
+            <div className="flex flex-col rounded-md justify-center items-center h-auto md:h-full bg-white">
               <ReactApexChart
                 options={columnChart.options}
                 series={columnChart.series}
                 type="bar"
                 height={300}
-                width={500}
-                className=""
-                fallback={<div>Loading chart...</div>}
+                className="w-full"
               />
             </div>
           </AnimatedScroll>
-
           <AnimatedScroll
-            className="w-1/2"
-            xFrom={200}
+            className="w-full md:w-1/2"
+            xFrom={10}
             opacityFrom={0}
             duration={1}
           >
-            <div className="flex flex-col h-full justify-center items-start">
+            <div className="flex flex-col h-auto md:h-full justify-center items-start text-center md:text-left">
               <h1 className="text-2xl mb-3">Kinerja Clearing House</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
@@ -354,30 +380,31 @@ export default function LandingPage() {
           </AnimatedScroll>
         </div>
 
-        <div className="flex w-full justify-start items-center gap-16 h-96 flex-row-reverse">
+        <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
           <AnimatedScroll
-            className="w-1/2"
-            xFrom={200}
+            className="w-full md:w-1/2"
+            xFrom={10}
             opacityFrom={0}
             duration={1}
           >
-            <div className="flex flex-col rounded-none justify-center items-center h-full bg-white min-h-96">
+            <div className="flex flex-col rounded-md justify-center items-center h-auto md:h-full bg-white">
               <ReactApexChart
                 options={mixedChart.options}
                 series={mixedChart.series}
                 type="line"
-                width={500}
                 height={300}
+                className="w-full"
               />
             </div>
           </AnimatedScroll>
+
           <AnimatedScroll
-            className="w-1/2"
-            xFrom={-200}
+            className="w-full md:w-1/2"
+            xFrom={-10}
             opacityFrom={0}
             duration={1}
           >
-            <div className="flex flex-col h-full justify-center items-end">
+            <div className="flex flex-col h-auto md:h-full justify-center items-center md:items-end text-center md:text-right">
               <h1 className="text-2xl mb-3">Kinerja Verifikasi Berkas</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
@@ -388,7 +415,33 @@ export default function LandingPage() {
             </div>
           </AnimatedScroll>
         </div>
-      </section>
+      </div>
+      <div className="min-h-72 bg-grayBg w-full mt-10 p-5 flex flex-col justify-around items-center gap-5">
+        <h1 className="text-3xl font-semibold">Link Terkait</h1>
+        <div className="flex flex-col justify-center items-center gap-5 md:flex-row">
+          <LogoLink
+            src="/assets/images/logosbw.png"
+            size={200}
+            href="https://github.com/diazkhalid"
+            bordered={false}
+            className={"hover:scale-110 transition-all duration-300"}
+          ></LogoLink>
+          <LogoLink
+            src="/assets/images/sirup.png"
+            size={200}
+            href="https://github.com/diazkhalid"
+            bordered={false}
+            className={"hover:scale-110 transition-all duration-300"}
+          ></LogoLink>
+          <LogoLink
+            src="/assets/images/lpse.png"
+            size={200}
+            href="https://github.com/diazkhalid"
+            bordered={false}
+            className={"hover:scale-110 transition-all duration-300"}
+          ></LogoLink>
+        </div>
+      </div>
     </div>
   );
 }
