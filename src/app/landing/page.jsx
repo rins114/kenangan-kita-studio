@@ -17,19 +17,10 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function LandingPage() {
-  const [isMediumScreen, setIsMediumScreen] = useState(false);
-
-  // Detect screen size on window resize
   useEffect(() => {
-    const handleResize = () => {
-      setIsMediumScreen(window.innerWidth >= 768);
-    };
-
-    handleResize(); // Set the initial screen size on load
-    window.addEventListener("resize", handleResize); // Update on resize
-
-    return () => window.removeEventListener("resize", handleResize); // Cleanup on component unmount
+    window.scrollTo(0, 0);
   }, []);
+
   const columnChart = {
     series: [
       {
@@ -416,7 +407,7 @@ export default function LandingPage() {
           </AnimatedScroll>
         </div>
       </div>
-      <div className="min-h-72 bg-grayBg w-full mt-10 p-5 flex flex-col justify-around items-center gap-5">
+      <div className="min-h-72 bg-grayBg w-full mt-10 px-7 py-14 flex flex-col justify-around items-center gap-5">
         <h1 className="text-3xl font-semibold">Link Terkait</h1>
         <div className="flex flex-col justify-center items-center gap-5 md:flex-row">
           <LogoLink
