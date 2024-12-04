@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Logo from "../atoms/Logo";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+const customMarkerIcon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
+  shadowSize: [41, 41],
+});
 
 export default function Footer() {
   return (
-    <footer className="bg-white">
-      <div className="mx-auto max-w-screen-xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div>
+    <footer className="bg-white flex justify-center items-center py-10 px-7">
+      <div className="max-w-[100rem] w-full">
+        <div className="w-full flex xl:flex-row gap-10 xl:gap-0 flex-col justify-around items-center xl:items-start">
+          <div className="xl:w-1/2 w-full flex flex-col justify-center items-center gap-10">
             <Logo
               path="/assets/images/logo-4.png"
               rounded={false}
@@ -137,185 +149,149 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
-            <div>
-              <p className="font-medium text-gray-900">Services</p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    1on1 Coaching{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Company Review{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Accounts Review{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    HR Consulting{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    SEO Optimisation{" "}
-                  </a>
-                </li>
-              </ul>
+          <div className="flex flex-col gap-10 md:flex-row w-full max-w-3xl xl:max-w-full justify-center items-center">
+            <div className="flex justify-center items-center h-80 rounded-xl overflow-hidden w-full max-w-md">
+              <MapContainer
+                center={[-8.489673, 117.419503]}
+                zoom={50}
+                className="w-full h-full z-10"
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker
+                  position={[-8.489673, 117.419503]}
+                  icon={customMarkerIcon}
+                >
+                  <Popup>This is a marker at the selected location.</Popup>
+                </Marker>
+              </MapContainer>
             </div>
 
-            <div>
-              <p className="font-medium text-gray-900">Company</p>
+            <div className="flex md:flex-row flex-row justify-center px-5 w-full items-start gap-5">
+              <div className="flex flex-col justify-center items-center md:items-start">
+                <p className="font-medium text-gray-900">Company</p>
 
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    About{" "}
-                  </a>
-                </li>
+                <ul className="mt-6 space-y-4 text-sm flex flex-col justify-center items-center md:items-start">
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      About{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Meet the Team{" "}
-                  </a>
-                </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Meet the Team{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Accounts Review{" "}
-                  </a>
-                </li>
-              </ul>
-            </div>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Accounts Review{" "}
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
-            <div>
-              <p className="font-medium text-gray-900">Helpful Links</p>
+              <div className="flex flex-col justify-center items-center md:items-start">
+                <p className="font-medium text-gray-900">Helpful Links</p>
 
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Contact{" "}
-                  </a>
-                </li>
+                <ul className="mt-6 space-y-4 text-sm flex flex-col justify-center items-center md:items-start">
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Contact{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    FAQs{" "}
-                  </a>
-                </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      FAQs{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Live Chat{" "}
-                  </a>
-                </li>
-              </ul>
-            </div>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Live Chat{" "}
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
-            <div>
-              <p className="font-medium text-gray-900">Legal</p>
+              <div className="flex flex-col justify-center items-center md:items-start">
+                <p className="font-medium text-gray-900">Legal</p>
 
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Accessibility{" "}
-                  </a>
-                </li>
+                <ul className="mt-6 space-y-4 text-sm flex flex-col justify-center items-center md:items-start">
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Accessibility{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Returns Policy{" "}
-                  </a>
-                </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Returns Policy{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Refund Policy{" "}
-                  </a>
-                </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Refund Policy{" "}
+                    </a>
+                  </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    {" "}
-                    Hiring Statistics{" "}
-                  </a>
-                </li>
-              </ul>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-700 transition hover:opacity-75"
+                    >
+                      {" "}
+                      Hiring Statistics{" "}
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 text-center mt-10">
           &copy; 2022. Company Name. All rights reserved.
         </p>
       </div>

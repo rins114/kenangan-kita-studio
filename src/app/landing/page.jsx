@@ -7,6 +7,8 @@ import Card from "@/components/molecules/Card";
 import { HiDocumentCheck } from "react-icons/hi2";
 import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import LogoLink from "@/components/atoms/LogoLink";
+import { useRouter } from "next/navigation";
+import useScrollToTop from "@/hooks/useScrollToTop";
 const AnimatedScroll = dynamic(
   () => import("@/components/gsap/AnimatedScroll"),
   { ssr: false }
@@ -17,9 +19,9 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function LandingPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const router = useRouter();
+
+  useScrollToTop();
 
   const columnChart = {
     series: [

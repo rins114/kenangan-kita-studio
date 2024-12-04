@@ -2,8 +2,11 @@
 import Hero from "@/components/molecules/Hero";
 import InfoBar from "@/components/molecules/InfoBar";
 import NavbarCustom from "@/components/molecules/NavbarCustom";
-import Footer from "@/components/organisms/Footer";
 import { NavigationProvider } from "@/contexts/NavigationContext";
+import dynamic from "next/dynamic";
+const Footer = dynamic(() => import("@/components/organisms/Footer"), {
+  ssr: false,
+});
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
