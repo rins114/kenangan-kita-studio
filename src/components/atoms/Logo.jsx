@@ -22,7 +22,7 @@ export default function Logo({
       <Image
         src={path}
         alt={alt}
-        className={`object-fill`}
+        className={`object-contain`}
         style={{ width: `${widthSize}px`, height: `${heightSize}px` }}
         width={500}
         height={500}

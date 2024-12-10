@@ -14,7 +14,8 @@ export default function AuthImage() {
       ></Image>
       <div className="h-full w-full flex flex-col bg-diagonal-gradient from-secondaryColor/70 to-mainColor/70 z-10 absolute top-0 left-0 justify-center items-center gap-1">
         <Logo
-          size={200}
+          widthSize="300"
+          heightSize="300"
           path="/assets/images/logosbw.png"
           rounded={false}
           className="mb-3"
