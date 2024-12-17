@@ -1,12 +1,19 @@
 "use client";
 import { showAlert } from "@/components/atoms/SweetAlert";
 import VerifikasiBerkasForm from "@/components/molecules/VerifikasiBerkasForm";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function VerifikasiBerkasPage() {
   const VerifikasiBerkasRef = useRef(null);
-  const [file, setFile] = React.useState(null);
-  const [files, setFiles] = React.useState({
+  const [formData, setFormData] = useState({
+    nama_pemohon: "",
+    opd: "",
+    barang_jasa: "",
+    klpd: "",
+    tahun_anggaran: "",
+    pagu_anggaran: "",
+    nilai_hps: "",
+    catatan: "",
     suratKeputusan: null,
     spesifikasiTeknis: null,
     kerangkaAjuan: null,
@@ -19,50 +26,30 @@ export default function VerifikasiBerkasPage() {
   });
 
   const [isUploading, setIsUploading] = React.useState(false);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const ref = VerifikasiBerkasRef.current;
-    const form = new FormData(ref);
-    console.log(form.get("analisisPasar"));
-  };
-
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const handleFilesChange = (e) => {
-    const { name, files } = e.target;
-
-    if (files.length > 0) {
-      const allowedTypes = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ];
-      const file = files[0];
-
-      if (allowedTypes.includes(file.type)) {
-        setFiles((prev) => ({
-          ...prev,
-          [name]: file,
-        }));
-      } else {
-        showAlert(
-          "warning",
-          "Peringatan",
-          "Jenis file yang diunggah tidak valid"
-        );
-      }
-    }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setIsUploading(true);
-    //async simulation
-    sleep(2000).then(() => {
-      setIsUploading(false);
-      setFile(file);
-      console.log(file?.name);
-    });
+  const handleFileChange = (name, file) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: file,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
   };
   return (
     <div className="p-5 flex flex-col justify-center items-center">
@@ -71,10 +58,11 @@ export default function VerifikasiBerkasPage() {
           <h1 className="text-md">Formulir Permohonan Verifikasi Berkas</h1>
         </div>
         <VerifikasiBerkasForm
+          formData={formData}
           ref={VerifikasiBerkasRef}
           handleSubmit={handleSubmit}
-          handleFilesChange={handleFilesChange}
-          file={files}
+          handleChange={handleChange}
+          handleFileChange={handleFileChange}
           isUploading={isUploading}
         ></VerifikasiBerkasForm>
       </div>

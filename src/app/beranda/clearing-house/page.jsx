@@ -2,32 +2,55 @@
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import ClearingHouseForm from "@/components/molecules/ClearingHouseForm";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoHome } from "react-icons/io5";
 
 export default function ClearingHousePage() {
   const ClearingHouseFormRef = useRef(null);
   const [file, setFile] = React.useState(null);
   const [isUploading, setIsUploading] = React.useState(false);
+  const [formData, setFormData] = useState({
+    nama_pemohon: "",
+    opd: "",
+    paket_kegiatan: "",
+    barang_jasa: "",
+    klpd: "",
+    nomor_sirup: "",
+    tahun_anggaran: "",
+    pagu_anggaran: "",
+    nilai_hps: "",
+    lokasi_pelaksanaan: "",
+    metode_pemilihan: "",
+    file: null,
+    catatan: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const { files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      file: files[0],
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const ref = ClearingHouseFormRef.current;
-    const form = new FormData(ref);
-    console.log(form.get("file"));
+    console.log("Submitted Form Data:", formData);
   };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setIsUploading(true);
-    //async simulation
-    sleep(2000).then(() => {
-      setIsUploading(false);
-      setFile(file);
-      console.log(file?.name);
-    });
-  };
 
   return (
     <div className="p-5 flex flex-col justify-center items-center">
@@ -36,7 +59,9 @@ export default function ClearingHousePage() {
           <h1 className="text-md">Formulir Permohonan Clearing House</h1>
         </div>
         <ClearingHouseForm
+          formData={formData}
           ref={ClearingHouseFormRef}
+          handleChange={handleChange}
           handleSubmit={handleSubmit}
           handleFileChange={handleFileChange}
           file={file}

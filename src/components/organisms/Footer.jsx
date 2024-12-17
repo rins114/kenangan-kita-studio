@@ -15,7 +15,7 @@ const customMarkerIcon = L.icon({
 
 export default function Footer() {
   return (
-    <footer className="bg-white flex justify-center items-center py-10 px-7">
+    <footer className="bg-white flex justify-center items-center py-10 px-7 text-poppins">
       <div className="max-w-[100rem] w-full">
         <div className="w-full flex xl:flex-row gap-10 xl:gap-0 flex-col justify-around items-center xl:items-start">
           <div className="xl:w-1/2 w-full flex flex-col justify-center items-center gap-10">

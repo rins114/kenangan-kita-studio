@@ -42,7 +42,7 @@ export default function NavbarCustom() {
   }, [isMenuOpen]);
 
   return (
-    <nav className="flex bg-white shadow-md h-20 w-full justify-between items-center px-5 lg:px-10 text-montserrat md:top-7 fixed z-[99]">
+    <nav className="flex bg-white shadow-md h-20 w-full justify-between items-center px-5 lg:px-10 text-poppins md:top-7 fixed z-[99]">
       <div
         className="flex gap-2 justify-start items-center"
         onClick={() => navigate.push("/landing")}

@@ -6,7 +6,7 @@ export default function SearchBar() {
   return (
     <form
       action=""
-      className="flex flex-row gap-5 w-full max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-montserrat shadow-md"
+      className="flex flex-row gap-5 w-full max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-poppins shadow-md"
     >
       <Input
         size="lg"

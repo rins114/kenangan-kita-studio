@@ -7,7 +7,7 @@ import React from "react";
 export default function DashboardLayout({ children }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(true);
   return (
-    <div className="flex bg-gray-100 text-hubot">
+    <div className="flex bg-gray-100 text-poppins">
       <SideBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}></SideBar>
       <div className="w-full flex flex-col overflow-y-auto h-screen">
         <div className="w-full">

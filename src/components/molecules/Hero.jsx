@@ -41,7 +41,7 @@ export default function Hero() {
   return (
     <div
       ref={homeRef}
-      className="flex h-screen overflow-hidden relative text-montserrat z-10"
+      className="flex h-screen overflow-hidden relative text-poppins z-10"
     >
       <Swiper
         ref={swiperRef}

@@ -34,7 +34,7 @@ export default function PeraturanPage() {
   };
 
   return (
-    <div className="flex flex-col justify-start items-center gap-5 text-montserrat bg-grayBg">
+    <div className="flex flex-col justify-start items-center gap-5 text-poppins bg-grayBg">
       <StaticHero imagePath="/assets/images/staticHero.jpg"></StaticHero>
       <div className="w-full flex flex-col min-h-96 justify-start items-center relative bottom-16 gap-7 px-5">
         <SearchBar></SearchBar>

@@ -1,17 +1,20 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { MdFileUpload } from "react-icons/md";
 
-export default function FileInput({
+export default function FileInputAtom({
   label = "Upload Surat Izin",
-  fileName = "",
+  fileName = null, // Now receives file object or null
   name = "",
   handleFileChange = () => {},
   jenisFile = [".pdf", ".doc", ".docx"],
 }) {
-  useEffect(() => {
-    console.log(fileName[name]);
-  }, [fileName]);
+  // Handle file change event
+  const onFileChange = (event) => {
+    const file = event.target.files[0];
+    handleFileChange(name, file);
+  };
+
   return (
     <div className="flex flex-col gap-0">
       <h1 className="text-sm">{label}</h1>
@@ -21,18 +24,18 @@ export default function FileInput({
           className="cursor-pointer flex justify-start items-center w-full h-full bg-gray-100 hover:bg-gray-200"
         >
           <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white">
-            <MdFileUpload className="text-lg"></MdFileUpload>
+            <MdFileUpload className="text-lg" />
             Upload File
           </div>
           <div className="py-2 px-3 text-gray-500 truncate">
-            {fileName[name]?.name ? fileName[name].name : "No file uploaded"}
+            {fileName?.name ? fileName.name : "No file uploaded"}
           </div>
         </label>
         <input
           name={name}
           id={name}
           type="file"
-          onChange={handleFileChange}
+          onChange={onFileChange}
           className="hidden"
         />
       </div>

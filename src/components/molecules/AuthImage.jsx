@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function AuthImage() {
   return (
-    <section className="flex flex-col justify-center items-center h-full w-1/2 relative text-montserrat">
+    <section className="flex flex-col justify-center items-center h-full w-1/2 relative text-poppins">
       <Image
         src="/assets/images/auth-2.jpg"
         alt="signin"

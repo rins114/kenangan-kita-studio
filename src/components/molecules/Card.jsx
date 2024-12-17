@@ -12,7 +12,7 @@ export default function Card({
       <div className="py-5">
         <Icon className="lg:text-[12rem] text-7xl text-secondaryColor" />
       </div>
-      <p className="text-justify text-sm lg:text-md">{text}</p>
+      <p className="text-justify text-sm lg:text-md font-medium">{text}</p>
     </div>
   );
 }

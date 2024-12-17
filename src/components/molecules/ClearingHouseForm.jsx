@@ -4,8 +4,10 @@ import React from "react";
 import { FaFileAlt } from "react-icons/fa";
 
 export default function ClearingHouseForm({
+  formData,
   ref,
   handleSubmit,
+  handleChange,
   handleFileChange,
   file,
   isUploading,
@@ -22,6 +24,8 @@ export default function ClearingHouseForm({
           radius="sm"
           variant="bordered"
           name="nama_pemohon"
+          value={formData.nama_pemohon}
+          onChange={handleChange}
         />
         <div className="flex gap-3">
           <div className="flex flex-col w-1/2 gap-3">
@@ -33,6 +37,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="opd"
+              value={formData.opd}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -42,6 +48,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="paket_kegiatan"
+              value={formData.paket_kegiatan}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -51,6 +59,8 @@ export default function ClearingHouseForm({
               variant="bordered"
               size="md"
               name="barang_jasa"
+              value={formData.barang_jasa}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -60,6 +70,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="klpd"
+              value={formData.klpd}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -69,6 +81,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="nomor_sirup"
+              value={formData.nomor_sirup}
+              onChange={handleChange}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-3">
@@ -80,6 +94,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="tahun_anggaran"
+              value={formData.tahun_anggaran}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -89,6 +105,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="pagu_anggaran"
+              value={formData.pagu_anggaran}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -98,6 +116,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="nilai_hps"
+              value={formData.nilai_hps}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -107,6 +127,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="lokasi_pelaksanaan"
+              value={formData.lokasi_pelaksanaan}
+              onChange={handleChange}
             />
             <Input
               labelPlacement="outside"
@@ -116,6 +138,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="metode_pemilihan"
+              value={formData.metode_pemilihan}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -195,12 +219,16 @@ export default function ClearingHouseForm({
           placeholder="Tuliskan catatan khusus disini"
           disableAnimation
           disableAutosize
+          name="catatan"
+          value={formData.catatan}
+          onChange={handleChange}
           classNames={{
             base: "w-full catatan",
             input: "resize-y min-h-[170px] !rounded-none",
           }}
         />
       </div>
+
       <div className="flex gap-3 justify-end items-center">
         <Button type="submit" className="bg-green-500 text-white font-medium">
           Simpan
