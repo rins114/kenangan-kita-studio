@@ -217,7 +217,9 @@ export default function TableCustom() {
             <Tooltip content="Details">
               <span
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                onClick={() => navigate.push(`/beranda/permohonan/${user.id}`)}
+                onClick={() =>
+                  navigate.push(`/dashboard/permohonan/${user.id}`)
+                }
               >
                 <EyeIcon />
               </span>

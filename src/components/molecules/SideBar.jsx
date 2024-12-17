@@ -53,18 +53,18 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
       </Sidebar.Items>
       <Sidebar.Items className="">
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="/beranda" icon={HiChartPie}>
+          <Sidebar.Item href="/dashboard" icon={HiChartPie}>
             Beranda
           </Sidebar.Item>
           <Sidebar.Collapse icon={HiShoppingBag} label="Layanan">
             <Sidebar.Item
-              href="/beranda/clearing-house"
+              href="/dashboard/clearing-house"
               icon={isMenuOpen ? HiArrowSmRight : ""}
             >
               Clearing House
             </Sidebar.Item>
             <Sidebar.Item
-              href="/beranda/verifikasi-berkas"
+              href="/dashboard/verifikasi-berkas"
               icon={isMenuOpen ? HiArrowSmRight : ""}
             >
               Verifikasi Berkas
@@ -73,7 +73,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item href="/beranda/permohonan" icon={HiUser}>
+          <Sidebar.Item href="/dashboard/permohonan" icon={HiUser}>
             Daftar Permohonan
           </Sidebar.Item>
           {/* <Sidebar.Item href="#" icon={HiShoppingBag}>

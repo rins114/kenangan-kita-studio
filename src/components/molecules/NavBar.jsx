@@ -27,7 +27,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand> */}
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
-        {pathname.startsWith("/beranda") ? (
+        {pathname.startsWith("/dashboard") ? (
           <NavbarItem>
             {isMenuOpen ? (
               <Button
@@ -36,7 +36,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 onClick={() => setIsMenuOpen(false)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowForward  className="text-lg"/>
+                <IoIosArrowForward className="text-lg" />
               </Button>
             ) : (
               <Button
@@ -45,7 +45,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 onClick={() => setIsMenuOpen(true)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowBack className="text-lg"/>
+                <IoIosArrowBack className="text-lg" />
               </Button>
             )}
           </NavbarItem>
@@ -94,7 +94,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             <DropdownItem
               key="team_settings"
               onClick={() => {
-                navigate.push("/beranda/profile");
+                navigate.push("/dashboard/profile");
               }}
             >
               <p className="text-md text-black">Profile</p>
