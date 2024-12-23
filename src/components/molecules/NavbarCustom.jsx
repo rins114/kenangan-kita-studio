@@ -61,48 +61,24 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => scrollToSection("home")}
             >
-              <p>Home</p>
+              <p>BERANDA</p>
             </div>
           </li>
-
-          <li className="cursor-pointer hover:text-secondaryColor">
-            <div
-              className="py-2 lg:px-3 "
-              onClick={() => scrollToSection("about")}
-            >
-              <p>About</p>
-            </div>
-          </li>
-          <li className="cursor-pointer hover:text-secondaryColor">
-            <div
-              className="py-2 lg:px-3 "
-              onClick={() => scrollToSection("layanan")}
-            >
-              <p>Layanan</p>
-            </div>
-          </li>
-          <li className="cursor-pointer hover:text-secondaryColor">
-            <div
-              className="py-2 lg:px-3 "
-              onClick={() => scrollToSection("kinerja")}
-            >
-              <p>Kinerja</p>
-            </div>
-          </li>
+         
           <li className="cursor-pointer hover:text-secondaryColor">
             <div
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing/peraturan")}
             >
-              <p>Peraturan</p>
+              <p>PERATURAN</p>
             </div>
           </li>
           <li>
             <Button
-              className="!rounded-md font-medium bg-mainColor text-white px-7"
+              className="!rounded-3xl font-medium bg-mainColor text-white px-7"
               onClick={() => navigate.push("/signin")}
             >
-              Masuk
+              MASUK
             </Button>
           </li>
         </ul>
@@ -114,7 +90,7 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing")}
             >
-              <p>Home</p>
+              <p>BERANDA</p>
             </div>
           </li>
 
@@ -123,15 +99,15 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing/peraturan")}
             >
-              <p>Peraturan</p>
+              <p>PERATURAN</p>
             </div>
           </li>
           <li>
             <Button
-              className="!rounded-md font-medium bg-mainColor text-white px-7"
+              className="!rounded-3xl font-medium bg-mainColor text-white px-7"
               onClick={() => navigate.push("/signin")}
             >
-              Masuk
+              MASUK
             </Button>
           </li>
         </ul>

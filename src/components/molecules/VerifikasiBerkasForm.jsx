@@ -11,18 +11,17 @@ export default function VerifikasiBerkasForm({
 }) {
   return (
     <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
-      <div className="flex flex-col w-full gap-3">
-        <Input
-          size="md"
-          label="Nama Pemohon"
-          radius="sm"
-          labelPlacement="outside"
-          placeholder="Masukkan nama pemohon"
-          variant="bordered"
-          name="nama_pemohon"
-        ></Input>
         <div className="flex gap-3">
           <div className="flex flex-col w-1/2 gap-3">
+            <Input
+            size="md"
+            label="Nama Pemohon"
+            radius="sm"
+            labelPlacement="outside"
+            placeholder="Masukkan nama pemohon"
+            variant="bordered"
+            name="nama_pemohon"
+            ></Input>
             <Input
               size="md"
               label="Nama Organisasi Perangkat Daerah"
@@ -42,6 +41,8 @@ export default function VerifikasiBerkasForm({
               size="md"
               name="barang_jasa"
             ></Input>
+          </div>
+          <div className="flex flex-col w-1/2 gap-3">
             <Input
               size="md"
               label="ID Paket Dalam RUP"
@@ -50,17 +51,6 @@ export default function VerifikasiBerkasForm({
               placeholder="Masukkan ID Paket"
               variant="bordered"
               name="klpd"
-            ></Input>
-          </div>
-          <div className="flex flex-col w-1/2 gap-3">
-            <Input
-              size="md"
-              label="Tahun Anggaran"
-              radius="sm"
-              labelPlacement="outside"
-              placeholder="Masukkan tahun anggaran"
-              variant="bordered"
-              name="tahun_anggaran"
             ></Input>
             <Input
               size="md"
@@ -156,7 +146,7 @@ export default function VerifikasiBerkasForm({
             input: "resize-y min-h-[170px] !rounded-none",
           }}
         />
-      </div>
+      
       <div className="flex gap-3 justify-end items-center">
         <Button type="submit" className="bg-green-500 text-white font-medium">
           Simpan

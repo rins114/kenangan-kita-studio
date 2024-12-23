@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="bg-white flex justify-center items-center py-10 px-7">
       <div className="max-w-[100rem] w-full">
         <div className="w-full flex xl:flex-row gap-10 xl:gap-0 flex-col justify-around items-center xl:items-start">
-          <div className="xl:w-1/2 w-full flex flex-col justify-center items-center gap-10">
+          <div className="xl:w-1/2 w-full flex flex-col justify-center items-center gap-7">
             <Logo
               path="/assets/images/logo-4.png"
               rounded={false}
@@ -26,9 +26,9 @@ export default function Footer() {
               heightSize="80"
               className=""
             ></Logo>
-            <p className="mt-4 max-w-xs text-gray-500">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non
-              cupiditate quae nam molestias.
+            <p className="justify-start items-start font-medium text-gray-900">Alamat</p>
+            <p className="max-w-xs text-gray-500">
+              Jl. Garuda No.1, Lempeh, Kec. Sumbawa, Kabupaten Sumbawa, Nusa Tenggara Bar. 84316
             </p>
 
             <ul className="mt-8 flex gap-6">
@@ -292,7 +292,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-gray-500 text-center mt-10">
-          &copy; 2022. Company Name. All rights reserved.
+          &copy; 2024. SIMPRO PBJ. All rights reserved.
         </p>
       </div>
     </footer>

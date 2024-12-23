@@ -54,14 +54,17 @@ export default function SignInForm() {
         type="submit"
         className="w-full rounded-sm bg-mainColor text-white"
       >
-        Masuk
+        MASUK
       </Button>
+
+      <p className="text-sm pt-4">Belum Punya Akun ?</p>
+
       <Button
         type="button"
-        className="w-full rounded-sm border-2 border-mainColor text-mainColor bg-white"
+        className="w-full rounded-sm border-2 border-mainColor text-mainColor bg-white hover:bg-mainColor hover:text-white"
         onClick={() => navigate.push("/signup")}
       >
-        Buat Akun
+        DAFTAR
       </Button>
     </form>
   );

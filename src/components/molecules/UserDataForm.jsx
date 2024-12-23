@@ -1,5 +1,5 @@
 "use client";
-import { CircularProgress, Input } from "@nextui-org/react";
+import { Button, CircularProgress, Input } from "@nextui-org/react";
 import { FileInput, Label } from "flowbite-react";
 import React from "react";
 import { FaFileAlt } from "react-icons/fa";
@@ -21,6 +21,16 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
   return (
     <form action="" className="py-5 w-full flex flex-col gap-3">
       <Input
+        isDisabled
+        type="text"
+        label="Nama Pengguna"
+        variant="bordered"
+        radius="none"
+        placeholder="@johndoe123"
+        labelPlacement="outside"
+        className="w-full shadow-md"
+      />
+      <Input
         isDisabled={!isEditMode}
         type="text"
         label="Nama Perusahaan"
@@ -28,7 +38,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan nama perusahaan"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <Input
         isDisabled={!isEditMode}
@@ -38,7 +48,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan alamat perusahaan"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <Input
         isDisabled={!isEditMode}
@@ -48,7 +58,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan Nomor Induk Kependudukan"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <Input
         isDisabled={!isEditMode}
@@ -58,7 +68,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan Nomor Induk Pegawai"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <Input
         isDisabled={!isEditMode}
@@ -68,7 +78,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan Nomor Pokok Wajib Pajak"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <Input
         isDisabled={!isEditMode}
@@ -78,10 +88,10 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
         radius="none"
         placeholder="Masukkan Nomor Handphone"
         labelPlacement="outside"
-        className="w-full"
+        className="w-full shadow-md"
       />
       <div className={`${!isEditMode ? "hidden" : "flex"} flex-col gap-2`}>
-        <h1>Upload Surat Permohonan</h1>
+        <h1>Unggah SK Jabatan</h1>
         <div
           className="flex w-full items-center justify-center"
           onDragOver={(e) => e.preventDefault()}
@@ -92,7 +102,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
               handleFileChange({ target: { files } });
             }
           }}
-        >
+          >
           <Label
             htmlFor="dropzone-file"
             className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"

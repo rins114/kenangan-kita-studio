@@ -1,17 +1,26 @@
 "use client";
 import UserDataForm from "@/components/molecules/UserDataForm";
 import { Avatar, Button, Input } from "@nextui-org/react";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 
 export default function ProfilePage() {
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isNameEditMode, setIsNameEditMode] = React.useState(false);
-  const [username, setUsername] = React.useState("Jane Doe");
+  const [username, setUsername] = React.useState("John Doe");
+  const topRef = useRef(null);
+  
+  const scrollToTop = () => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="p-5 w-full ">
       {" "}
+      <div ref={topRef}></div>
       <div
         className="flex flex-col border-2 min-h-96 rounded-md justify-start items-center p-5 shadow-md bg-white"
         // onClick={() => setIsNameEditMode(false)}
@@ -54,33 +63,15 @@ export default function ProfilePage() {
             </Button>
           </div>
         )}
-        <p className="text-success-500 mt-1">xyz@example.com</p>
+        <p className="text-success-500 mt-1">johndoe@example.com</p>
+
         <section className="flex mt-5 w-full flex-col">
           <div className="flex justify-start items-center gap-3">
-            <h1 className="pb-1 border-b-3 border-success-500 text-lg font-medium">
-              Data User Penyedia
+            <h1 className="pb-1 border-b-3 border-success-500 text-lg font-bold">
+              PROFIL PENGGUNA
             </h1>
-            {!isEditMode ? (
-              <Button
-                isIconOnly
-                size="sm"
-                color="warning"
-                className="flex justify-center items-center"
-                onClick={() => setIsEditMode(true)}
-              >
-                <FaRegEdit className="text-xl mb-1 text-white" />
-              </Button>
-            ) : (
-              <Button
-                isIconOnly
-                size="sm"
-                color="success"
-                className="flex justify-center items-center"
-                onClick={() => setIsEditMode(false)}
-              >
-                <IoIosSave className="text-xl mb-1 text-white" />
-              </Button>
-            )}
+
+            
           </div>
 
           <UserDataForm
@@ -88,6 +79,44 @@ export default function ProfilePage() {
             setIsEditMode={setIsEditMode}
           ></UserDataForm>
         </section>
+
+          <div className="flex gap-5 justify-end">
+            {!isEditMode ? (
+                  <Button
+                    
+                    size="l"
+                    color="warning"
+                    className="flex justify-center items-center text-white "
+                    onClick={() => {
+                      setIsEditMode(true);
+                      scrollToTop();
+                    }}
+                  >
+                    Ubah Data
+                  </Button>
+                ) : (
+                  <Button
+                    
+                    size="l"
+                    color="success"
+                    className="flex justify-center items-center text-white"
+                    onClick={() => {
+                      setIsEditMode(false);
+                      scrollToTop();
+                    }}
+                  >
+                    Simpan Data
+                  </Button>
+                )}
+
+                <Button type="submit"
+                className={`${isEditMode ? "hidden" : "flex"} flex-col gap-2 bg-danger-500 text-white font-medium`}
+                >
+                  Ganti Password
+                </Button>
+          </div>
+        
+
       </div>
     </div>
   );

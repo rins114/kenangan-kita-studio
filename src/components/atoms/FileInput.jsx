@@ -22,10 +22,10 @@ export default function FileInput({
         >
           <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white">
             <MdFileUpload className="text-lg"></MdFileUpload>
-            Upload File
+            Unggah File
           </div>
           <div className="py-2 px-3 text-gray-500 truncate">
-            {fileName[name]?.name ? fileName[name].name : "No file uploaded"}
+            {fileName[name]?.name ? fileName[name].name : "Tidak ada file yang di unggah"}
           </div>
         </label>
         <input

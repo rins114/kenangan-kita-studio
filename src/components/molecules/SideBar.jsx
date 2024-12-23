@@ -73,7 +73,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item href="#" icon={HiUser}>
+          <Sidebar.Item href="/beranda/daftar-pemohon" icon={HiUser}>
             Daftar Permohonan
           </Sidebar.Item>
           {/* <Sidebar.Item href="#" icon={HiShoppingBag}>

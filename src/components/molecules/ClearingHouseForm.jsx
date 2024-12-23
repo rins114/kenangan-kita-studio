@@ -11,11 +11,11 @@ export default function ClearingHouseForm({
   isUploading,
 }) {
   return (
-    <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
-      <div className="flex flex-col w-full gap-3">
+    <form onSubmit={handleSubmit} className="flex p-5 gap-3 flex-col" ref={ref}>
+      <div className="flex flex-col w-full gap-5">
         <Input
           labelPlacement="outside"
-          placeholder="Masukkan nama pemohon"
+          placeholder="Masukkan Nama Pemohon"
           size="md"
           key="outside"
           label="Nama Pemohon"
@@ -23,11 +23,11 @@ export default function ClearingHouseForm({
           variant="bordered"
           name="nama_pemohon"
         />
-        <div className="flex gap-3">
-          <div className="flex flex-col w-1/2 gap-3">
+        <div className="flex gap-5">
+          <div className="flex flex-col w-1/2 gap-5">
             <Input
               labelPlacement="outside"
-              placeholder="Masukkan nama Organisasi Perangkat Daerah"
+              placeholder="Masukkan Nama Organisasi Perangkat Daerah"
               size="md"
               label="Nama Organisasi Perangkat Daerah"
               radius="sm"
@@ -36,7 +36,7 @@ export default function ClearingHouseForm({
             />
             <Input
               labelPlacement="outside"
-              placeholder="Masukkan nama Paket Kegiatan"
+              placeholder="Masukkan Nama Paket Kegiatan"
               size="md"
               label="Nama Paket Kegiatan"
               radius="sm"
@@ -45,7 +45,7 @@ export default function ClearingHouseForm({
             />
             <Input
               labelPlacement="outside"
-              placeholder="Masukkan nama Barang/Jasa"
+              placeholder="Masukkan Nama Barang/Jasa"
               label="Nama Barang/Jasa"
               radius="sm"
               variant="bordered"
@@ -54,7 +54,7 @@ export default function ClearingHouseForm({
             />
             <Input
               labelPlacement="outside"
-              placeholder="Masukkan nama K/L/PD"
+              placeholder="Masukkan Nama K/L/PD"
               size="md"
               label="Nama K/L/PD"
               radius="sm"
@@ -71,7 +71,7 @@ export default function ClearingHouseForm({
               name="nomor_sirup"
             />
           </div>
-          <div className="flex flex-col w-1/2 gap-3">
+          <div className="flex flex-col w-1/2 gap-5">
             <Input
               labelPlacement="outside"
               placeholder="Masukkan Tahun Anggaran"
@@ -119,9 +119,9 @@ export default function ClearingHouseForm({
             />
           </div>
         </div>
-        <h1>Upload Surat Permohonan</h1>
+        <p className="text-sm pt-5">Upload Surat Permohonan</p>
         <div
-          className="flex w-full items-center justify-center"
+          className="flex w-full items-center justify-center gap-0"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             e.preventDefault();
@@ -201,7 +201,7 @@ export default function ClearingHouseForm({
           }}
         />
       </div>
-      <div className="flex gap-3 justify-end items-center">
+      <div className="flex gap-3 justify-center items-center">
         <Button type="submit" className="bg-green-500 text-white font-medium">
           Simpan
         </Button>

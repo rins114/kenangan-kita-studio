@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Logo from "../atoms/Logo";
 import {
   Navbar,
   NavbarBrand,
@@ -70,6 +71,19 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
         )}
       </NavbarContent>
 
+      <NavbarContent 
+        as="div" 
+        justify="center" 
+        className="relative cursor-pointer" 
+        onClick={() => {navigate.push("/landing");}}>
+        <Logo
+          path="/assets/images/logo-4.png"
+          rounded={false}
+          widthSize="210"
+          heightSize="55"
+        ></Logo>
+      </NavbarContent>
+
       <NavbarContent as="div" justify="end" className="relative">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
@@ -97,7 +111,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 navigate.push("/beranda/profile");
               }}
             >
-              <p className="text-md text-black">Profile</p>
+              <p className="text-md text-black">Profil Pengguna</p>
             </DropdownItem>
             <DropdownItem
               key="logout"
@@ -106,7 +120,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 navigate.push("/signin");
               }}
             >
-              <p className="text-md text-danger-500">Log Out</p>
+              <p className="text-md text-danger-500">Keluar</p>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
