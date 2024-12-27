@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
   BreadcrumbItem,
@@ -25,6 +25,21 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function DashboardPage() {
+  const [greeting, setGreeting] = useState("");
+
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      setGreeting("Selamat Pagi");
+    } else if (currentHour < 15) {
+      setGreeting("Selamat Siang");
+    } else if (currentHour < 18) {
+      setGreeting("Selamat Sore");
+    } else {
+      setGreeting("Selamat Malam");
+    }
+  }, []);
+
   const columnChart = {
     series: [
       {
@@ -109,7 +124,9 @@ export default function DashboardPage() {
 
   return (
     <div className="p-5 flex flex-col justify-start items-center gap-3">
-      <div className="w-full flex gap-3"></div>
+      <div className="w-full text-center text-xl font-bold mb-5">
+        {greeting}, Selamat Datang di Dashboard!
+      </div>
       <div className="w-full flex gap-5 justify-center items-start h-full">
         <div className="flex flex-col w-1/2 border-2 rounded-md justify-center items-center h-full shadow-md bg-white min-h-96">
           <ReactApexChart
@@ -118,7 +135,6 @@ export default function DashboardPage() {
             type="bar"
             height={300}
             width={500}
-            className=""
           />
         </div>
         <div className="flex flex-col gap-3 w-1/2 border-2 rounded-md justify-center items-center h-full shadow-md bg-white min-h-96">
@@ -128,10 +144,9 @@ export default function DashboardPage() {
             type="pie"
             height={300}
             width={500}
-            className=""
           />
         </div>
-        <ReactPdfView></ReactPdfView>
+        {/* <ReactPdfView></ReactPdfView> */}
       </div>
     </div>
   );

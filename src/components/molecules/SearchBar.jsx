@@ -1,8 +1,55 @@
-import { Button, Input } from "@nextui-org/react";
-import React from "react";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
+import React, { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
 
 export default function SearchBar() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Data untuk dropdown bentuk peraturan
+  const bentukPeraturan = [
+    { label: "Undang-Undang", value: "UU" },
+    { label: "Peraturan Pemerintah", value: "PP" },
+    { label: "Peraturan Presiden", value: "PERPRES" },
+    { label: "Peraturan Menteri", value: "PERMEN" },
+    { label: "Keputusan Presiden", value: "KEPRES" },
+  ];
+
+  // Generate tahun dari 1945-2024
+  const years = Array.from({ length: 2024 - 1945 + 1 }, (_, index) => ({
+    label: String(1945 + index),
+    value: String(1945 + index),
+  })).reverse(); // Urutkan dari yang terbaru
+
+  // State untuk menyimpan nilai filter
+  const [filters, setFilters] = useState({
+    bentuk: "",
+    nomorPeraturan: "",
+    tahunPeraturan: "",
+  });
+
+  const handleFilterChange = (name, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSearch = () => {
+    console.log("Filter yang diterapkan:", filters);
+    onClose();
+  };
+
   return (
     <form
       action=""

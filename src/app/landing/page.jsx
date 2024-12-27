@@ -226,7 +226,7 @@ export default function LandingPage() {
             ref={aboutRef}
             className="flex flex-col justify-center items-center gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
           >
-            <h1 className="text-3xl font-semibold">Apa itu SIMPRO PBJ?</h1>
+            <h1 className="text-3xl font-semibold">APA ITU SIMPRO PBJ?</h1>
             <div className="flex flex-col-reverse md:flex-row gap-10 w-full">
               <AnimatedScroll
                 className="md:w-1/2"
@@ -302,7 +302,7 @@ export default function LandingPage() {
               className={"px-7"}
             >
               <h1 className="text-3xl text-black font-semibold">
-                Apa Saja Layanan SIMPRO PBJ?
+                APA SAJA LAYANAN SIMPRO PBJ?
               </h1>
             </AnimatedScroll>
             <div className="md:flex-row flex-col flex gap-5 w-full px-5 justify-center items-center">
@@ -362,7 +362,7 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-start text-center md:text-left">
-              <h1 className="text-2xl mb-3">Kinerja Clearing House</h1>
+              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA CLEARING HOUSE</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -398,7 +398,7 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-center md:items-end text-center md:text-right">
-              <h1 className="text-2xl mb-3">Kinerja Verifikasi Berkas</h1>
+              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA VERIFIKASI BERKAS</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -410,7 +410,7 @@ export default function LandingPage() {
         </div>
       </div>
       <div className="min-h-72 bg-grayBg w-full mt-10 px-7 py-14 flex flex-col justify-around items-center gap-5">
-        <h1 className="text-3xl font-semibold">Link Terkait</h1>
+        <h1 className="text-3xl font-semibold">LINK TERKAIT</h1>
         <div className="flex flex-col justify-center items-center gap-5 md:flex-row">
           <LogoLink
             src="/assets/images/logosbw.png"
