@@ -12,6 +12,12 @@ import {
   Image,
 } from "@nextui-org/react";
 import { IoHome } from "react-icons/io5";
+const ReactPdfView = dynamic(
+  () => import("@/components/molecules/ReactPdfView"),
+  {
+    ssr: false, // Disable server-side rendering
+  }
+);
 
 // Dynamically import ReactApexChart to avoid SSR issues
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -125,6 +131,7 @@ export default function DashboardPage() {
             className=""
           />
         </div>
+        <ReactPdfView></ReactPdfView>
       </div>
     </div>
   );
