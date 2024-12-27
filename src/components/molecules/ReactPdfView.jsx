@@ -84,7 +84,7 @@ const PdfViewer = () => {
       </div>
 
       {/* PDF Viewer */}
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <div style={{ flex: 1, overflow: "auto" }}>
           {file ? (
             <Viewer
