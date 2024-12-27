@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Logo from "../atoms/Logo";
 import {
   Navbar,
   NavbarBrand,
@@ -51,23 +52,22 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
           </NavbarItem>
         ) : (
           <>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Features
-              </Link>
-            </NavbarItem>
-            <NavbarItem isActive>
-              <Link href="#" aria-current="page" color="secondary">
-                Customers
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Integrations
-              </Link>
-            </NavbarItem>
+            
           </>
         )}
+      </NavbarContent>
+
+      <NavbarContent 
+        as="div" 
+        justify="center" 
+        className="relative cursor-pointer" 
+        onClick={() => {navigate.push("/landing");}}>
+        <Logo
+          path="/assets/images/logo-4.png"
+          rounded={false}
+          widthSize="210"
+          heightSize="55"
+        ></Logo>
       </NavbarContent>
 
       <NavbarContent as="div" justify="end" className="relative">
@@ -97,7 +97,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 navigate.push("/dashboard/profile");
               }}
             >
-              <p className="text-md text-black">Profile</p>
+              <p className="text-md text-black">Profil Pengguna</p>
             </DropdownItem>
             <DropdownItem
               key="logout"
@@ -106,7 +106,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 navigate.push("/signin");
               }}
             >
-              <p className="text-md text-danger-500">Log Out</p>
+              <p className="text-md text-danger-500">Keluar</p>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

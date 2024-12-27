@@ -1,6 +1,6 @@
-import React from "react";
-import Logo from "../atoms/Logo";
 import Image from "next/image";
+import React from "react";
+import Logo from "../atoms/LogoAuth";
 
 export default function AuthImage() {
   return (

@@ -28,7 +28,7 @@ export default function FileInputAtom({
             Upload File
           </div>
           <div className="py-2 px-3 text-gray-500 truncate">
-            {fileName?.name ? fileName.name : "No file uploaded"}
+            {fileName?.name ? fileName.name : "Tidak ada file yang di unggah"}
           </div>
         </label>
         <input
