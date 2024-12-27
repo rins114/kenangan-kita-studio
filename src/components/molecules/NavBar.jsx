@@ -52,21 +52,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
           </NavbarItem>
         ) : (
           <>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Features
-              </Link>
-            </NavbarItem>
-            <NavbarItem isActive>
-              <Link href="#" aria-current="page" color="secondary">
-                Customers
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Integrations
-              </Link>
-            </NavbarItem>
+            
           </>
         )}
       </NavbarContent>
