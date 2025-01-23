@@ -16,13 +16,16 @@ import { useAuthUser } from "@/contexts/AuthUserContext";
 import { IoDocumentsSharp } from "react-icons/io5";
 import { FaList, FaListUl } from "react-icons/fa";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
+import useLogin from "@/hooks/useLogin";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
-  const { user, isAuthenticated, isLoading } = useAuthUser();
+  const { user, isAuthenticated } = useAuthUser();
+  const { isLoading } = useLogin();
   useEffect(() => {
     function fetchUser() {
-      if (isLoading) {
+      if (!isLoading && !isAuthenticated) {
+        console.log("loading");
         return;
       }
       console.log(user);

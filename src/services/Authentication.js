@@ -25,3 +25,21 @@ export async function session(token) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function logout(token) {
+  try {
+    const response = await axios.post(
+      API_ENDPOINT.LOGOUT,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}
