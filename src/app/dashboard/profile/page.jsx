@@ -1,11 +1,15 @@
 "use client";
+import { usePathname, useRouter } from "next/navigation";
 import UserDataForm from "@/components/molecules/UserDataForm";
 import { Avatar, Button, Input } from "@nextui-org/react";
 import React, { useState, useRef } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 
+
 export default function ProfilePage() {
+  const navigate = useRouter();
+  const pathname = usePathname();
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isNameEditMode, setIsNameEditMode] = React.useState(false);
   const [username, setUsername] = React.useState("John Doe");
@@ -109,7 +113,10 @@ export default function ProfilePage() {
                   </Button>
                 )}
 
-                <Button type="submit"
+                <Button
+                onClick={() => {
+                  navigate.push("/dashboard/profile/ganti-password");
+                }}
                 className={`${isEditMode ? "hidden" : "flex"} flex-col gap-2 bg-danger-500 text-white font-medium`}
                 >
                   Ganti Password

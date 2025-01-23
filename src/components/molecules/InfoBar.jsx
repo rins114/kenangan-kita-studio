@@ -84,7 +84,7 @@ export default function InfoBar() {
         </div>
         <div className="flex gap-5 justify-center items-center text-white px-3">
           <Link href="/faq" className="text-sm hover:text-mainColor">
-            In my area
+            Sumbawa Besar
           </Link>
           <Link href="/faq" className="text-sm hover:text-mainColor">
             Faq

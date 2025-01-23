@@ -13,12 +13,12 @@ import {
 import { useRouter } from "next/navigation";
 
 export const columns = [
-  { name: "NAME", uid: "name" },
+  { name: "NAMA", uid: "name" },
   { name: "OPD", uid: "opd" },
   { name: "PERUSAHAAN", uid: "perusahaan" },
   { name: "JABATAN", uid: "jabatan" },
   { name: "STATUS", uid: "status" },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "AKSI", uid: "actions" },
 ];
 
 export const users = [
@@ -41,7 +41,19 @@ export const users = [
     opd: "Dinas Komunikasi Informasi Statistik dan Persandian",
     jabatan: "CEO",
     team: "Management",
-    status: "Diajukan",
+    status: "Diproses",
+    age: "29",
+    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+    email: "tony.reichert@example.com",
+  },
+  {
+    id: 3,
+    name: "Tony Reichert",
+    perusahaan: "PT. INFORMATION TECHNO",
+    opd: "Dinas Komunikasi Informasi Statistik dan Persandian",
+    jabatan: "CEO",
+    team: "Management",
+    status: "Ditolak",
     age: "29",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
     email: "tony.reichert@example.com",
@@ -171,9 +183,8 @@ export const EditIcon = (props) => {
 
 const statusColorMap = {
   Terverifikasi: "success",
-  Selesai: "success",
   Ditolak: "danger",
-  Diajukan: "warning",
+  Diproses: "warning",
 };
 
 export default function TableCustom() {
