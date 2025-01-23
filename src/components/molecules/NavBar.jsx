@@ -18,9 +18,22 @@ import {
 import { RiMenuFold2Line, RiMenuUnfold2Line } from "react-icons/ri";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
+import { logout } from "@/services/Authentication";
+import { showToast } from "@/utils/ShowToast";
 export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem("access_token");
+    const result = await logout(token);
+    if (result.status === 500) {
+      await showToast("error", "Kesalahan pada server");
+      return;
+    }
+    localStorage.removeItem("access_token");
+    navigate.push("/signin");
+  };
   return (
     <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2">
       {/* <NavbarBrand>
@@ -103,9 +116,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             <DropdownItem
               key="logout"
               color="danger"
-              onClick={() => {
-                localStorage.removeItem("access_token");
-                navigate.push("/signin");
+              onPress={() => {
+                handleLogout();
               }}
             >
               <p className="text-md text-danger-500">Keluar</p>
