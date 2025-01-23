@@ -160,12 +160,12 @@ export default function SearchBar() {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onClick={onClose}>
                   Batal
                 </Button>
                 <Button 
                   color="primary" 
-                  onPress={handleSearch}
+                  onClick={handleSearch}
                   className="bg-mainColor"
                 >
                   Cari

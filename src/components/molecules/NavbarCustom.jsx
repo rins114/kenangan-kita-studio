@@ -61,7 +61,7 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => scrollToSection("home")}
             >
-              <p>BERANDA</p>
+              <p className="text-secondaryColor font-bold">BERANDA</p>
             </div>
           </li>
          
@@ -70,12 +70,12 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing/peraturan")}
             >
-              <p>PERATURAN</p>
+              <p className="font-bold">PERATURAN</p>
             </div>
           </li>
           <li>
             <Button
-              className="!rounded-3xl font-medium bg-mainColor text-white px-7"
+              className="!rounded-3xl font-medium bg-mainColor text-white px-7 font-bold shadow-xl"
               onClick={() => navigate.push("/signin")}
             >
               MASUK
@@ -90,7 +90,7 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing")}
             >
-              <p>BERANDA</p>
+              <p className="font-bold">BERANDA</p>
             </div>
           </li>
 
@@ -99,12 +99,12 @@ export default function NavbarCustom() {
               className="py-2 lg:px-3 "
               onClick={() => navigate.push("/landing/peraturan")}
             >
-              <p>PERATURAN</p>
+              <p className="text-secondaryColor font-bold">PERATURAN</p>
             </div>
           </li>
           <li>
             <Button
-              className="!rounded-3xl font-medium bg-mainColor text-white px-7"
+              className="!rounded-3xl font-medium bg-mainColor text-white px-7 font-bold shadow-xl"
               onClick={() => navigate.push("/signin")}
             >
               MASUK

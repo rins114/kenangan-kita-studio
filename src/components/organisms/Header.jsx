@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <div>
       {disableNavbar.includes(pathname) ||
-      pathname.startsWith("/beranda") ||
+      pathname.startsWith("/dashboard") ||
       pathname.startsWith("/landing") ? null : (
         <NavBar></NavBar>
       )}

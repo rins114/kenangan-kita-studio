@@ -28,7 +28,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand> */}
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
-        {pathname.startsWith("/beranda") ? (
+        {pathname.startsWith("/dashboard") ? (
           <NavbarItem>
             {isMenuOpen ? (
               <Button
@@ -94,7 +94,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             <DropdownItem
               key="team_settings"
               onClick={() => {
-                navigate.push("/beranda/profile");
+                navigate.push("/dashboard/profile");
               }}
             >
               <p className="text-md text-black">Profil Pengguna</p>
