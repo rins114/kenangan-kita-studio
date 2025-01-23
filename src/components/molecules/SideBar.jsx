@@ -19,10 +19,16 @@ import { MdOutlineFeaturedPlayList } from "react-icons/md";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
-  const authUser = useAuthUser();
+  const { user, isAuthenticated, isLoading } = useAuthUser();
   useEffect(() => {
-    console.log(authUser);
-  }, [authUser]);
+    function fetchUser() {
+      if (isLoading) {
+        return;
+      }
+      console.log(user);
+    }
+    fetchUser();
+  }, [user, isLoading]);
   return (
     <Sidebar
       collapsed={isMenuOpen}
