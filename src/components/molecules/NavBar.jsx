@@ -104,6 +104,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
               key="logout"
               color="danger"
               onClick={() => {
+                localStorage.removeItem("access_token");
                 navigate.push("/signin");
               }}
             >

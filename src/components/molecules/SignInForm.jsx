@@ -38,7 +38,11 @@ export default function SignInForm() {
       await showToast("warning", "Email atau password salah");
       return;
     }
-    localStorage.setItem("access_token", result.data.token);
+    if (result.status === 500) {
+      await showToast("error", "Server error, coba lagi nanti");
+      return;
+    }
+    localStorage.setItem("access_token", result?.data?.token);
     await showToast("success", "Login Berhasil");
     navigate.push("/dashboard");
   };
