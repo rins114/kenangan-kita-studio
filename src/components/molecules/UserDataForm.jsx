@@ -1,8 +1,12 @@
 "use client";
 import { Button, CircularProgress, Input } from "@nextui-org/react";
 import { FileInput, Label } from "flowbite-react";
+import dynamic from "next/dynamic";
 import React from "react";
 import { FaFileAlt } from "react-icons/fa";
+const PdfViewer = dynamic(() => import("@/components/molecules/ReactPdfView"), {
+  ssr: false, // Disable server-side rendering
+});
 
 export default function UserDataForm({ isEditMode, setIsEditMode }) {
   const [file, setFile] = React.useState(null);
@@ -102,7 +106,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
               handleFileChange({ target: { files } });
             }
           }}
-          >
+        >
           <Label
             htmlFor="dropzone-file"
             className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -159,6 +163,16 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
             />
           </Label>
         </div>
+      </div>
+      <div
+        className={`${
+          !isEditMode ? "flex" : "hidden"
+        } flex flex-col gap-3 mb-7`}
+      >
+        <div>
+          <h1>Jabatan SK</h1>
+        </div>
+        <PdfViewer></PdfViewer>
       </div>
     </form>
   );

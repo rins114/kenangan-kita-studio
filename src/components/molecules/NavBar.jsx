@@ -22,7 +22,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
   return (
-    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5">
+    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2">
       {/* <NavbarBrand>
         <Logo></Logo>
         <p className="font-bold text-inherit">ACME</p>
@@ -51,22 +51,23 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             )}
           </NavbarItem>
         ) : (
-          <>
-            
-          </>
+          <></>
         )}
       </NavbarContent>
 
-      <NavbarContent 
-        as="div" 
-        justify="center" 
-        className="relative cursor-pointer" 
-        onClick={() => {navigate.push("/landing");}}>
+      <NavbarContent
+        as="div"
+        justify="center"
+        className="relative cursor-pointer"
+        onClick={() => {
+          navigate.push("/landing");
+        }}
+      >
         <Logo
           path="/assets/images/logo-4.png"
           rounded={false}
           widthSize="210"
-          heightSize="55"
+          heightSize="50"
         ></Logo>
       </NavbarContent>
 

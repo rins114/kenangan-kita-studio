@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Sidebar } from "flowbite-react";
 import {
   HiArrowSmRight,
@@ -11,9 +11,14 @@ import {
 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
+  const authUser = useAuthUser();
+  useEffect(() => {
+    console.log(authUser);
+  }, [authUser]);
   return (
     <Sidebar
       collapsed={isMenuOpen}
@@ -21,7 +26,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
       aria-label="Sidebar with multi-level dropdown example"
       className={`z-20 h-screen ${
         !isMenuOpen ? "side" : "sideHide"
-      } dark bg-gray-800`}
+      } dark bg-gray-800 z-20`}
     >
       {/* <Sidebar.Logo
         href="#"

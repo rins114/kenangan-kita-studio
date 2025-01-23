@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Logo from "../atoms/LogoAuth";
+import Logo from "../atoms/Logo";
 
 export default function AuthImage() {
   return (
@@ -14,7 +14,7 @@ export default function AuthImage() {
       ></Image>
       <div className="h-full w-full flex flex-col bg-diagonal-gradient from-secondaryColor/70 to-mainColor/70 z-10 absolute top-0 left-0 justify-center items-center gap-1">
         <Logo
-          widthSize="300"
+          widthSize="200"
           heightSize="300"
           path="/assets/images/logosbw.png"
           rounded={false}

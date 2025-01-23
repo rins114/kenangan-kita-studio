@@ -29,7 +29,7 @@ export const users = [
     opd: "Dinas Komunikasi Informasi Statistik dan Persandian",
     jabatan: "CEO",
     team: "Management",
-    status: "active",
+    status: "Terverifikasi",
     age: "29",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
     email: "tony.reichert@example.com",
@@ -41,7 +41,7 @@ export const users = [
     opd: "Dinas Komunikasi Informasi Statistik dan Persandian",
     jabatan: "CEO",
     team: "Management",
-    status: "active",
+    status: "Diajukan",
     age: "29",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
     email: "tony.reichert@example.com",
@@ -170,9 +170,10 @@ export const EditIcon = (props) => {
 };
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  Terverifikasi: "success",
+  Selesai: "success",
+  Ditolak: "danger",
+  Diajukan: "warning",
 };
 
 export default function TableCustom() {

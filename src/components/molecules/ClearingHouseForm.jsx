@@ -13,7 +13,11 @@ export default function ClearingHouseForm({
   isUploading,
 }) {
   return (
-    <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
+    <form
+      onSubmit={handleSubmit}
+      className="flex p-3 gap-3 flex-col z-0"
+      ref={ref}
+    >
       <div className="flex flex-col w-full gap-3">
         <Input
           labelPlacement="outside"
