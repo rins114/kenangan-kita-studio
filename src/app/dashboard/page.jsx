@@ -125,7 +125,7 @@ export default function DashboardPage() {
   return (
     <div className="p-5 flex flex-col justify-start items-center gap-3">
       <div className="w-full text-center text-xl font-bold mb-5">
-        {greeting}, Selamat Datang di Dashboard!
+        {greeting ? greeting : "Halo"}, Selamat Datang di Dashboard!
       </div>
       <div className="w-full flex gap-5 justify-center items-start h-full">
         <div className="flex flex-col w-1/2 border-2 rounded-md justify-center items-center h-full shadow-md bg-white min-h-96">

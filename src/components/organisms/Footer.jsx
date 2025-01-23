@@ -26,9 +26,10 @@ export default function Footer() {
               heightSize="80"
               className=""
             ></Logo>
-            <p className="justify-start items-start font-medium text-gray-900">Alamat</p>
+            {/* <p className="justify-start items-start font-medium text-gray-900">Alamat</p> */}
             <p className="max-w-xs text-gray-500">
-              Jl. Garuda No.1, Lempeh, Kec. Sumbawa, Kabupaten Sumbawa, Nusa Tenggara Bar. 84316
+              Jl. Garuda No.1, Lempeh, Kec. Sumbawa, Kabupaten Sumbawa, Nusa
+              Tenggara Bar. 84316
             </p>
 
             <ul className="mt-8 flex gap-6">

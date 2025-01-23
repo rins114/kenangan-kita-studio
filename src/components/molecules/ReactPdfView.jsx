@@ -33,9 +33,15 @@ const PdfViewer = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+      className="border-2 rounded-lg h-[50rem] max-w-2xl"
+    >
       {/* URL Input */}
-      <div
+      {/* <div
         style={{
           padding: "0.5rem",
           borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
@@ -70,7 +76,7 @@ const PdfViewer = () => {
         >
           Load PDF
         </button>
-      </div>
+      </div> */}
 
       {/* Toolbar */}
       <div
@@ -86,16 +92,16 @@ const PdfViewer = () => {
       {/* PDF Viewer */}
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <div style={{ flex: 1, overflow: "auto" }}>
-          {file ? (
-            <Viewer
-              fileUrl={"/assets/pdf/diazka.pdf"}
-              plugins={[toolbarPluginInstance]}
-            />
-          ) : (
+          {/* {file ? ( */}
+          <Viewer
+            fileUrl={"http://localhost:3000/assets/pdf/dokumen1.pdf"}
+            plugins={[toolbarPluginInstance]}
+          />
+          {/* ) : (
             <p style={{ textAlign: "center", marginTop: "2rem" }}>
               Please enter a valid PDF URL to view.
             </p>
-          )}
+          )} */}
         </div>
       </Worker>
     </div>
