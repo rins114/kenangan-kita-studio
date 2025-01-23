@@ -31,14 +31,29 @@ export default function SignUpForm() {
             Non Penyedia
           </SelectItem>
         </Select>
-        <Input
+
+        <Select
           isRequired
-          type="text"
-          label="Nama Lengkap"
+          label="Tipe Pengguna"
+          // defaultSelectedKeys={"0"}
+          className="w-full"
           variant="bordered"
-          className="w-full !border-transparent"
           radius="none"
-        />
+        >
+          <SelectItem key={"1"} value={"ppk"}>
+            PPK
+          </SelectItem>
+          <SelectItem key={"2"} value={"pa"}>
+            PA
+          </SelectItem>
+          <SelectItem key={"3"} value={"bendahara"}>
+            BENDAHARA
+          </SelectItem>
+          <SelectItem key={"4"} value={"pptk"}>
+            PPTK
+          </SelectItem>
+        </Select>
+
         <Input
           isRequired
           type="email"

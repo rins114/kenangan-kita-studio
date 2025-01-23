@@ -8,10 +8,14 @@ import {
   HiShoppingBag,
   HiTable,
   HiUser,
+  FaTableList,
 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
+import { IoDocumentsSharp } from "react-icons/io5";
+import { FaList, FaListUl } from "react-icons/fa";
+import { MdOutlineFeaturedPlayList } from "react-icons/md";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
@@ -59,9 +63,9 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
       <Sidebar.Items className="">
         <Sidebar.ItemGroup>
           <Sidebar.Item href="/dashboard" icon={HiChartPie}>
-            Beranda
+            Dashboard
           </Sidebar.Item>
-          <Sidebar.Collapse icon={HiShoppingBag} label="Layanan">
+          <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
             <Sidebar.Item
               href="/dashboard/clearing-house"
               icon={isMenuOpen ? HiArrowSmRight : ""}
@@ -78,13 +82,13 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item href="/dashboard/permohonan" icon={HiUser}>
+          <Sidebar.Item href="/dashboard/permohonan" icon={FaListUl}>
             Daftar Permohonan
           </Sidebar.Item>
-          {/* <Sidebar.Item href="#" icon={HiShoppingBag}>
-            Products
+          <Sidebar.Item href="/dashboard/dokumen" icon={IoDocumentsSharp}>
+            Dokumen Peraturan
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiArrowSmRight}>
+          {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
           </Sidebar.Item> */}
           {/* {[...Array(10)].map((_, index) => (

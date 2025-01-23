@@ -99,7 +99,7 @@ export default function NavbarCustom() {
           </li>
           <li>
             <Button
-              className="!rounded-md font-medium bg-mainColor text-white px-7"
+              className="!rounded-3xl font-medium bg-mainColor text-white px-7 font-bold shadow-xl"
               onClick={() => navigate.push("/signin")}
             >
               Masuk
