@@ -12,7 +12,17 @@ import { IoClose } from "react-icons/io5";
 export default function SignUpPage() {
   const navigate = useRouter();
   return (
-    <div className="flex justify-center items-center h-screen bg-zinc-100 w-full">
+    <div className="relative flex justify-center items-center h-screen bg-zinc-100 w-full">
+      <div className="absolute h-full w-full">
+        <Image
+          src="/assets/images/authimg.jpg"
+          width={1000}
+          height={1000}
+          className="w-full h-full"
+          alt="auth img"
+        ></Image>
+      </div>
+      <div className="absolute h-full w-full bg-black opacity-50"></div>
       <div className="top-2 left-2 fixed">
         <Button
           className="p-1 bg-transparent"
@@ -33,7 +43,7 @@ export default function SignUpPage() {
           <SignUpForm />
         </AuthContainer>
       </section>
-      <AuthImage></AuthImage>
+      {/* <AuthImage></AuthImage> */}
     </div>
   );
 }
