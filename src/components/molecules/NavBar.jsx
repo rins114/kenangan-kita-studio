@@ -35,31 +35,31 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
     navigate.push("/signin");
   };
   return (
-    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2">
+    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2 z-[99]">
       {/* <NavbarBrand>
         <Logo></Logo>
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand> */}
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+      <NavbarContent className="flex md:hidden gap-4" justify="start">
         {pathname.startsWith("/dashboard") ? (
           <NavbarItem>
             {isMenuOpen ? (
               <Button
                 isIconOnly
                 color="default"
-                onClick={() => setIsMenuOpen(false)}
+                onPress={() => setIsMenuOpen(false)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowForward className="text-lg" />
+                <IoIosArrowBack className="text-lg" />
               </Button>
             ) : (
               <Button
                 isIconOnly
                 color="default"
-                onClick={() => setIsMenuOpen(true)}
+                onPress={() => setIsMenuOpen(true)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowBack className="text-lg" />
+                <IoIosArrowForward className="text-lg" />
               </Button>
             )}
           </NavbarItem>
@@ -71,7 +71,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
       <NavbarContent
         as="div"
         justify="center"
-        className="relative cursor-pointer"
+        className="relative cursor-pointer md:pl-5"
         onClick={() => {
           navigate.push("/landing");
         }}

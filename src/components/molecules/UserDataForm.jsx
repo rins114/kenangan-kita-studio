@@ -23,7 +23,7 @@ export default function UserDataForm({ isEditMode, setIsEditMode }) {
     });
   };
   return (
-    <form action="" className="py-5 w-full flex flex-col gap-3">
+    <form action="" className="py-5 w-full flex flex-col gap-3 truncate">
       <Input
         isDisabled
         type="text"

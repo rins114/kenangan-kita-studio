@@ -10,8 +10,13 @@ const useLogin = () => {
     if (isLoading) return;
     if (user && !isLoading && !isAuthenticated) {
       router.push("/signin");
+      return;
     }
-  }, [isAuthenticated, isLoading]);
+    // if (!user && !isAuthenticated && !isLoading) {
+    //   router.push("/signin");
+    //   return;
+    // }
+  }, [user, isAuthenticated, isLoading]);
 
   return { isAuthenticated, isLoading };
 };

@@ -15,7 +15,7 @@ export default function ClearingHouseForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex p-3 gap-3 flex-col z-0"
+      className="flex p-3 gap-3 flex-col z-0 truncate"
       ref={ref}
     >
       <div className="flex flex-col w-full gap-3">
@@ -31,8 +31,8 @@ export default function ClearingHouseForm({
           value={formData.nama_pemohon}
           onChange={handleChange}
         />
-        <div className="flex gap-3">
-          <div className="flex flex-col w-1/2 gap-3">
+        <div className="flex flex-col lg:flex-row gap-3">
+          <div className="flex flex-col w-full lg:w-1/2 gap-3">
             <Input
               labelPlacement="outside"
               placeholder="Masukkan nama Organisasi Perangkat Daerah"
@@ -89,7 +89,7 @@ export default function ClearingHouseForm({
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-col w-1/2 gap-3">
+          <div className="flex flex-col w-full lg:w-1/2 gap-3">
             <Input
               labelPlacement="outside"
               placeholder="Masukkan Tahun Anggaran"
@@ -233,7 +233,7 @@ export default function ClearingHouseForm({
         />
       </div>
 
-      <div className="flex gap-3 justify-end items-center">
+      <div className="flex flex-col xs:flex-row gap-3 justify-end items-center">
         <Button type="submit" className="bg-green-500 text-white font-medium">
           Simpan
         </Button>
