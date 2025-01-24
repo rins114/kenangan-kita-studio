@@ -20,9 +20,11 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/services/Authentication";
 import { showToast } from "@/utils/ShowToast";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
+  const { user } = useAuthUser();
 
   const handleLogout = async () => {
     const token = localStorage.getItem("access_token");
@@ -97,13 +99,13 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 size="sm"
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
               />
-              <p>Diaz</p>
+              <p>{user?.name}</p>
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
             <DropdownItem
               key="team_settings"

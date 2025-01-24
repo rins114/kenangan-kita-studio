@@ -2,17 +2,22 @@
 import { usePathname, useRouter } from "next/navigation";
 import UserDataForm from "@/components/molecules/UserDataForm";
 import { Avatar, Button, Input } from "@nextui-org/react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 
 export default function ProfilePage() {
   const navigate = useRouter();
   const pathname = usePathname();
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isNameEditMode, setIsNameEditMode] = React.useState(false);
-  const [username, setUsername] = React.useState("John Doe");
+  const [username, setUsername] = React.useState("");
   const topRef = useRef(null);
+  const { user } = useAuthUser();
+  useEffect(() => {
+    setUsername(user?.name);
+  }, [user]);
 
   const scrollToTop = () => {
     if (topRef.current) {
@@ -67,7 +72,7 @@ export default function ProfilePage() {
           </div>
         )}
         <p className="text-success-500 mt-1 text-sm md:text-lg">
-          johndoe@example.com
+          {user?.email}
         </p>
 
         <section className="flex mt-5 w-full flex-col">
