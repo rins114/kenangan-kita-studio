@@ -10,7 +10,7 @@ import {
   HiUser,
   FaTableList,
 } from "react-icons/hi";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
 import { IoDocumentsSharp } from "react-icons/io5";
@@ -22,6 +22,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
   const { user, isAuthenticated } = useAuthUser();
   const { isLoading } = useLogin();
+  const pathname = usePathname();
   useEffect(() => {
     function fetchUser() {
       if (!isLoading && !isAuthenticated) {
@@ -71,19 +72,41 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
       </Sidebar.Items>
       <Sidebar.Items className="">
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="/dashboard" icon={HiChartPie}>
+          <Sidebar.Item
+            className={`${
+              pathname === "/dashboard" ? "bg-slate-500/40" : ""
+            } cursor-pointer`}
+            onClick={() => {
+              navigate.push("/dashboard");
+            }}
+            icon={HiChartPie}
+          >
             Dashboard
           </Sidebar.Item>
           <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
             <Sidebar.Item
-              href="/dashboard/clearing-house"
+              onClick={() => {
+                navigate.push("/dashboard/clearing-house");
+              }}
               icon={isMenuOpen ? "" : ""}
+              className={`cursor-pointer ${
+                pathname === "/dashboard/clearing-house"
+                  ? "bg-slate-500/40"
+                  : ""
+              }`}
             >
               Clearing House
             </Sidebar.Item>
             <Sidebar.Item
-              href="/dashboard/verifikasi-berkas"
+              onClick={() => {
+                navigate.push("/dashboard/verifikasi-berkas");
+              }}
               icon={isMenuOpen ? "" : ""}
+              className={`cursor-pointer ${
+                pathname === "/dashboard/verifikasi-berkas"
+                  ? "bg-slate-500/40"
+                  : ""
+              }`}
             >
               Verifikasi Berkas
             </Sidebar.Item>
@@ -91,10 +114,26 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item href="/dashboard/permohonan" icon={FaListUl}>
+          <Sidebar.Item
+            className={`${
+              pathname === "/dashboard/permohonan" ? "bg-slate-500/40" : ""
+            } cursor-pointer`}
+            onClick={() => {
+              navigate.push("/dashboard/permohonan");
+            }}
+            icon={FaListUl}
+          >
             Daftar Permohonan
           </Sidebar.Item>
-          <Sidebar.Item href="/dashboard/dokumen" icon={IoDocumentsSharp}>
+          <Sidebar.Item
+            className={`${
+              pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
+            } cursor-pointer`}
+            onClick={() => {
+              navigate.push("/dashboard/dokumen");
+            }}
+            icon={IoDocumentsSharp}
+          >
             Dokumen Peraturan
           </Sidebar.Item>
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
