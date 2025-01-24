@@ -8,6 +8,8 @@ export default function FileInputAtom({
   name = "",
   handleFileChange = () => {},
   jenisFile = [".pdf", ".doc", ".docx"],
+  rounded = true,
+  height = 2.5,
 }) {
   // Handle file change event
   const onFileChange = (event) => {
@@ -18,12 +20,17 @@ export default function FileInputAtom({
   return (
     <div className="flex flex-col gap-0 truncate">
       <h1 className="text-sm sm:line-clamp-1">{label}</h1>
-      <div className="border-2 w-full rounded-md overflow-hidden h-10">
+      <div
+        className={`border-2 w-full ${
+          rounded ? "rounded-md" : "rounded-none"
+        } overflow-hidden`}
+        style={{ height: `${height}rem` }}
+      >
         <label
           htmlFor={name}
           className="cursor-pointer flex justify-start items-center w-full h-full bg-gray-100 hover:bg-gray-200"
         >
-          <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white">
+          <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white h-full">
             <MdFileUpload className="text-lg" />
             <h1 className="text-sm">Upload File</h1>
           </div>
