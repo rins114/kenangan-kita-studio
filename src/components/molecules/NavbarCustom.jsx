@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../atoms/Logo";
 import { Button } from "@nextui-org/react";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useNavigation } from "@/contexts/NavigationContext";
 
 export default function NavbarCustom() {
@@ -56,7 +56,11 @@ export default function NavbarCustom() {
       </div>
       {!pathname.startsWith("/landing/peraturan") && (
         <ul className="md:flex gap-5 h-full justify-start items-center font-bold hidden">
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
               onClick={() => scrollToSection("home")}
@@ -64,7 +68,11 @@ export default function NavbarCustom() {
               <p>BERANDA</p>
             </div>
           </li>
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
               onClick={() => navigate.push("/landing/peraturan")}
@@ -72,10 +80,14 @@ export default function NavbarCustom() {
               <p>PERATURAN</p>
             </div>
           </li>
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing/galeri" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/peraturan")}
+              onClick={() => navigate.push("/landing/galeri")}
             >
               <p>GALERI</p>
             </div>
@@ -88,12 +100,15 @@ export default function NavbarCustom() {
               MASUK
             </Button>
           </li>
-          
         </ul>
       )}
       {pathname.startsWith("/landing/peraturan") && (
         <ul className="md:flex gap-5 h-full justify-start items-center font-bold hidden">
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
               onClick={() => navigate.push("/landing")}
@@ -101,8 +116,11 @@ export default function NavbarCustom() {
               <p>BERANDA</p>
             </div>
           </li>
-
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
               onClick={() => navigate.push("/landing/peraturan")}
@@ -110,10 +128,14 @@ export default function NavbarCustom() {
               <p>PERATURAN</p>
             </div>
           </li>
-          <li className="cursor-pointer hover:text-secondaryColor">
+          <li
+            className={`cursor-pointer hover:text-secondaryColor ${
+              pathname === "/landing/galeri" ? "text-secondaryColor" : ""
+            }`}
+          >
             <div
               className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/peraturan")}
+              onClick={() => navigate.push("/landing/galeri")}
             >
               <p>GALERI</p>
             </div>
@@ -175,49 +197,31 @@ export default function NavbarCustom() {
           {!pathname.startsWith("/landing/peraturan") && (
             <>
               <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                  pathname === "/landing" ? "text-secondaryColor" : ""
+                }`}
                 onClick={() => scrollToSection("home")}
               >
                 BERANDA
               </div>
               <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                  pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
+                }`}
                 onClick={() => navigate.push("/landing/peraturan")}
               >
                 PERATURAN
               </div>
               <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
-                onClick={() => navigate.push("/landing/peraturan")}
+                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                  pathname === "/landing/galeri" ? "text-secondaryColor" : ""
+                }`}
+                onClick={() => navigate.push("/landing/galeri")}
               >
                 GALERI
               </div>
             </>
           )}
-
-          {pathname.startsWith("/landing/peraturan") && (
-            <>
-              <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
-                onClick={() => navigate.push("/landing")}
-              >
-                BERANDA
-              </div>
-              <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
-                onClick={() => navigate.push("/landing/peraturan")}
-              >
-                PERATURAN
-              </div>
-              <div
-                className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
-                onClick={() => navigate.push("/landing/peraturan")}
-              >
-                GALERI
-              </div>
-            </>
-          )}
-
           <div className="block rounded-md px-3 py-2">
             <Button
               className="!w-full font-bold bg-mainColor text-white text-base py-2"
