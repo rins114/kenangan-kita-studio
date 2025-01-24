@@ -20,9 +20,11 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/services/Authentication";
 import { showToast } from "@/utils/ShowToast";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
+  const { user } = useAuthUser();
 
   const handleLogout = async () => {
     const token = localStorage.getItem("access_token");
@@ -35,31 +37,31 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
     navigate.push("/signin");
   };
   return (
-    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2">
+    <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2 z-[99]">
       {/* <NavbarBrand>
         <Logo></Logo>
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand> */}
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+      <NavbarContent className="flex md:hidden gap-4" justify="start">
         {pathname.startsWith("/dashboard") ? (
           <NavbarItem>
             {isMenuOpen ? (
               <Button
                 isIconOnly
                 color="default"
-                onClick={() => setIsMenuOpen(false)}
+                onPress={() => setIsMenuOpen(false)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowForward className="text-lg" />
+                <IoIosArrowBack className="text-lg" />
               </Button>
             ) : (
               <Button
                 isIconOnly
                 color="default"
-                onClick={() => setIsMenuOpen(true)}
+                onPress={() => setIsMenuOpen(true)}
                 className="!rounded-none !rounded-r-full"
               >
-                <IoIosArrowBack className="text-lg" />
+                <IoIosArrowForward className="text-lg" />
               </Button>
             )}
           </NavbarItem>
@@ -71,7 +73,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
       <NavbarContent
         as="div"
         justify="center"
-        className="relative cursor-pointer"
+        className="relative cursor-pointer md:pl-5"
         onClick={() => {
           navigate.push("/landing");
         }}
@@ -97,13 +99,13 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 size="sm"
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
               />
-              <p>Diaz</p>
+              <p>{user?.name}</p>
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
             <DropdownItem
               key="team_settings"

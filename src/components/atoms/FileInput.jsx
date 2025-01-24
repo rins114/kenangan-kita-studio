@@ -16,8 +16,8 @@ export default function FileInputAtom({
   };
 
   return (
-    <div className="flex flex-col gap-0">
-      <h1 className="text-sm">{label}</h1>
+    <div className="flex flex-col gap-0 truncate">
+      <h1 className="text-sm sm:line-clamp-1">{label}</h1>
       <div className="border-2 w-full rounded-md overflow-hidden h-10">
         <label
           htmlFor={name}
@@ -25,7 +25,7 @@ export default function FileInputAtom({
         >
           <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white">
             <MdFileUpload className="text-lg" />
-            Upload File
+            <h1 className="text-sm">Upload File</h1>
           </div>
           <div className="py-2 px-3 text-gray-500 truncate">
             {fileName?.name ? fileName.name : "Tidak ada file yang di unggah"}

@@ -2,12 +2,17 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function SignUpForm() {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useRouter();
+  const [accountType, setAccountType] = useState("");
+
+  useEffect(() => {
+    console.log(accountType);
+  }, [accountType]);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   return (
@@ -20,6 +25,8 @@ export default function SignUpForm() {
           isRequired
           label="Tipe Akun"
           // defaultSelectedKeys={"0"}
+          value={accountType}
+          onChange={(e) => setAccountType(e.target.value)}
           className="w-full"
           variant="bordered"
           radius="none"
@@ -32,27 +39,29 @@ export default function SignUpForm() {
           </SelectItem>
         </Select>
 
-        <Select
-          isRequired
-          label="Tipe Pengguna"
-          // defaultSelectedKeys={"0"}
-          className="w-full"
-          variant="bordered"
-          radius="none"
-        >
-          <SelectItem key={"1"} value={"ppk"}>
-            PPK
-          </SelectItem>
-          <SelectItem key={"2"} value={"pa"}>
-            PA
-          </SelectItem>
-          <SelectItem key={"3"} value={"bendahara"}>
-            BENDAHARA
-          </SelectItem>
-          <SelectItem key={"4"} value={"pptk"}>
-            PPTK
-          </SelectItem>
-        </Select>
+        {accountType === "2" && (
+          <Select
+            isRequired
+            label="Tipe Pengguna"
+            // defaultSelectedKeys={"0"}
+            className="w-full"
+            variant="bordered"
+            radius="none"
+          >
+            <SelectItem key={"1"} value={"ppk"}>
+              PPK
+            </SelectItem>
+            <SelectItem key={"2"} value={"pa"}>
+              PA
+            </SelectItem>
+            <SelectItem key={"3"} value={"bendahara"}>
+              BENDAHARA
+            </SelectItem>
+            <SelectItem key={"4"} value={"pptk"}>
+              PPTK
+            </SelectItem>
+          </Select>
+        )}
 
         <Input
           isRequired

@@ -128,23 +128,25 @@ export default function DashboardPage() {
         {greeting ? greeting : "Halo"}, Selamat Datang di SIMPRO PBJ Kabupaten
         Sumbawa!
       </div>
-      <div className="w-full flex gap-5 justify-center items-start h-full">
-        <div className="flex flex-col w-1/2 border-2 rounded-md justify-center items-center h-full shadow-md bg-white min-h-96">
+      <div className="w-full flex flex-col lg:flex-row gap-5 justify-center items-center h-full">
+        <div className="flex flex-col w-full max-w-md xl:w-1/2 border-none rounded-md justify-center items-center min-h-96 shadow-none bg-white">
           <ReactApexChart
             options={columnChart.options}
             series={columnChart.series}
+            className="flex flex-col justify-center items-center"
             type="bar"
-            height={300}
-            width={500}
+            height="70%"
+            width="100%"
           />
         </div>
-        <div className="flex flex-col gap-3 w-1/2 border-2 rounded-md justify-center items-center h-full shadow-md bg-white min-h-96">
+        <div className="flex flex-col w-full max-w-md xl:w-1/2 border-none rounded-md justify-center items-center min-h-96 shadow-none bg-white">
           <ReactApexChart
             options={pieChart.options}
             series={pieChart.series}
+            className="flex justify-center items-center"
             type="pie"
-            height={300}
-            width={500}
+            height="45%"
+            width="100%"
           />
         </div>
         {/* <ReactPdfView></ReactPdfView> */}
