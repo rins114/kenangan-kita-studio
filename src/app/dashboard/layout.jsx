@@ -2,10 +2,34 @@
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import NavBar from "@/components/molecules/NavBar";
 import SideBar from "@/components/molecules/SideBar";
-import React from "react";
+import { useAuthUser } from "@/contexts/AuthUserContext";
+import useLogin from "@/hooks/useLogin";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 
 export default function DashboardLayout({ children }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { user, isAuthenticated } = useAuthUser();
+  const { isLoading } = useLogin();
+  const pathname = usePathname();
+  useEffect(() => {
+    function fetchUser() {
+      if (!isLoading && !isAuthenticated) {
+        return;
+      }
+      console.log(user);
+    }
+    fetchUser();
+  }, [user, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-10 h-10 border-t-4 border-mainColor border-solid rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex bg-gray-100 text-poppins">
       <div

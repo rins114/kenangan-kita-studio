@@ -11,7 +11,7 @@ export default function SignInForm() {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("password");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [invalidMessage, setInvalidMessage] = useState("");
@@ -38,13 +38,15 @@ export default function SignInForm() {
       await showToast("warning", "Email atau password salah");
       return;
     }
-    if (result.status === 500) {
-      await showToast("error", "Server error, coba lagi nanti");
+    if (result.status === 200) {
+      localStorage.setItem("access_token", result?.data?.token);
+      await showToast("success", "Login Berhasil");
+      // navigate.push("/dashboard");
+      window.location.href = "/dashboard";
       return;
     }
-    localStorage.setItem("access_token", result?.data?.token);
-    await showToast("success", "Login Berhasil");
-    navigate.push("/dashboard");
+    await showToast("error", "Server error, coba lagi nanti");
+    return;
   };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
