@@ -1,17 +1,25 @@
 import { useEffect } from "react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/utils/ShowToast";
 
 const useLogin = () => {
   const { user, isAuthenticated, isLoading } = useAuthUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) return;
-    if (user && !isLoading && !isAuthenticated) {
-      router.push("/signin");
-      return;
+    async function init() {
+      console.log(user);
+      if (isLoading) return;
+      console.log(isAuthenticated);
+      console.log(isLoading);
+      if (!isLoading && !isAuthenticated) {
+        await showToast("error", "Sesi Habis");
+        router.push("/signin");
+        return;
+      }
     }
+    init();
     // if (!user && !isAuthenticated && !isLoading) {
     //   router.push("/signin");
     //   return;

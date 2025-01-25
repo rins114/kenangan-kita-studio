@@ -34,7 +34,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
       return;
     }
     localStorage.removeItem("access_token");
-    navigate.push("/signin");
+    window.location.href = "/signin";
   };
   return (
     <Navbar className="shadow-md justify-between bg-white nav-nextui pr-5 py-2 z-[99]">

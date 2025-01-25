@@ -23,16 +23,6 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const { user, isAuthenticated } = useAuthUser();
   const { isLoading } = useLogin();
   const pathname = usePathname();
-  useEffect(() => {
-    function fetchUser() {
-      if (!isLoading && !isAuthenticated) {
-        console.log("loading");
-        return;
-      }
-      console.log(user);
-    }
-    fetchUser();
-  }, [user, isLoading]);
   return (
     <Sidebar
       // collapsed={true}
