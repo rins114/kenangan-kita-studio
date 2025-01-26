@@ -16,6 +16,8 @@ const UploadTable = () => {
     file: null,
     isUploaded: false,
   });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
 
   const openModal = (mode, document = null) => {
     setModalMode(mode);
@@ -56,13 +58,7 @@ const UploadTable = () => {
   };
 
   const handleSave = () => {
-    // Validasi form
-    if (
-      !formData.title ||
-      !formData.regulationNumber ||
-      !formData.legalProduct ||
-      !formData.file
-    ) {
+    if (!formData.title || !formData.regulationNumber || !formData.legalProduct || !formData.file) {
       alert("Harap lengkapi semua field!");
       return;
     }
@@ -71,35 +67,27 @@ const UploadTable = () => {
       setDocuments((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
     } else if (modalMode === "edit" && currentDocument) {
       setDocuments((prev) =>
-        prev.map((doc) =>
-          doc.id === currentDocument.id ? { ...formData, id: doc.id } : doc
-        )
+        prev.map((doc) => (doc.id === currentDocument.id ? { ...formData, id: doc.id } : doc))
       );
     }
     closeModal();
   };
 
   const handleDelete = (id) => {
-    const confirmDelete = confirm(
-      "Apakah Anda yakin ingin menghapus dokumen ini?"
-    );
+    const confirmDelete = confirm("Apakah Anda yakin ingin menghapus dokumen ini?");
     if (confirmDelete) {
       setDocuments((prev) => prev.filter((doc) => doc.id !== id));
     }
   };
 
   const handleUpload = (id) => {
-    setDocuments((prev) =>
-      prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: true } : doc))
-    );
-    alert("Dokumen berhasil diupload!");
+    setDocuments((prev) => prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: true } : doc)));
+    alert("Dokumen Berhasil Diterbitkan!");
   };
 
   const handleCancelUpload = (id) => {
-    setDocuments((prev) =>
-      prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: false } : doc))
-    );
-    alert("Upload dibatalkan!");
+    setDocuments((prev) => prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: false } : doc)));
+    alert("Penerbitan Dokumen Dibatalkan!");
   };
 
   const handleView = (id) => {
@@ -110,8 +98,40 @@ const UploadTable = () => {
     }
   };
 
+  const filteredDocuments = documents.filter(
+    (doc) =>
+      (doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doc.regulationNumber.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (filterCategory ? doc.legalProduct === filterCategory : true)
+  );
+
   return (
     <div className="p-6">
+      {/* Pencarian dan Filter */}
+      <div className="flex justify-end items-center mb-6 gap-4">
+        <div className="w-1/3">
+          <input
+            type="text"
+            placeholder="Cari berdasarkan judul atau nomor peraturan..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+        </div>
+        <div className="w-1/4">
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          >
+            <option value="">Semua Produk Hukum</option>
+            <option value="KEPWAL">KEPWAL</option>
+            <option value="PERWAL">PERWAL</option>
+            <option value="PERDA">PERDA</option>
+          </select>
+        </div>
+      </div>
+
       {/* Tombol Tambah Dokumen */}
       <button
         onClick={() => openModal("add")}
@@ -121,20 +141,14 @@ const UploadTable = () => {
       </button>
 
       {/* Tabel Dokumen */}
-      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300  w-full rounded-lg">
+      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg">
         <table className="min-w-full">
           <thead className="">
             <tr className="bg-gray-300">
               <th className="border-gray-400 px-4 py-2">No</th>
-              <th className="border-gray-400 px-4 py-2 text-start">
-                Judul Dokumen
-              </th>
-              <th className="border-gray-400 px-4 py-2 text-start">
-                Nomor Peraturan
-              </th>
-              <th className="border-gray-400 px-4 py-2 text-start">
-                Produk Hukum
-              </th>
+              <th className="border-gray-400 px-4 py-2 text-start">Judul Dokumen</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Nomor Peraturan</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Produk Hukum</th>
               <th className="border-gray-400 px-4 py-2">Tahun Peraturan</th>
               <th className="border-gray-400 px-4 py-2">Tanggal Upload</th>
               <th className="border-gray-400 px-4 py-2">Status</th>
@@ -142,30 +156,20 @@ const UploadTable = () => {
             </tr>
           </thead>
           <tbody>
-            {documents.length > 0 ? (
-              documents.map((doc, index) => (
+            {filteredDocuments.length > 0 ? (
+              filteredDocuments.map((doc, index) => (
                 <tr key={doc.id} className="hover:bg-gray-50 bg-white">
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    {index + 1}
-                  </td>
+                  <td className="border-gray-400 px-4 py-2 text-center">{index + 1}</td>
                   <td className="border-gray-400 px-4 py-2">{doc.title}</td>
-                  <td className="border-gray-400 px-4 py-2">
-                    {doc.regulationNumber}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2">
-                    {doc.legalProduct}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    {doc.year}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    {doc.uploadDate}
-                  </td>
+                  <td className="border-gray-400 px-4 py-2">{doc.regulationNumber}</td>
+                  <td className="border-gray-400 px-4 py-2">{doc.legalProduct}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">{doc.year}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">{doc.uploadDate}</td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     {doc.isUploaded ? (
-                      <span className="text-green-500">Published</span>
+                      <span className="text-green-500">Terbit</span>
                     ) : (
-                      <span className="text-yellow-500">Draft</span>
+                      <span className="text-danger-500">Draft</span>
                     )}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
@@ -224,17 +228,17 @@ const UploadTable = () => {
       {/* Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50"
-          onClick={(e) => {
-            if (e.target.classList.contains("bg-gray-600")) closeModal();
-          }}
+        className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+        onClick={(e) => {
+          if (e.target.classList.contains("bg-gray-900")) closeModal();
+        }}
+      >
+        <div
+          className="bg-white rounded-lg p-6 w-1/2 shadow-lg backdrop-blur-lg"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="bg-white rounded-lg p-6 w-1/2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-lg font-semibold mb-4">
-              {modalMode === "add" ? "Tambah Dokumen" : "Edit Dokumen"}
+            <h2 className="text-lg font-semibold mb-4 items-center justify-center">
+              {modalMode === "add" ? "TAMBAH DOKUMEN" : "EDIT DOKUMEN"}
             </h2>
             {/* Tombol Pilih File */}
             <div className="mb-4">
@@ -251,6 +255,12 @@ const UploadTable = () => {
                 onChange={handleFileChange}
                 className="hidden"
               />
+              {/* Menampilkan Nama File Jika Sudah Dipilih */}
+              {formData.file && (
+                <p className="mt-2 text-sm text-gray-600">
+                  Nama File Terpilih: <span className="font-medium">{formData.file.name}</span>
+                </p>
+              )}
             </div>
             {/* Form Input lainnya */}
             <div className="mb-4">
@@ -301,8 +311,7 @@ const UploadTable = () => {
                 name="year"
                 value={formData.year}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              >
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus">
                 {Array.from(
                   { length: 2025 - 1945 + 1 },
                   (_, i) => 1945 + i
@@ -316,7 +325,7 @@ const UploadTable = () => {
             <div className="flex justify-end">
               <button
                 onClick={closeModal}
-                className="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-600"
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-2"
               >
                 Batal
               </button>
