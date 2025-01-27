@@ -33,7 +33,7 @@ export default function SignUpPage() {
         </Button>
       </div>
       <section className="flex flex-col justify-center items-center w-full md:w-1/2 h-full px-2 sm:px-5">
-        <AuthContainer maxWidth="max-w-4xl">
+        <AuthContainer maxWidth="56rem">
           {/* <Logo size={150} bordered></Logo> */}
           <div className="w-1/3 justify-center items-center flex flex-col gap-1 mb-3">
             <h1 className="text-2xl">Sign Up</h1>
