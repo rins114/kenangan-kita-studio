@@ -8,23 +8,23 @@ const UsersTable = () => {
   const [users, setUsers] = useState([
     {
       id: 1,
-      username: "johndoe",
-      fullName: "John Doe",
-      email: "johndoe@example.com",
-      applicantType: "Penyedia",
-      userType: "Internal",
+      username: "@admin",
+      fullName: "Admin",
+      email: "admin@example.com",
+      applicantType: "Admin",
+      userType: "Admin",
       nip: "123456789",
       nik: "1234567890123456",
       npwp: "123.456.789-0",
-      institutionName: "ABC Company",
-      institutionAddress: "Jl. Example No. 1, Jakarta",
+      institutionName: "Dinas Kominfotik Sumbawa",
+      institutionAddress: "Jl. Contoh No. 1, Sumbawa",
       phoneNumber: "081234567890",
       skPosition: "",
       skFile: null,
     },
     {
       id: 2,
-      username: "janedoe",
+      username: "@janedoe",
       fullName: "Jane Doe",
       email: "janedoe@example.com",
       applicantType: "Non Penyedia",
@@ -33,7 +33,23 @@ const UsersTable = () => {
       nik: "6543210987654321",
       npwp: "987.654.321-0",
       institutionName: "Dinas Kominfotiksandi Kab. Sumbawa",
-      institutionAddress: "Jl. Contoh No. 2, Bandung",
+      institutionAddress: "Jl. Contoh No. 2, Sumbawa",
+      phoneNumber: "089876543210",
+      skPosition: "",
+      skFile: null,
+    },
+    {
+      id: 3,
+      username: "@johndoe",
+      fullName: "John Doe",
+      email: "janedoe@example.com",
+      applicantType: "Penyedia",
+      userType: "",
+      nip: "987654321",
+      nik: "6543210987654321",
+      npwp: "987.654.321-0",
+      institutionName: "CV. Sumber Makmoer",
+      institutionAddress: "Jl. Contoh No. 3, Sumbawa",
       phoneNumber: "089876543210",
       skPosition: "",
       skFile: null,
@@ -170,7 +186,7 @@ const UsersTable = () => {
               filteredUsers.map((user, index) => (
                 <tr key={user.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">{index + 1}</td>
-                  <td className="border-gray-400 px-4 py-2">{user.username}</td>
+                  <td className="border-gray-400 px-4 py-2 text-">{user.username}</td>
                   <td className="border-gray-400 px-4 py-2">{user.fullName}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
                   <td className="border-gray-400 px-4 py-2">{user.applicantType}</td>
