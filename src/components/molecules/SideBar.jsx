@@ -126,6 +126,17 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           >
             Dokumen Peraturan
           </Sidebar.Item>
+          <Sidebar.Item
+            className={`${
+              pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
+            } cursor-pointer`}
+            onClick={() => {
+              navigate.push("/dashboard/users");
+            }}
+            icon={HiUser}
+          >
+            Daftar Pengguna
+          </Sidebar.Item>
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
           </Sidebar.Item> */}

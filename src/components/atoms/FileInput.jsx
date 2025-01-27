@@ -32,7 +32,7 @@ export default function FileInputAtom({
         >
           <div className="w-[150px] bg-slate-500 py-2 px-3 flex justify-center items-center gap-1 text-white h-full">
             <MdFileUpload className="text-lg" />
-            <h1 className="text-sm">Upload File</h1>
+            <h1 className="text-sm">Unggah File</h1>
           </div>
           <div className="py-2 px-3 text-gray-500 truncate">
             {fileName?.name ? fileName.name : "Tidak ada file yang di unggah"}

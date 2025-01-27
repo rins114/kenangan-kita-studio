@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiUpload, FiEye, FiX } from "react-icons/fi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadTable = () => {
   const [documents, setDocuments] = useState([]);
@@ -55,20 +57,38 @@ const UploadTable = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, file });
+    toast.success("File dokumen ditambahkan")
   };
 
   const handleSave = () => {
     if (!formData.title || !formData.regulationNumber || !formData.legalProduct || !formData.file) {
-      alert("Harap lengkapi semua field!");
+      toast.error("Harap lengkapi semua kolom!");
       return;
     }
 
+    if (modalMode === "edit" && currentDocument) {
+      // Periksa apakah ada perubahan antara data sebelumnya dan yang baru
+      const isUnchanged =
+        formData.title === currentDocument.title &&
+        formData.regulationNumber === currentDocument.regulationNumber &&
+        formData.legalProduct === currentDocument.legalProduct &&
+        formData.year === currentDocument.year;
+  
+      if (isUnchanged) {
+        toast.info("Tidak ada pembaruan pada dokumen.");
+        closeModal();
+        return;
+      }
+    };
+
     if (modalMode === "add") {
       setDocuments((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
+      toast.success("Dokumen berhasil ditambahkan!");
     } else if (modalMode === "edit" && currentDocument) {
       setDocuments((prev) =>
         prev.map((doc) => (doc.id === currentDocument.id ? { ...formData, id: doc.id } : doc))
       );
+      toast.success("Dokumen berhasil diperbarui!");
     }
     closeModal();
   };
@@ -77,17 +97,18 @@ const UploadTable = () => {
     const confirmDelete = confirm("Apakah Anda yakin ingin menghapus dokumen ini?");
     if (confirmDelete) {
       setDocuments((prev) => prev.filter((doc) => doc.id !== id));
+      toast.error("Dokumen berhasil dihapus!")
     }
   };
 
   const handleUpload = (id) => {
     setDocuments((prev) => prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: true } : doc)));
-    alert("Dokumen Berhasil Diterbitkan!");
+    toast.success("Dokumen Berhasil Diterbitkan!");
   };
 
   const handleCancelUpload = (id) => {
     setDocuments((prev) => prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: false } : doc)));
-    alert("Penerbitan Dokumen Dibatalkan!");
+    toast.error("Penerbitan Dokumen Dibatalkan!");
   };
 
   const handleView = (id) => {
@@ -224,6 +245,21 @@ const UploadTable = () => {
           </tbody>
         </table>
       </div>
+
+      {/* ToastContainer */}
+       <ToastContainer
+          position="top-center"
+          autoClose={1500}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          style={{ zIndex: 999999 }}
+       />
 
       {/* Modal */}
       {isModalOpen && (

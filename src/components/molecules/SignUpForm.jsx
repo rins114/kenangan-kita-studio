@@ -25,7 +25,9 @@ export default function SignUpForm() {
         <div className="flex flex-col w-full gap-3">
           <Select
             isRequired
-            label="Tipe Akun"
+            labelPlacement="outside"
+            placeholder="Pilih Tipe Pemohon Anda..."
+            label="Tipe Pemohon"
             // defaultSelectedKeys={"0"}
             value={accountType}
             onChange={(e) => setAccountType(e.target.value)}
@@ -44,6 +46,8 @@ export default function SignUpForm() {
           {accountType === "2" && (
             <Select
               isRequired
+              labelPlacement="outside"
+              placeholder="Pilih Tipe Pengguna Anda..."
               label="Tipe Pengguna"
               // defaultSelectedKeys={"0"}
               className="w-full"
@@ -67,6 +71,8 @@ export default function SignUpForm() {
 
           <Input
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Alamat Email Anda..."
             type="email"
             label="Email"
             variant="bordered"
@@ -76,6 +82,8 @@ export default function SignUpForm() {
           <Input
             label="Password"
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Password Anda..."
             variant="bordered"
             radius="none"
             endContent={
@@ -98,6 +106,8 @@ export default function SignUpForm() {
           <Input
             label="Confirm Password"
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Konfirmasi Password..."
             variant="bordered"
             radius="none"
             endContent={
@@ -121,6 +131,8 @@ export default function SignUpForm() {
         <div className="flex flex-col w-full gap-3">
           <Input
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Nama Lengkap Anda..."
             type="text"
             label="Nama Lengkap"
             variant="bordered"
@@ -129,6 +141,8 @@ export default function SignUpForm() {
           />
           <Input
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Nomor Nama Instansi Anda..."
             type="text"
             label="Nama Instansi"
             variant="bordered"
@@ -137,6 +151,8 @@ export default function SignUpForm() {
           />
           <Input
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Nomor NIK Anda..."
             type="text"
             label="NIK"
             variant="bordered"
@@ -145,24 +161,27 @@ export default function SignUpForm() {
           />
           <Input
             isRequired
+            labelPlacement="outside"
+            placeholder="Masukkan Nomor NIP Anda..."
             type="text"
             label="NIP"
             variant="bordered"
             className="w-full !border-transparent"
             radius="none"
           />
+          {accountType === "2" && (
+          <FileInputAtom
+            handleFileChange={() => {}}
+            label="SK Jabatan"
+            name="sk_jabatan"
+            fileName={"sk_jabatan"}
+            height={3}
+            rounded={false}
+          />
+          )}
         </div>
       </div>
-      <div className="w-full">
-        <FileInputAtom
-          handleFileChange={() => {}}
-          label="Sk Jabatan"
-          name="sk_jabatan"
-          fileName={"sk_jabatan"}
-          height={3}
-          rounded={false}
-        />
-      </div>
+      
       <Button
         type="submit"
         size="lg"
