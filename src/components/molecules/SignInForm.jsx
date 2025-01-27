@@ -59,6 +59,8 @@ export default function SignInForm() {
       <div className="flex flex-col w-full gap-3">
         <Input
           isRequired
+          labelPlacement="outside"
+          placeholder="Masukkan Email Anda..."
           type="email"
           label="Email"
           variant="bordered"
@@ -72,6 +74,8 @@ export default function SignInForm() {
         <Input
           label="Password"
           isRequired
+          labelPlacement="outside"
+          placeholder="Masukkan Password Anda..."
           variant="bordered"
           errorMessage={invalidMessage}
           radius="none"
