@@ -6,19 +6,23 @@ import Logo from "../atoms/Logo";
 import { Button } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useNavigation } from "@/contexts/NavigationContext";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 
 export default function NavbarCustom() {
   const navigate = useRouter();
   const pathname = usePathname();
   const { scrollToSection } = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isAuthenticated } = useAuthUser();
 
   const menuRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
-
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   useEffect(() => {
     if (isMenuOpen) {
       gsap.to(menuRef.current, {
@@ -54,102 +58,66 @@ export default function NavbarCustom() {
           heightSize="55"
         ></Logo>
       </div>
-      {!pathname.startsWith("/landing/peraturan") && (
-        <ul className="md:flex gap-5 h-full justify-start items-center font-bold hidden">
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing" ? "text-secondaryColor" : ""
-            }`}
+      <ul className="md:flex gap-5 h-full justify-start items-center font-semibold hidden">
+        <li
+          className={`cursor-pointer hover:text-secondaryColor ${
+            pathname === "/landing" ? "text-secondaryColor" : ""
+          }`}
+        >
+          <div
+            className="py-2 lg:px-3"
+            onClick={() => navigate.push("/landing")}
           >
-            <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => scrollToSection("home")}
-            >
-              <p>BERANDA</p>
-            </div>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
-            }`}
+            <p>BERANDA</p>
+          </div>
+        </li>
+        <li
+          className={`cursor-pointer hover:text-secondaryColor ${
+            pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
+          }`}
+        >
+          <div
+            className="py-2 lg:px-3"
+            onClick={() => navigate.push("/landing/peraturan")}
           >
-            <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/peraturan")}
-            >
-              <p>PERATURAN</p>
-            </div>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing/galeri" ? "text-secondaryColor" : ""
-            }`}
+            <p>PERATURAN</p>
+          </div>
+        </li>
+        <li
+          className={`cursor-pointer hover:text-secondaryColor ${
+            pathname === "/landing/galeri" ? "text-secondaryColor" : ""
+          }`}
+        >
+          <div
+            className="py-2 lg:px-3"
+            onClick={() => navigate.push("/landing/galeri")}
           >
-            <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/galeri")}
-            >
-              <p>GALERI</p>
-            </div>
-          </li>
-          <li>
+            <p>GALERI</p>
+          </div>
+        </li>
+        <li>
+          {!isAuthenticated ? (
             <Button
-              className="!rounded-3xl bg-mainColor text-white px-7 font-bold shadow-xl"
-              onClick={() => navigate.push("/signin")}
+              className="bg-mainColor rounded-full !text-white font-semibold py-2 px-5"
+              onPress={() => navigate.push("/signin")}
             >
               MASUK
             </Button>
-          </li>
-        </ul>
-      )}
-      {pathname.startsWith("/landing/peraturan") && (
-        <ul className="md:flex gap-5 h-full justify-start items-center font-bold hidden">
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing" ? "text-secondaryColor" : ""
-            }`}
-          >
+          ) : (
             <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing")}
+              className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
+              onClick={() => {
+                navigate.push("dashboard");
+              }}
             >
-              <p>BERANDA</p>
+              <h1 className="!font-normal">
+                {/* Logged in as{" "} */}
+                <span className="text-secondaryColor">{user?.name}</span>
+              </h1>
             </div>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
-            }`}
-          >
-            <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/peraturan")}
-            >
-              <p>PERATURAN</p>
-            </div>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-secondaryColor ${
-              pathname === "/landing/galeri" ? "text-secondaryColor" : ""
-            }`}
-          >
-            <div
-              className="py-2 lg:px-3 font-bold"
-              onClick={() => navigate.push("/landing/galeri")}
-            >
-              <p>GALERI</p>
-            </div>
-          </li>
-          <li>
-            <Button
-              className="!rounded-md font-bold bg-mainColor text-white px-7"
-              onClick={() => navigate.push("/signin")}
-            >
-              MASUK
-            </Button>
-          </li>
-        </ul>
-      )}
+          )}
+        </li>
+      </ul>
 
       <div className="absolute inset-y-0 right-5 flex items-center md:hidden">
         <button
@@ -222,14 +190,20 @@ export default function NavbarCustom() {
               </div>
             </>
           )}
-          <div className="block rounded-md px-3 py-2">
-            <Button
-              className="!w-full font-bold bg-mainColor text-white text-base py-2"
-              onClick={() => navigate.push("/signin")}
-            >
-              MASUK
-            </Button>
-          </div>
+          {!isAuthenticated ? (
+            <div className="block rounded-md px-3 py-2">
+              <Button
+                className="!w-full font-bold bg-mainColor text-white text-base py-2"
+                onPress={() => navigate.push("/signin")}
+              >
+                MASUK
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <h1>{user?.name}</h1>
+            </div>
+          )}
         </div>
       </div>
     </nav>
