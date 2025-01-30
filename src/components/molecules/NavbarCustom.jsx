@@ -107,7 +107,7 @@ export default function NavbarCustom() {
             <div
               className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
               onClick={() => {
-                navigate.push("dashboard");
+                navigate.push("/dashboard");
               }}
             >
               <Avatar></Avatar>
