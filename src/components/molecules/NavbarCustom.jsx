@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../atoms/Logo";
-import { Button } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useNavigation } from "@/contexts/NavigationContext";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -110,10 +110,11 @@ export default function NavbarCustom() {
                 navigate.push("dashboard");
               }}
             >
-              <h1 className="!font-normal">
-                {/* Logged in as{" "} */}
+              <Avatar></Avatar>
+              {/* <h1 className="!font-normal">
+                Logged in as{" "}
                 <span className="text-secondaryColor">{user?.name}</span>
-              </h1>
+              </h1> */}
             </div>
           )}
         </li>
