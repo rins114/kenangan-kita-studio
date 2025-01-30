@@ -17,7 +17,8 @@ export default function LandingPageLayout({ children }) {
       <div className="w-full">
         <InfoBar></InfoBar>
         <NavbarCustom></NavbarCustom>
-        {!pathname.startsWith("/landing/peraturan") && <Hero></Hero>}
+        {!pathname.startsWith("/landing/peraturan") &&
+          !pathname.startsWith("/landing/galeri") && <Hero></Hero>}
         {children}
         <Footer></Footer>
       </div>
