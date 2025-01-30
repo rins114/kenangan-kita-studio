@@ -1,6 +1,7 @@
 "use client";
+import Swal from 'sweetalert2';
 import React, { useState } from "react";
-import { FiEdit, FiTrash2, FiEye } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiEye, FiX, FiCheck, FiSearch } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,11 +18,12 @@ const UsersTable = () => {
       nik: "1234567890123456",
       npwp: "123.456.789-0",
       institutionName: "Dinas Kominfotik Sumbawa",
-      institutionAddress: "Jl. Contoh No. 1, Sumbawa",
+      institutionAddress: "Jl. Contoh No. 1, Sumbawa, Nusa Tenggara Barat, Indonesia",
       phoneNumber: "081234567890",
       skPosition: "",
       skFile: null,
-    },
+      isVerified: true, // Baru ditambahkan
+    },    
     {
       id: 2,
       username: "@janedoe",
@@ -32,11 +34,12 @@ const UsersTable = () => {
       nip: "987654321",
       nik: "6543210987654321",
       npwp: "987.654.321-0",
-      institutionName: "Dinas Kominfotiksandi Kab. Sumbawa",
-      institutionAddress: "Jl. Contoh No. 2, Sumbawa",
+      institutionName: "Dinas Pemadam Kebakaran dan Keselamatan Kab. Sumbawa",
+      institutionAddress: "Jl. Contoh No. 2, Sumbawa, Nusa Tenggara Barat, Indonesia",
       phoneNumber: "089876543210",
       skPosition: "",
       skFile: null,
+      isVerified: false, // Baru ditambahkan
     },
     {
       id: 3,
@@ -53,6 +56,7 @@ const UsersTable = () => {
       phoneNumber: "089876543210",
       skPosition: "",
       skFile: null,
+      isVerified: false, // Baru ditambahkan
     },
   ]);
 
@@ -71,16 +75,51 @@ const UsersTable = () => {
   };
 
   const handleEdit = (user) => {
-    setEditedUser({ ...user, skFile: user.skFile });
+    setEditedUser({ ...user, skFile: user.skFile, isVerified: user.isVerified });
     setIsEditModalOpen(true);
   };
 
-  const handleDelete = (id) => {
-    if (confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) {
-      setUsers(users.filter((user) => user.id !== id));
-      toast.error("Pengguna berhasil dihapus.");
+  const handleVerificationToggle = () => {
+    if (!editedUser.isVerified) {
+      // Jika sebelumnya belum terverifikasi, ubah menjadi terverifikasi
+      setEditedUser({ ...editedUser, isVerified: true });
+
+      // Tampilkan toast sukses
+      toast.success("Pengguna berhasil diverifikasi!");
+    } else {
+      // Jika sebelumnya terverifikasi, ubah menjadi belum terverifikasi
+      setEditedUser({ ...editedUser, isVerified: false });
+
+      // Tampilkan toast info
+      toast.error("Verifikasi pengguna dibatalkan.");
     }
   };
+ 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Apakah Anda Yakin?',
+      text: 'Pengguna yang dihapus tidak dapat dikembalikan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Menghapus pengguna dari daftar
+        setUsers(users.filter((user) => user.id !== id));
+
+        // Tampilkan pesan SweetAlert berhasil
+        Swal.fire({
+          title: 'Berhasil!',
+          text: 'Pengguna telah dihapus.',
+          icon: 'success',
+          confirmButtonColor: '#3085d6',
+        });
+      }
+    });
+  };  
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -112,7 +151,7 @@ const UsersTable = () => {
   
     // Jika tidak ada perubahan, tampilkan toast info
     if (isUnchanged && !skFile) {
-      toast.info("Tidak ada pembaruan yang dilakukan.");
+      toast.info("Tidak ada pembaruan.");
     } else {
       // Jika ada perubahan, update data pengguna
       const updatedUsers = users.map((user) =>
@@ -122,8 +161,7 @@ const UsersTable = () => {
       closeEditModal();
       toast.success("Data pengguna berhasil diperbarui!");
     }
-  };  
-  
+  };
 
   const handleSkFileChange = (e) => {
     const file = e.target.files[0];
@@ -132,6 +170,7 @@ const UsersTable = () => {
       // Periksa apakah file berformat PDF
       if (file.type === "application/pdf") {
         setSkFile(file);
+        toast.success("File PDF diunggah!")
       } else {
         // Tampilkan toast error jika file bukan PDF
         toast.error("Hanya file PDF yang diizinkan.");
@@ -150,17 +189,20 @@ const UsersTable = () => {
     <div className="p-6">
       {/* Search and Filter */}
       <div className="flex justify-end mb-4 gap-4">
-        <input
-          type="text"
-          placeholder="Cari Nama Lengkap..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="border px-4 py-2 rounded"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Cari..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="block pl-10 pr-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        </div>
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="border px-4 py-2 rounded"
+          className="block px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         >
           <option value="">Semua Tipe Pemohon</option>
           <option value="Penyedia">Penyedia</option>
@@ -173,12 +215,13 @@ const UsersTable = () => {
         <table className="min-w-full">
           <thead>
             <tr className="bg-gray-300">
-              <th className="border-gray-400 px-4 py-2">No</th>
-              <th className="border-gray-400 px-4 py-2 text-start">Nama Pengguna</th>
-              <th className="border-gray-400 px-4 py-2 text-start">Nama Lengkap</th>
-              <th className="border-gray-400 px-4 py-2 text-start">Email</th>
-              <th className="border-gray-400 px-4 py-2 text-start">Tipe Pemohon</th>
-              <th className="border-gray-400 px-4 py-2">Aksi</th>
+              <th className="border-gray-400 px-4 py-2 text-center">No</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Nama Pengguna</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Nama Lengkap</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Email</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Tipe Pemohon</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Status</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -189,7 +232,12 @@ const UsersTable = () => {
                   <td className="border-gray-400 px-4 py-2">{user.username}</td>
                   <td className="border-gray-400 px-4 py-2">{user.fullName}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
-                  <td className="border-gray-400 px-4 py-2">{user.applicantType}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">{user.applicantType}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">
+                    <span className={user.isVerified ? "text-green-500" : "text-red-500"}>
+                    {user.isVerified ? "Terverifikasi" : "Belum Terverifikasi"}
+                    </span>
+                  </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <div className="flex flex-row gap-1 justify-center items-center">
                       <button
@@ -231,8 +279,8 @@ const UsersTable = () => {
       {/* ToastContainer */}
        <ToastContainer
           position="top-center"
-          autoClose={2000}
-          hideProgressBar={true}
+          autoClose={1000}
+          hideProgressBar={false}
           newestOnTop={false}
           closeOnClick={true}
           rtl={false}
@@ -241,6 +289,7 @@ const UsersTable = () => {
           pauseOnHover
           theme="colored"
           style={{ zIndex: 999999 }}
+          limit={1}
        />
 
       {/* Modal Detail Pengguna */}
@@ -252,22 +301,73 @@ const UsersTable = () => {
           }}
         >
           <div
-            className="bg-white rounded-lg p-6 w-2/3 shadow-lg"
+            className="bg-white rounded-lg p-8 shadow-lg w-1/2 h-fit overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold mb-4">Detail Pengguna</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <p><strong>Nama Pengguna:</strong> {currentUser.username}</p>
-              <p><strong>Nama Lengkap:</strong> {currentUser.fullName}</p>
-              <p><strong>Email:</strong> {currentUser.email}</p>
-              <p><strong>Tipe Pemohon:</strong> {currentUser.applicantType}</p>
-              <p><strong>Tipe Pengguna:</strong> {currentUser.userType}</p>
-              <p><strong>NIP:</strong> {currentUser.nip}</p>
-              <p><strong>NIK:</strong> {currentUser.nik}</p>
-              <p><strong>NPWP:</strong> {currentUser.npwp}</p>
-              <p><strong>Nama Instansi:</strong> {currentUser.institutionName}</p>
-              <p><strong>Alamat Instansi:</strong> {currentUser.institutionAddress}</p>
-              <p><strong>No. HP:</strong> {currentUser.phoneNumber}</p>
+            <h2 className="text-lg font-bold mb-4 text-center">DETAIL PENGGUNA</h2>
+            <div className="grid w-full justify-center items-center mb-3">
+              <p className="text-center"><strong>Status :</strong> 
+              <span className=
+                {currentUser.isVerified ? "text-green-500" : "text-red-500"}>
+                {currentUser.isVerified ? " Terverifikasi" : " Belum Terverifikasi"}
+                </span></p>
+            </div>
+            <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto">
+              <p>
+                <strong>Nama Pengguna :</strong>
+                <br /> 
+                {currentUser.username}
+              </p>
+              <p>
+                <strong>Nama Lengkap :</strong>
+                <br />
+                {currentUser.fullName}
+              </p>
+              <p>
+                <strong>Email:</strong>
+                <br />
+                {currentUser.email}
+              </p>
+              <p>
+                <strong>Tipe Pemohon:</strong>
+                <br />
+                {currentUser.applicantType}
+              </p>
+              <p>
+                <strong>Tipe Pengguna:</strong>
+                <br />
+                {currentUser.userType}
+              </p>
+              <p>
+                <strong>NIP:</strong>
+                <br />
+                {currentUser.nip}
+              </p>
+              <p>
+                <strong>NIK:</strong>
+                <br />
+                {currentUser.nik}
+              </p>
+              <p>
+                <strong>NPWP:</strong>
+                <br />
+                {currentUser.npwp}
+              </p>
+              <p>
+                <strong>Nama Instansi:</strong>
+                <br />
+                {currentUser.institutionName}
+              </p>
+              <p>
+                <strong>Alamat Instansi:</strong>
+                <br />
+                {currentUser.institutionAddress}
+              </p>
+              <p>
+                <strong>No. HP:</strong>
+                <br />
+                {currentUser.phoneNumber}
+              </p>
               <p>
                 <strong>SK Jabatan: </strong>
                 {currentUser.skFile ? (
@@ -289,7 +389,7 @@ const UsersTable = () => {
                 )}
               </p>
             </div>
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-center">
               <button
                 onClick={closeModal}
                 className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
@@ -315,19 +415,39 @@ const UsersTable = () => {
           >
             <h2 className="text-lg font-semibold mb-4">Edit Pengguna</h2>
             <form>
+              <div className="flex justify-center items-center w-full mb-5">
+                <label className="block">Status Verifikasi : </label>
+                <div className="flex items-center gap-4">
+                  {/* Tampilkan status verifikasi dengan ikon */}
+                  {editedUser.isVerified ? (
+                    <div className="flex items-center gap-2 m-2">
+                      <FiCheck className="w-5 h-5 text-green-500" />
+                      <span className="font-semibold text-green-500">
+                      Terverifikasi</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 m-2">
+                      <FiX className="w-5 h-5 text-red-500" />
+                      <span className="font-semibold text-red-500">
+                      Belum Terverifikasi</span>
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block">Nama Pengguna</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.username}
-                    disabled
                     className="border px-4 py-2 w-full"
                   />
                 </div>
                 <div>
                   <label className="block">Nama Lengkap</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.fullName}
                     onChange={(e) =>
@@ -339,6 +459,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Email</label>
                   <input
+                    disabled
                     type="email"
                     value={editedUser.email}
                     onChange={(e) =>
@@ -362,14 +483,20 @@ const UsersTable = () => {
                 </div>
                 <div>
                   <label className="block">Tipe Pengguna</label>
-                  <input
-                    type="text"
+                  <select
                     value={editedUser.userType}
                     onChange={(e) =>
                       setEditedUser({ ...editedUser, userType: e.target.value })
                     }
                     className="border px-4 py-2 w-full"
-                  />
+                    placeholder="PILIH"
+                  >
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="PA">PA</option>
+                    <option value="BENDAHARA">BENDAHARA</option>
+                    <option value="PPK">BENDAHARA</option>
+                    <option value="PPTK">BENDAHARA</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block">NIP</label>
@@ -472,7 +599,28 @@ const UsersTable = () => {
                 </div>
               </div>
             </form>
-            <div className="mt-4 flex justify-center gap-2">
+            <div className="mt-4 flex justify-center gap-4">
+              {/* Tombol Verifikasi atau Batalkan Verifikasi */}
+              {!editedUser.isVerified ? (
+              <button
+                type="button"
+                onClick={handleVerificationToggle}
+                className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 flex items-center gap-2"
+              >
+                <FiCheck className="w-5 h-5" />
+                Verifikasi
+              </button>
+              
+              ) : (
+              <button
+                type="button"
+                onClick={handleVerificationToggle}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 flex items-center gap-2"
+              >
+                <FiX className="w-5 h-5" />
+                Batalkan Verifikasi
+              </button>
+                  )}
               <button
                 onClick={closeEditModal}
                 className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
