@@ -1,6 +1,7 @@
 "use client";
+import Swal from 'sweetalert2';
 import React, { useState } from "react";
-import { FiEdit, FiTrash2, FiUpload, FiEye, FiX } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiUpload, FiEye, FiX, FiCheck, FiSearch} from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -75,15 +76,19 @@ const UploadTable = () => {
         formData.year === currentDocument.year;
   
       if (isUnchanged) {
-        toast.info("Tidak ada pembaruan pada dokumen.");
-        closeModal();
+        toast.info("Tidak ada pembaruan!.");
         return;
       }
     };
 
     if (modalMode === "add") {
       setDocuments((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
-      toast.success("Dokumen berhasil ditambahkan!");
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Dokumen telah ditambahkan.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+      });
     } else if (modalMode === "edit" && currentDocument) {
       setDocuments((prev) =>
         prev.map((doc) => (doc.id === currentDocument.id ? { ...formData, id: doc.id } : doc))
@@ -94,12 +99,28 @@ const UploadTable = () => {
   };
 
   const handleDelete = (id) => {
-    const confirmDelete = confirm("Apakah Anda yakin ingin menghapus dokumen ini?");
-    if (confirmDelete) {
+    Swal.fire({
+      title: 'Apakah Anda Yakin?',
+      text: 'Dokumen yang dihapus tidak dapat dikembalikan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
       setDocuments((prev) => prev.filter((doc) => doc.id !== id));
-      toast.error("Dokumen berhasil dihapus!")
+      // Tampilkan pesan SweetAlert berhasil
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Dokumen telah dihapus.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+      });
     }
-  };
+  });
+};  
 
   const handleUpload = (id) => {
     setDocuments((prev) => prev.map((doc) => (doc.id === id ? { ...doc, isUploaded: true } : doc)));
@@ -129,37 +150,25 @@ const UploadTable = () => {
   return (
     <div className="p-6">
       {/* Pencarian dan Filter */}
-      <div className="flex justify-end items-center mb-6 gap-4">
-        <div className="w-1/3">
+      <div className="flex justify-between items-center mb-6">
+        {/* Tombol Tambah Dokumen */}
+        <button
+          onClick={() => openModal("add")}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2">
+          <FiUpload/>
+          Tambah Dokumen
+        </button>
+        <div className="relative">
           <input
             type="text"
-            placeholder="Cari berdasarkan judul atau nomor peraturan..."
+            placeholder="Cari..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="block w-full pr-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
-        <div className="w-1/4">
-          <select
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-            className="block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          >
-            <option value="">Semua Produk Hukum</option>
-            <option value="KEPWAL">KEPWAL</option>
-            <option value="PERWAL">PERWAL</option>
-            <option value="PERDA">PERDA</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Tombol Tambah Dokumen */}
-      <button
-        onClick={() => openModal("add")}
-        className="mb-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Tambah Dokumen
-      </button>
+      </div>   
 
       {/* Tabel Dokumen */}
       <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg">
@@ -249,8 +258,8 @@ const UploadTable = () => {
       {/* ToastContainer */}
        <ToastContainer
           position="top-center"
-          autoClose={1500}
-          hideProgressBar={true}
+          autoClose={1000}
+          hideProgressBar={false}
           newestOnTop={false}
           closeOnClick={true}
           rtl={false}
@@ -259,6 +268,7 @@ const UploadTable = () => {
           pauseOnHover
           theme="colored"
           style={{ zIndex: 999999 }}
+          limit={1}
        />
 
       {/* Modal */}
@@ -282,7 +292,8 @@ const UploadTable = () => {
                 onClick={() => document.getElementById("file-input").click()}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
               >
-                Pilih File (PDF)
+                <FiUpload className="inline mr-2"/>
+                Pilih File (.pdf)
               </button>
               <input
                 id="file-input"
