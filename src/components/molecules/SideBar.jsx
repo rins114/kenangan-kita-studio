@@ -73,7 +73,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           >
             Dashboard
           </Sidebar.Item>
-          <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
+          {user.roles !== 'Admin' && <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
             <Sidebar.Item
               onClick={() => {
                 navigate.push("/dashboard/clearing-house");
@@ -100,11 +100,11 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             >
               Verifikasi Berkas
             </Sidebar.Item>
-          </Sidebar.Collapse>
+          </Sidebar.Collapse>}
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item
+          {user.roles !== 'Admin' && <Sidebar.Item
             className={`${
               pathname === "/dashboard/permohonan" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -114,7 +114,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={FaListUl}
           >
             Daftar Permohonan
-          </Sidebar.Item>
+          </Sidebar.Item>}
           <Sidebar.Item
             className={`${
               pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
