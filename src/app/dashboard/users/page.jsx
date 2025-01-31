@@ -317,8 +317,8 @@ const UsersTable = () => {
             <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto text-sm">
               <p>
                 <strong>Nama Pengguna :</strong>
-                <br /> 
-                <p className="italic">{currentUser.username}</p>
+                <br />
+                <span className="italic">{currentUser.username}</span>
               </p>
               <p>
                 <strong>Nama Lengkap :</strong>
