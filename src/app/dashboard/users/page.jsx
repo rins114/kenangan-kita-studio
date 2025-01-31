@@ -186,7 +186,7 @@ const UsersTable = () => {
   );
 
   return (
-    <div className="p-6">
+    <div className="p-5">
       {/* Search and Filter */}
       <div className="flex justify-end mb-4 gap-4">
         <div className="relative">
@@ -195,14 +195,16 @@ const UsersTable = () => {
             placeholder="Cari..."
             value={searchTerm}
             onChange={handleSearch}
-            className="block pl-10 pr-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            onFocus={(e) => e.target.nextSibling.classList.add('text-gray-950')}
+            onBlur={(e) => e.target.nextSibling.classList.remove('text-gray-950')}
+            className="block w-full pl-10 pr-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="block px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className="block px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-gray-950 focus:border-gray-950 sm:text-sm"
         >
           <option value="">Semua Tipe Pemohon</option>
           <option value="Penyedia">Penyedia</option>
@@ -211,15 +213,15 @@ const UsersTable = () => {
       </div>
 
       {/* Tabel Pengguna */}
-      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg">
+      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg text-sm">
         <table className="min-w-full">
           <thead>
             <tr className="bg-gray-300">
-              <th className="border-gray-400 px-4 py-2 text-center">No</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Nama Pengguna</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Nama Lengkap</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Email</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Tipe Pemohon</th>
+              <th className="border-gray-400 px-4 py-2 text-center">No.</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Nama Pengguna</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Nama Lengkap</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Email</th>
+              <th className="border-gray-400 px-4 py-2 text-start">Tipe Pemohon</th>
               <th className="border-gray-400 px-4 py-2 text-center">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
@@ -232,7 +234,7 @@ const UsersTable = () => {
                   <td className="border-gray-400 px-4 py-2">{user.username}</td>
                   <td className="border-gray-400 px-4 py-2">{user.fullName}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
-                  <td className="border-gray-400 px-4 py-2 text-center">{user.applicantType}</td>
+                  <td className="border-gray-400 px-4 py-2">{user.applicantType}</td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <span className={user.isVerified ? "text-green-500" : "text-red-500"}>
                     {user.isVerified ? "Terverifikasi" : "Belum Terverifikasi"}
@@ -295,24 +297,24 @@ const UsersTable = () => {
       {/* Modal Detail Pengguna */}
       {isModalOpen && currentUser && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
           onClick={(e) => {
             if (e.target.classList.contains("bg-gray-900")) closeModal();
           }}
         >
           <div
-            className="bg-white rounded-lg p-8 shadow-lg w-1/2 h-fit overflow-y-auto"
+            className="bg-white rounded-lg p-8 w-full md:w-1/2 shadow-lg h-fit overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-bold mb-4 text-center">DETAIL PENGGUNA</h2>
-            <div className="grid w-full justify-center items-center mb-3">
+            <h2 className="text-lg font-bold mb-2 text-center">DETAIL PENGGUNA</h2>
+            <div className="grid w-full justify-center items-center mb-2 text-sm">
               <p className="text-center"><strong>Status :</strong> 
               <span className=
                 {currentUser.isVerified ? "text-green-500" : "text-red-500"}>
                 {currentUser.isVerified ? " Terverifikasi" : " Belum Terverifikasi"}
                 </span></p>
             </div>
-            <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto text-sm">
               <p>
                 <strong>Nama Pengguna :</strong>
                 <br /> 
@@ -389,10 +391,10 @@ const UsersTable = () => {
                 )}
               </p>
             </div>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-2 flex justify-center">
               <button
                 onClick={closeModal}
-                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-sm"
               >
                 Tutup
               </button>
@@ -404,19 +406,19 @@ const UsersTable = () => {
       {/* Modal Edit Pengguna */}
       {isEditModalOpen && editedUser && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999] overflow-y-auto p-4"
           onClick={(e) => {
             if (e.target.classList.contains("bg-gray-900")) closeEditModal();
           }}
         >
           <div
-            className="bg-white rounded-lg p-6 w-2/3 shadow-lg"
+            className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold mb-4">Edit Pengguna</h2>
+            <h2 className="text-lg font-semibold mb-2 text-center">UBAH PENGGUNA</h2>
             <form>
-              <div className="flex justify-center items-center w-full mb-5">
-                <label className="block">Status Verifikasi : </label>
+              <div className="flex justify-center items-center w-full mb-2 text-sm">
+                <label className="block text-center">Status Verifikasi : </label>
                 <div className="flex items-center gap-4">
                   {/* Tampilkan status verifikasi dengan ikon */}
                   {editedUser.isVerified ? (
@@ -434,7 +436,7 @@ const UsersTable = () => {
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
                   <label className="block">Nama Pengguna</label>
                   <input
@@ -599,7 +601,7 @@ const UsersTable = () => {
                 </div>
               </div>
             </form>
-            <div className="mt-4 flex justify-center gap-4">
+            <div className="mt-4 flex justify-center gap-4 text-sm">
               {/* Tombol Verifikasi atau Batalkan Verifikasi */}
               {!editedUser.isVerified ? (
               <button

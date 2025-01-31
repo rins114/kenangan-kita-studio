@@ -148,15 +148,17 @@ const UploadTable = () => {
   );
 
   return (
-    <div className="p-6">
+    <div className="p-5">
       {/* Pencarian dan Filter */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 gap-2">
         {/* Tombol Tambah Dokumen */}
         <button
           onClick={() => openModal("add")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2">
-          <FiUpload/>
-          Tambah Dokumen
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
+        >
+          <FiUpload className="text-sm"/>
+          <span className="hidden sm:inline text-sm">Tambah Dokumen</span>
+          <span className="sm:hidden text-sm">Tambah</span>
         </button>
         <div className="relative">
           <input
@@ -164,6 +166,8 @@ const UploadTable = () => {
             placeholder="Cari..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={(e) => e.target.nextSibling.classList.add('text-gray-950')}
+            onBlur={(e) => e.target.nextSibling.classList.remove('text-gray-950')}
             className="block w-full pr-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -171,11 +175,11 @@ const UploadTable = () => {
       </div>   
 
       {/* Tabel Dokumen */}
-      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg">
+      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg text-sm">
         <table className="min-w-full">
           <thead className="">
             <tr className="bg-gray-300">
-              <th className="border-gray-400 px-4 py-2">No</th>
+              <th className="border-gray-400 px-4 py-2">No.</th>
               <th className="border-gray-400 px-4 py-2 text-start">Judul Dokumen</th>
               <th className="border-gray-400 px-4 py-2 text-start">Nomor Peraturan</th>
               <th className="border-gray-400 px-4 py-2 text-start">Produk Hukum</th>
@@ -274,13 +278,13 @@ const UploadTable = () => {
       {/* Modal */}
       {isModalOpen && (
         <div
-        className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+        className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
         onClick={(e) => {
           if (e.target.classList.contains("bg-gray-900")) closeModal();
         }}
       >
         <div
-          className="bg-white rounded-lg p-6 w-1/2 shadow-lg backdrop-blur-lg"
+          className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-lg"
           onClick={(e) => e.stopPropagation()}
         >
             <h2 className="text-lg font-semibold mb-4 items-center justify-center">
@@ -342,7 +346,7 @@ const UploadTable = () => {
                 name="legalProduct"
                 value={formData.legalProduct}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full md:w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="">Pilih Produk Hukum</option>
                 <option value="KEPWAL">KEPWAL</option>

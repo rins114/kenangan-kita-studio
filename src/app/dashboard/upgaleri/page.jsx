@@ -97,7 +97,7 @@ const UploadGaleri = () => {
         confirmButtonColor: '#3085d6',
       });
     } else if (modalMode === "edit" && currentGaleri) {
-      // Check if there are any changes
+      // Check jika ada perubahan
       const hasChanges = 
         formData.judul !== currentGaleri.judul ||
         formData.deskripsi !== currentGaleri.deskripsi ||
@@ -175,14 +175,15 @@ const UploadGaleri = () => {
   );
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-5">
+      <div className="flex justify-between items-center mb-6 gap-2">
         <button
           onClick={() => openModal("add")}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
         >
-          <FiUpload/>
-          Tambah Gambar
+          <FiUpload className="text-sm"/>
+          <span className="hidden sm:inline text-sm">Tambah Gambar</span>
+          <span className="sm:hidden">Tambah</span>
         </button>
         <div className="relative">
           <input
@@ -190,23 +191,26 @@ const UploadGaleri = () => {
             placeholder="Cari..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={(e) => e.target.nextSibling.classList.add('text-gray-950')}
+            onBlur={(e) => e.target.nextSibling.classList.remove('text-gray-950')}
             className="block w-full pr-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
       </div>
 
-      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg">
+      {/* Tabel Galeri */}
+      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg text-sm">
         <table className="min-w-full">
           <thead>
             <tr className="bg-gray-300">
-              <th className="border-gray-400 px-4 py-2">No</th>
-              <th className="border-gray-400 px-4 py-2">Gambar</th>
-              <th className="border-gray-400 px-4 py-2">Judul</th>
-              <th className="border-gray-400 px-4 py-2">Deskripsi</th>
-              <th className="border-gray-400 px-4 py-2">Tanggal Upload</th>
-              <th className="border-gray-400 px-4 py-2">Status</th>
-              <th className="border-gray-400 px-4 py-2">Aksi</th>
+              <th className="border-gray-400 px-4 py-2 text-center">No.</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Gambar</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Judul</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Deskripsi</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Tanggal Upload</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Status</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -223,7 +227,7 @@ const UploadGaleri = () => {
                     />
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">{item.judul}</td>
-                  <td className="border-gray-400 px-4 py-2 text-start">
+                  <td className="border-gray-400 px-4 py-2 text-center">
                     <div className="max-h-[4.5em] overflow-hidden">
                       {truncateText(item.deskripsi)}
                     </div>
@@ -301,13 +305,13 @@ const UploadGaleri = () => {
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999] overflow-y-auto p-4"
           onClick={(e) => {
             if (e.target.classList.contains("bg-gray-900")) closeModal();
           }}
         >
           <div
-            className="bg-white rounded-lg p-6 w-1/2 shadow-lg backdrop-blur-lg"
+            className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-lg max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-semibold mb-4 items-center justify-center">
