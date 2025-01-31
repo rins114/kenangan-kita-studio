@@ -231,7 +231,7 @@ const UsersTable = () => {
               filteredUsers.map((user, index) => (
                 <tr key={user.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">{index + 1}</td>
-                  <td className="border-gray-400 px-4 py-2">{user.username}</td>
+                  <td className="border-gray-400 px-4 py-2 italic">{user.username}</td>
                   <td className="border-gray-400 px-4 py-2">{user.fullName}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
                   <td className="border-gray-400 px-4 py-2">{user.applicantType}</td>
@@ -318,7 +318,7 @@ const UsersTable = () => {
               <p>
                 <strong>Nama Pengguna :</strong>
                 <br /> 
-                {currentUser.username}
+                <p className="italic">{currentUser.username}</p>
               </p>
               <p>
                 <strong>Nama Lengkap :</strong>

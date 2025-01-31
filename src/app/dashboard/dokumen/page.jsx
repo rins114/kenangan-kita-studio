@@ -319,11 +319,13 @@ const UploadTable = () => {
                 Judul Dokumen
               </label>
               <input
+                placeholder="Masukkan Judul Dokumen..."
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                focus:ring-blue-500 focus:border-blue-500 sm:text-sm placeholder:italic"
               />
             </div>
             <div className="mb-4">
@@ -331,11 +333,13 @@ const UploadTable = () => {
                 Nomor Peraturan
               </label>
               <input
+                placeholder="Masukkan Nomor Peraturan..."
                 type="text"
                 name="regulationNumber"
                 value={formData.regulationNumber}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                focus:ring-blue-500 focus:border-blue-500 sm:text-sm placeholder:italic"
               />
             </div>
             <div className="mb-4">
@@ -346,7 +350,7 @@ const UploadTable = () => {
                 name="legalProduct"
                 value={formData.legalProduct}
                 onChange={handleInputChange}
-                className="mt-1 block w-full md:w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="">Pilih Produk Hukum</option>
                 <option value="KEPWAL">KEPWAL</option>
