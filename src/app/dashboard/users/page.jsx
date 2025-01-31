@@ -443,7 +443,7 @@ const UsersTable = () => {
                     disabled
                     type="text"
                     value={editedUser.username}
-                    className="border px-4 py-2 w-full"
+                    className="border px-4 py-2 w-full italic"
                   />
                 </div>
                 <div>
@@ -503,6 +503,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NIP</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.nip}
                     onChange={(e) =>
@@ -514,6 +515,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NIK</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.nik}
                     onChange={(e) =>
@@ -525,6 +527,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NPWP</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.npwp}
                     onChange={(e) =>
@@ -536,6 +539,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Nama Instansi</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.institutionName}
                     onChange={(e) =>
@@ -550,6 +554,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Alamat Instansi</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.institutionAddress}
                     onChange={(e) =>
