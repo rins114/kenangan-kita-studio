@@ -4,12 +4,47 @@ import GalleryCard from "@/components/molecules/GalleryCard";
 import GalleryCardContainter from "@/components/molecules/GalleryCardContainter";
 import StaticHero from "@/components/molecules/StaticHero";
 import { Button } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { BiLike } from "react-icons/bi";
+import gsap from "gsap";
 
 export default function GaleriPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      gsap.fromTo(
+        modalRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+      );
+      gsap.fromTo(
+        overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" }
+      );
+    }
+  }, [isModalOpen]);
+
+  const handleClose = () => {
+    gsap.to(modalRef.current, {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => setIsModalOpen(false),
+    });
+    gsap.to(overlayRef.current, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => setIsModalOpen(false),
+    });
+  };
+
   return (
     <div className="min-h-[30rem] flex justify-start items-center flex-col bg-grayBg">
       <StaticHero
@@ -29,8 +64,13 @@ export default function GaleriPage() {
         </GalleryCardContainter>
       </div>
       {isModalOpen && (
-        <Modal setIsModalOpen={setIsModalOpen}>
+        <Modal
+          overlayRef={overlayRef}
+          setIsModalOpen={setIsModalOpen}
+          handleCloseModal={handleClose}
+        >
           <div
+            ref={modalRef}
             className="bg-white md:min-h-[30rem] md:max-h-[65rem] w-full max-w-[70rem] rounded-2xl flex flex-col md:flex-row ove gap-7 overflow-hidden"
             onClick={(e) => {
               e.stopPropagation();
