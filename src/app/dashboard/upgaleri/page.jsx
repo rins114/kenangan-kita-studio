@@ -362,18 +362,18 @@ const UploadGaleri = () => {
                 value={formData.deskripsi}
                 onChange={(e) => {
                   const words = e.target.value.trim().split(/\s+/);
-                  if (words.length <= 100) {
+                  if (words.length <= 50) {
                     handleInputChange(e);
                   } else {
-                    toast.error("Deskripsi tidak boleh lebih dari 100 kata");
+                    toast.error("Deskripsi tidak boleh lebih dari 50 kata");
                   }
                 }}
                 rows="5"
-                placeholder="Maksimal 100 Kata" 
+                placeholder="Maksimal 50 Kata" 
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
               <span className="sm:text-sm mt-1 text-gray-700">
-                Sisa Kata: {100 - (formData.deskripsi.trim().split(/\s+/).filter(word => word.length > 0).length)}
+                Sisa Kata: {50 - (formData.deskripsi.trim().split(/\s+/).filter(word => word.length > 0).length)}
               </span>
             </div>
 
