@@ -17,7 +17,12 @@ export default function GaleriPage() {
   useEffect(() => {
     if (isModalOpen) {
       gsap.fromTo(
-        [modalRef.current, overlayRef.current],
+        modalRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+      );
+      gsap.fromTo(
+        overlayRef.current,
         { opacity: 0 },
         { opacity: 1, duration: 0.3, ease: "power2.out" }
       );
@@ -25,7 +30,14 @@ export default function GaleriPage() {
   }, [isModalOpen]);
 
   const handleClose = () => {
-    gsap.to([modalRef.current, overlayRef.current], {
+    gsap.to(modalRef.current, {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => setIsModalOpen(false),
+    });
+    gsap.to(overlayRef.current, {
       opacity: 0,
       duration: 0.3,
       ease: "power2.in",
