@@ -6,6 +6,8 @@ export default function GalleryCard({
   desc = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiiseveniet aliquam quam non nemo. Nostrum, nulla tenetur laborum,distinctio expedita enim quia ullam maxime vitae cupiditate temporibus quos aspernatur ducimus.",
   date = "14 Februari 2025",
   imgPath = "/assets/images/hero-1.jpg",
+  isModalOpen = false,
+  setIsModalOpen = () => {},
 }) {
   return (
     <div className="w-full min-h-[20rem] shadow-lg bg-white overflow-hidden hover:scale-[1.01] transition-all duration-300 rounded-sm">
@@ -16,9 +18,13 @@ export default function GalleryCard({
           width={1000}
           height={1000}
           className="w-full h-1/2 cursor-pointer object-cover"
+          onClick={() => setIsModalOpen(true)}
         />
         <div className="px-5 pt-3 pb-1">
-          <h1 className="font-medium line-clamp-2 text-md lg:text-xl hover:underline cursor-pointer">
+          <h1
+            className="font-medium line-clamp-2 text-md lg:text-xl hover:underline cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
             {title}
           </h1>
           <p className="text-xs md:text-sm text-secondaryColor font-normal cursor-default">
