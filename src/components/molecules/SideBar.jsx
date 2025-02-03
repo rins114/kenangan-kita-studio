@@ -60,6 +60,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           </div>
         </div>
       </Sidebar.Items>
+
       <Sidebar.Items className="">
         <Sidebar.ItemGroup>
           <Sidebar.Item
@@ -73,6 +74,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           >
             Dashboard
           </Sidebar.Item>
+
           {user.roles !== 'Admin' && <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
             <Sidebar.Item
               onClick={() => {
@@ -87,6 +89,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             >
               Clearing House
             </Sidebar.Item>
+
             <Sidebar.Item
               onClick={() => {
                 navigate.push("/dashboard/verifikasi-berkas");
@@ -115,7 +118,8 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           >
             Daftar Permohonan
           </Sidebar.Item>}
-          <Sidebar.Item
+
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
             className={`${
               pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -125,9 +129,9 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={HiUser}
           >
             Daftar Pengguna
-          </Sidebar.Item>
+          </Sidebar.Item>}
 
-          <Sidebar.Item
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
             className={`${
               pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -137,9 +141,9 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={IoDocumentsSharp}
           >
             Dokumen Peraturan
-          </Sidebar.Item>
+          </Sidebar.Item>}
           
-          <Sidebar.Item
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
             className={`${
               pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -149,7 +153,8 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={FaImages}
           >
             Upload Galeri
-          </Sidebar.Item>
+          </Sidebar.Item>}
+
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
           </Sidebar.Item> */}
@@ -158,6 +163,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
               Sign Up {index + 1}
             </Sidebar.Item>
           ))} */}
+
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

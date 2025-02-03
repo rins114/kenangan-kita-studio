@@ -231,7 +231,7 @@ const UsersTable = () => {
               filteredUsers.map((user, index) => (
                 <tr key={user.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">{index + 1}</td>
-                  <td className="border-gray-400 px-4 py-2">{user.username}</td>
+                  <td className="border-gray-400 px-4 py-2 italic">{user.username}</td>
                   <td className="border-gray-400 px-4 py-2">{user.fullName}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
                   <td className="border-gray-400 px-4 py-2">{user.applicantType}</td>
@@ -317,8 +317,8 @@ const UsersTable = () => {
             <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto text-sm">
               <p>
                 <strong>Nama Pengguna :</strong>
-                <br /> 
-                {currentUser.username}
+                <br />
+                <span className="italic">{currentUser.username}</span>
               </p>
               <p>
                 <strong>Nama Lengkap :</strong>
@@ -443,7 +443,7 @@ const UsersTable = () => {
                     disabled
                     type="text"
                     value={editedUser.username}
-                    className="border px-4 py-2 w-full"
+                    className="border px-4 py-2 w-full italic"
                   />
                 </div>
                 <div>
@@ -503,6 +503,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NIP</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.nip}
                     onChange={(e) =>
@@ -514,6 +515,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NIK</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.nik}
                     onChange={(e) =>
@@ -525,6 +527,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">NPWP</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.npwp}
                     onChange={(e) =>
@@ -536,6 +539,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Nama Instansi</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.institutionName}
                     onChange={(e) =>
@@ -550,6 +554,7 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Alamat Instansi</label>
                   <input
+                    disabled
                     type="text"
                     value={editedUser.institutionAddress}
                     onChange={(e) =>
