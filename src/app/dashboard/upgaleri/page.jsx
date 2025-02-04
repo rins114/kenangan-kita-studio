@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiUpload, FiEye, FiX, FiPlusSquare, FiSearch } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const UploadGaleri = () => {
   const [galeri, setGaleri] = useState([]);
@@ -302,18 +303,26 @@ const UploadGaleri = () => {
         style={{ zIndex: 999999 }}
         limit={1}
       />
-
+      
+      <AnimatePresence>
       {isModalOpen && (
-        <div
-          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999] overflow-y-auto p-4"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
           onClick={(e) => {
             if (e.target.classList.contains("bg-gray-900")) closeModal();
           }}
         >
-          <div
-            className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-lg max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-sm max-h-[90vh]"
+          onClick={(e) => e.stopPropagation()}
+        >
             <h2 className="text-lg font-semibold mb-4 items-center justify-center">
               {modalMode === "add" ? "TAMBAH GAMBAR" : "EDIT GAMBAR"}
             </h2>
@@ -391,10 +400,11 @@ const UploadGaleri = () => {
                 Simpan
               </button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-
+      </AnimatePresence>
+      
       {/* Image Preview Modal */}
       {previewImage && (
         <div
