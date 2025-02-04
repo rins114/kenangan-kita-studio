@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Modal({
-  children,
-  overlayRef,
-  setIsModalOpen,
-  handleCloseModal,
-}) {
+export default function Modal({ children, overlayRef, handleCloseModal }) {
   return (
     <div
       ref={overlayRef}
