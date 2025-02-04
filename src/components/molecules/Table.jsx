@@ -17,7 +17,11 @@ import Modal from "../atoms/Modal";
 import gsap from "gsap";
 import { toast, ToastContainer } from "react-toastify";
 import { BiEditAlt } from "react-icons/bi";
-import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
+import {
+  MdDeleteOutline,
+  MdInsertLink,
+  MdOutlineRemoveRedEye,
+} from "react-icons/md";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -85,6 +89,7 @@ const statusColorMap = {
   Terverifikasi: "success",
   Ditolak: "danger",
   Diproses: "warning",
+  Selesai: "success",
 };
 
 export default function TableCustom() {
@@ -154,12 +159,17 @@ export default function TableCustom() {
             {authUser.roles !== "Pemohon" ? (
               <h1>{user.nama_pemohon}</h1>
             ) : (
-              <a
-                className="font-semibold hover:underline"
-                href={`/dashboard/permohonan/${user.id}`}
+              <div
+                className="flex flex-row-reverse justify-end items-center gap-1 cursor-pointer"
+                onClick={() =>
+                  navigate.push(`/dashboard/permohonan/${user.id}`)
+                }
               >
-                {user.nama_pemohon}
-              </a>
+                <MdInsertLink className="text-lg" />
+                <h1 className="font-semibold line-clamp-1">
+                  {user.nama_pemohon}
+                </h1>
+              </div>
             )}
           </>
         );
@@ -180,7 +190,7 @@ export default function TableCustom() {
             size="sm"
             variant="flat"
           >
-            {cellValue}
+            {user.status}
           </Chip>
         );
       case "actions":
@@ -195,12 +205,12 @@ export default function TableCustom() {
               </span>
             </Tooltip> */}
             {authUser.roles === "Admin" && (
-              <Tooltip content="Edit Status">
+              <Tooltip content="Edit Status" color="primary">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
                   onClick={() => handleOpenDetail(user.id)}
                 >
-                  <BiEditAlt className="text-xl" />
+                  <BiEditAlt className="text-xl text-primary" />
                 </span>
               </Tooltip>
             )}
@@ -356,7 +366,7 @@ export default function TableCustom() {
               <Button onPress={() => handleClose()}>Close</Button>
               <Button
                 className="bg-red-500 text-white"
-                onPress={() => handleChangeStatus("Di Tolak")}
+                onPress={() => handleChangeStatus("Ditolak")}
               >
                 Tolak
               </Button>
