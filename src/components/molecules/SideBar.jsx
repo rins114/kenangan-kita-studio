@@ -49,6 +49,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             src="https://i.pravatar.cc/150?u=a04258114e29026302d"
             className="border-2 border-success-500"
           />
+          
           <div className={`${isMenuOpen ? "" : ""}`}>
             <h1 className="text-md">{user?.name}</h1>
             <p className="text-xs">{user?.roles}</p>
