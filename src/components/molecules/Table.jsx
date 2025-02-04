@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/contexts/AuthUserContext";
 import Modal from "../atoms/Modal";
 import gsap from "gsap";
+import { toast, ToastContainer } from "react-toastify";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -213,12 +214,23 @@ export default function TableCustom() {
   const overlayRef = useRef(null);
   // const [idDetail, setIdDetail] = useState(null);
   const [openedDetail, setOpenedDetail] = useState(null);
+  const [keterangan, setKeterangan] = useState("");
 
   const handleOpenDetail = (id) => {
     const dataDetail = users.filter((data) => data.id === id);
     console.log(dataDetail);
     setOpenedDetail(dataDetail[0]);
     setIsModalOpen(true);
+  };
+
+  const handleChangeStatus = (status) => {
+    if (keterangan == "") {
+      toast.warn("Harap isi keterangan!");
+      return;
+    }
+    handleClose();
+    setKeterangan("");
+    return;
   };
 
   useEffect(() => {
@@ -358,6 +370,20 @@ export default function TableCustom() {
           )}
         </TableBody>
       </Table>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        style={{ zIndex: 999999 }}
+        limit={1}
+      />
       {isModalOpen && (
         <Modal handleCloseModal={handleClose} overlayRef={overlayRef}>
           <div
@@ -441,6 +467,8 @@ export default function TableCustom() {
                   rows={7}
                   name=""
                   id=""
+                  value={keterangan}
+                  onChange={(e) => setKeterangan(e.target.value)}
                 ></textarea>
               </div>
             </div>
@@ -448,11 +476,14 @@ export default function TableCustom() {
               <Button onPress={() => handleClose()}>Close</Button>
               <Button
                 className="bg-red-500 text-white"
-                onPress={() => handleClose()}
+                onPress={() => handleChangeStatus("Di Tolak")}
               >
                 Tolak
               </Button>
-              <Button className="text-white bg-secondaryColor">
+              <Button
+                className="text-white bg-secondaryColor"
+                onPress={() => handleChangeStatus("Terverifikasi")}
+              >
                 Verifikasi
               </Button>
             </div>
