@@ -2,19 +2,14 @@
 import React, { useEffect } from "react";
 import { Sidebar } from "flowbite-react";
 import {
-  HiArrowSmRight,
   HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
   HiUser,
-  FaTableList,
 } from "react-icons/hi";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
 import { IoDocumentsSharp } from "react-icons/io5";
-import { FaList, FaListUl, FaImages } from "react-icons/fa";
+import { FaClipboardList, FaListUl, FaImages } from "react-icons/fa";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import useLogin from "@/hooks/useLogin";
 
@@ -54,6 +49,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             src="https://i.pravatar.cc/150?u=a04258114e29026302d"
             className="border-2 border-success-500"
           />
+          
           <div className={`${isMenuOpen ? "" : ""}`}>
             <h1 className="text-md">{user?.name}</h1>
             <p className="text-xs">{user?.roles}</p>
@@ -75,7 +71,8 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Dashboard
           </Sidebar.Item>
 
-          {user.roles !== 'Admin' && <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
+          {user.roles !== 'Admin' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' && 
+          <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
             <Sidebar.Item
               onClick={() => {
                 navigate.push("/dashboard/clearing-house");
@@ -107,7 +104,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          {user.roles !== 'Admin' && <Sidebar.Item
+          <Sidebar.Item
             className={`${
               pathname === "/dashboard/permohonan" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -117,9 +114,10 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={FaListUl}
           >
             Daftar Permohonan
-          </Sidebar.Item>}
+          </Sidebar.Item>
 
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
+          <Sidebar.Item
             className={`${
               pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -131,7 +129,8 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Daftar Pengguna
           </Sidebar.Item>}
 
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
+          <Sidebar.Item
             className={`${
               pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -143,7 +142,8 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Dokumen Peraturan
           </Sidebar.Item>}
           
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && <Sidebar.Item
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
+          <Sidebar.Item
             className={`${
               pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
             } cursor-pointer`}
@@ -153,6 +153,19 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             icon={FaImages}
           >
             Upload Galeri
+          </Sidebar.Item>}
+
+          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Admin' &&
+          <Sidebar.Item
+            className={`${
+              pathname === "/dashboard/daftar-laporan" ? "bg-slate-500/40" : ""
+            } cursor-pointer`}
+            onClick={() => {
+              navigate.push("/dashboard/daftar-laporan");
+            }}
+            icon={FaClipboardList}
+          >
+            Daftar Laporan
           </Sidebar.Item>}
 
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
