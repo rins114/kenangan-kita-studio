@@ -219,7 +219,9 @@ export default function TableCustom() {
               <Tooltip content="Lihat Detail">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                  onClick={() => {}}
+                  onClick={() => {
+                    navigate.push(`/dashboard/permohonan/hasil/${user.id}`);
+                  }}
                 >
                   <MdOutlineRemoveRedEye className="text-xl" />
                 </span>
