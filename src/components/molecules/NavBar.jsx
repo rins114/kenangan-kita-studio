@@ -75,7 +75,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
         justify="center"
         className="relative cursor-pointer md:pl-5"
         onClick={() => {
-          navigate.push("/landing");
+          window.location.href = "/landing";
         }}
       >
         <Logo
@@ -109,7 +109,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             </DropdownItem>
             <DropdownItem
               key="team_settings"
-              onClick={() => {
+              onPress={() => {
                 navigate.push("/dashboard/profile");
               }}
             >

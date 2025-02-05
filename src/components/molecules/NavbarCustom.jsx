@@ -106,9 +106,7 @@ export default function NavbarCustom() {
           ) : (
             <div
               className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
-              onClick={() => {
-                navigate.push("/dashboard");
-              }}
+              onClick={() => (window.location.href = "/signin")}
             >
               <Avatar></Avatar>
               {/* <h1 className="!font-normal">
@@ -195,7 +193,7 @@ export default function NavbarCustom() {
             <div className="block rounded-md px-3 py-2">
               <Button
                 className="!w-full font-bold bg-mainColor text-white text-base py-2"
-                onPress={() => navigate.push("/signin")}
+                onPress={() => (window.location.href = "/signin")}
               >
                 MASUK
               </Button>
