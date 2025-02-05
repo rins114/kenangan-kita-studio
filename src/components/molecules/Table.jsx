@@ -219,7 +219,9 @@ export default function TableCustom() {
               <Tooltip content="Lihat Detail">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                  onClick={() => {}}
+                  onClick={() => {
+                    navigate.push(`/dashboard/permohonan/hasil/${user.id}`);
+                  }}
                 >
                   <MdOutlineRemoveRedEye className="text-xl" />
                 </span>
@@ -284,12 +286,13 @@ export default function TableCustom() {
             }}
             className="h-[33rem] w-full max-w-3xl bg-white rounded-3xl px-7 pt-7 pb-5 flex flex-col gap-1"
           >
-            <h1 className="font-bold text-2xl mb-3 text-center">DETAIL PERMOHONAN</h1>
+            <h1 className="font-bold text-2xl mb-3 text-center">
+              DETAIL PERMOHONAN
+            </h1>
             <div
               className="w-full h-[95%] overflow-auto flex flex-col gap-2"
               id="print-area"
             >
-              
               <div className="text-md flex flex-row justify-center items-center gap-2 mb-4 text-center">
                 <strong className="text-center">Status Dokumen :</strong>{" "}
                 <Chip
@@ -409,11 +412,11 @@ export default function TableCustom() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600
-                    shadow-lg w-full text-center flex items-center justify-center"
+                    w-full text-center flex items-center justify-center"
                   >
                     <HiDocumentText className="inline mr-2" />
                     Lihat Surat: {openedDetail?.file?.name}
-                  </a>               
+                  </a>
                 </div>
               </div>
 

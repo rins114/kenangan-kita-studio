@@ -11,6 +11,7 @@ export default function ClearingHouseForm({
   handleFileChange,
   file,
   isUploading,
+  fileInputRef,
 }) {
   return (
     <form
@@ -40,8 +41,8 @@ export default function ClearingHouseForm({
               label="Nama Organisasi Perangkat Daerah"
               radius="sm"
               variant="bordered"
-              name="opd"
-              value={formData.opd}
+              name="nama_opd"
+              value={formData.nama_opd}
               onChange={handleChange}
             />
             <Input
@@ -62,8 +63,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               size="md"
-              name="barang_jasa"
-              value={formData.barang_jasa}
+              name="nama_barang_jasa"
+              value={formData.nama_barang_jasa}
               onChange={handleChange}
             />
             <Input
@@ -73,8 +74,8 @@ export default function ClearingHouseForm({
               label="Nama K/L/PD"
               radius="sm"
               variant="bordered"
-              name="klpd"
-              value={formData.klpd}
+              name="nama_klpd"
+              value={formData.nama_klpd}
               onChange={handleChange}
             />
             <Input
@@ -84,8 +85,8 @@ export default function ClearingHouseForm({
               label="Nomor Sirup"
               radius="sm"
               variant="bordered"
-              name="nomor_sirup"
-              value={formData.nomor_sirup}
+              name="no_sirup"
+              value={formData.no_sirup}
               onChange={handleChange}
             />
           </div>
@@ -97,8 +98,8 @@ export default function ClearingHouseForm({
               label="Tahun Anggaran"
               radius="sm"
               variant="bordered"
-              name="tahun_anggaran"
-              value={formData.tahun_anggaran}
+              name="thn_anggaran"
+              value={formData.thn_anggaran}
               onChange={handleChange}
             />
             <Input
@@ -130,8 +131,8 @@ export default function ClearingHouseForm({
               label="Lokasi Pelaksanaan"
               radius="sm"
               variant="bordered"
-              name="lokasi_pelaksanaan"
-              value={formData.lokasi_pelaksanaan}
+              name="lokasi_pelaksana"
+              value={formData.lokasi_pelaksana}
               onChange={handleChange}
             />
             <Input
@@ -167,7 +168,7 @@ export default function ClearingHouseForm({
               <div className="flex flex-col items-center justify-center pb-6 pt-5 gap-2">
                 <CircularProgress color="warning" aria-label="Loading..." />
                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  Uploading...
+                  Memproses...
                 </p>
               </div>
             )}
@@ -209,7 +210,8 @@ export default function ClearingHouseForm({
             )}
             <FileInput
               id="dropzone-file"
-              name="file"
+              name="surat_permohonan"
+              ref={fileInputRef}
               className="hidden"
               onChange={handleFileChange}
             />

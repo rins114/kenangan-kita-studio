@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Sidebar } from "flowbite-react";
-import {
-  HiChartPie,
-  HiUser,
-} from "react-icons/hi";
+import { HiChartPie, HiUser } from "react-icons/hi";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -49,7 +46,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             src="https://i.pravatar.cc/150?u=a04258114e29026302d"
             className="border-2 border-success-500"
           />
-          
+
           <div className={`${isMenuOpen ? "" : ""}`}>
             <h1 className="text-md">{user?.name}</h1>
             <p className="text-xs">{user?.roles}</p>
@@ -71,36 +68,42 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Dashboard
           </Sidebar.Item>
 
-          {user.roles !== 'Admin' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' && 
-          <Sidebar.Collapse icon={MdOutlineFeaturedPlayList} label="Layanan">
-            <Sidebar.Item
-              onClick={() => {
-                navigate.push("/dashboard/clearing-house");
-              }}
-              icon={isMenuOpen ? "" : ""}
-              className={`cursor-pointer ${
-                pathname === "/dashboard/clearing-house"
-                  ? "bg-slate-500/40"
-                  : ""
-              }`}
-            >
-              Clearing House
-            </Sidebar.Item>
+          {user?.roles !== "Admin" &&
+            user?.roles !== "Sekretariat" &&
+            user?.roles !== "Kepala_upbj" && (
+              <Sidebar.Collapse
+                icon={MdOutlineFeaturedPlayList}
+                label="Layanan"
+              >
+                <Sidebar.Item
+                  onClick={() => {
+                    navigate.push("/dashboard/clearing-house");
+                  }}
+                  icon={isMenuOpen ? "" : ""}
+                  className={`cursor-pointer ${
+                    pathname === "/dashboard/clearing-house"
+                      ? "bg-slate-500/40"
+                      : ""
+                  }`}
+                >
+                  Clearing House
+                </Sidebar.Item>
 
-            <Sidebar.Item
-              onClick={() => {
-                navigate.push("/dashboard/verifikasi-berkas");
-              }}
-              icon={isMenuOpen ? "" : ""}
-              className={`cursor-pointer ${
-                pathname === "/dashboard/verifikasi-berkas"
-                  ? "bg-slate-500/40"
-                  : ""
-              }`}
-            >
-              Verifikasi Berkas
-            </Sidebar.Item>
-          </Sidebar.Collapse>}
+                <Sidebar.Item
+                  onClick={() => {
+                    navigate.push("/dashboard/verifikasi-berkas");
+                  }}
+                  icon={isMenuOpen ? "" : ""}
+                  className={`cursor-pointer ${
+                    pathname === "/dashboard/verifikasi-berkas"
+                      ? "bg-slate-500/40"
+                      : ""
+                  }`}
+                >
+                  Verifikasi Berkas
+                </Sidebar.Item>
+              </Sidebar.Collapse>
+            )}
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
@@ -116,57 +119,71 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Daftar Permohonan
           </Sidebar.Item>
 
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
-            } cursor-pointer`}
-            onClick={() => {
-              navigate.push("/dashboard/users");
-            }}
-            icon={HiUser}
-          >
-            Daftar Pengguna
-          </Sidebar.Item>}
+          {user?.roles !== "Pemohon" &&
+            user?.roles !== "Sekretariat" &&
+            user?.roles !== "Kepala_upbj" && (
+              <Sidebar.Item
+                className={`${
+                  pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
+                } cursor-pointer`}
+                onClick={() => {
+                  navigate.push("/dashboard/users");
+                }}
+                icon={HiUser}
+              >
+                Daftar Pengguna
+              </Sidebar.Item>
+            )}
 
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
-            } cursor-pointer`}
-            onClick={() => {
-              navigate.push("/dashboard/dokumen");
-            }}
-            icon={IoDocumentsSharp}
-          >
-            Dokumen Peraturan
-          </Sidebar.Item>}
-          
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Kepala_upbj' &&
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
-            } cursor-pointer`}
-            onClick={() => {
-              navigate.push("/dashboard/upgaleri");
-            }}
-            icon={FaImages}
-          >
-            Upload Galeri
-          </Sidebar.Item>}
+          {user?.roles !== "Pemohon" &&
+            user?.roles !== "Sekretariat" &&
+            user?.roles !== "Kepala_upbj" && (
+              <Sidebar.Item
+                className={`${
+                  pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
+                } cursor-pointer`}
+                onClick={() => {
+                  navigate.push("/dashboard/dokumen");
+                }}
+                icon={IoDocumentsSharp}
+              >
+                Dokumen Peraturan
+              </Sidebar.Item>
+            )}
 
-          {user.roles !== 'Pemohon' && user.roles !== 'Sekretariat' && user.roles !== 'Admin' &&
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard/daftar-laporan" ? "bg-slate-500/40" : ""
-            } cursor-pointer`}
-            onClick={() => {
-              navigate.push("/dashboard/daftar-laporan");
-            }}
-            icon={FaClipboardList}
-          >
-            Daftar Laporan
-          </Sidebar.Item>}
+          {user?.roles !== "Pemohon" &&
+            user?.roles !== "Sekretariat" &&
+            user?.roles !== "Kepala_upbj" && (
+              <Sidebar.Item
+                className={`${
+                  pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
+                } cursor-pointer`}
+                onClick={() => {
+                  navigate.push("/dashboard/upgaleri");
+                }}
+                icon={FaImages}
+              >
+                Upload Galeri
+              </Sidebar.Item>
+            )}
+
+          {user?.roles !== "Pemohon" &&
+            user?.roles !== "Sekretariat" &&
+            user?.roles !== "Admin" && (
+              <Sidebar.Item
+                className={`${
+                  pathname === "/dashboard/daftar-laporan"
+                    ? "bg-slate-500/40"
+                    : ""
+                } cursor-pointer`}
+                onClick={() => {
+                  navigate.push("/dashboard/daftar-laporan");
+                }}
+                icon={FaClipboardList}
+              >
+                Daftar Laporan
+              </Sidebar.Item>
+            )}
 
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
@@ -176,7 +193,6 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
               Sign Up {index + 1}
             </Sidebar.Item>
           ))} */}
-
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
