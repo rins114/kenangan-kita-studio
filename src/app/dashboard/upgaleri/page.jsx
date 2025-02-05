@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiUpload, FiEye, FiX, FiPlusSquare, FiSearch } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const UploadGaleri = () => {
   const [galeri, setGaleri] = useState([]);
@@ -16,7 +17,11 @@ const UploadGaleri = () => {
   const [formData, setFormData] = useState({
     judul: "",
     deskripsi: "",
-    tanggal: new Date().toLocaleDateString(),
+    tanggal: new Date().toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
     gambar: null,
     isPublished: false,
   });
@@ -41,7 +46,11 @@ const UploadGaleri = () => {
     setFormData({
       judul: "",
       deskripsi: "",
-      tanggal: new Date().toLocaleDateString(),
+      tanggal: new Date().toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }),
       gambar: null,
       isPublished: false,
     });
@@ -222,57 +231,87 @@ const UploadGaleri = () => {
                     <img 
                       src={URL.createObjectURL(item.gambar)} 
                       alt={item.judul}
-                      className="w-24 h-24 object-cover cursor-pointer"
+                      className="w-16 h-16 object-cover cursor-pointer"
                       onClick={() => handleImagePreview(item.gambar)}
                     />
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">{item.judul}</td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    <div className="max-h-[4.5em] overflow-hidden">
+                  <td className="border-gray-400 px-4 py-2 text-start">
+                    <div className="max-h-[6.5em] overflow-hidden">
                       {truncateText(item.deskripsi)}
                     </div>
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">{item.tanggal}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">
+                    {new Date(item.tanggal).toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <span className={`text-sm ${item.isPublished ? 'text-green-500' : 'text-red-500'}`}>
                       {item.isPublished ? 'Dipublikasi' : 'Draft'}
                     </span>
                   </td>
                   <td className="border-gray-400 px-4 py-2">
-                    <div className="flex gap-2 justify-center">
-                      {item.isPublished ? (
+                    <div className="flex gap-1 justify-center">
+                      <div className="relative group">
+                        {item.isPublished ? (
+                          <button
+                            onClick={() => handleUnpublish(item.id)}
+                            className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                          >
+                            <FiX />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handlePublish(item.id)}
+                            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                          >
+                            <FiUpload />
+                          </button>
+                        )}
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          {item.isPublished ? "Unpublish" : "Publish"}
+                        </span>
+                      </div>
+
+                      <div className="relative group">
                         <button
-                          onClick={() => handleUnpublish(item.id)}
+                          onClick={() => handleDeskripsiPreview(item.deskripsi)}
+                          className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
+                        >
+                          <FiEye />
+                        </button>
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          Deskripsi Lengkap
+                        </span>
+                      </div>
+
+                      <div className="relative group">
+                        <button
+                          onClick={() => openModal("edit", item)}
+                          className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                        >
+                          <FiEdit />
+                        </button>
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          Edit
+                        </span>
+                      </div>
+
+                      <div className="relative group">
+                        <button
+                          onClick={() => handleDelete(item.id)}
                           className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
                         >
-                          <FiX />
+                          <FiTrash2 />
                         </button>
-                      ) : (
-                        <button
-                          onClick={() => handlePublish(item.id)}
-                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        >
-                          <FiUpload />
-                        </button>
-                      )}
-                      <button
-                        onClick={() => handleDeskripsiPreview(item.deskripsi)}
-                        className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
-                      >
-                        <FiEye />
-                      </button>
-                      <button
-                        onClick={() => openModal("edit", item)}
-                        className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                      >
-                        <FiEdit />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        <FiTrash2 />
-                      </button>
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-1 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          Hapus
+                        </span>
+                      </div>
+
                     </div>
                   </td>
                 </tr>
@@ -290,8 +329,8 @@ const UploadGaleri = () => {
 
       <ToastContainer
         position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
+        autoClose={300}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick={true}
         rtl={false}
@@ -302,19 +341,27 @@ const UploadGaleri = () => {
         style={{ zIndex: 999999 }}
         limit={1}
       />
-
+      
+      <AnimatePresence>
       {isModalOpen && (
-        <div
-          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999] overflow-y-auto p-4"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
           onClick={(e) => {
             if (e.target.classList.contains("bg-gray-900")) closeModal();
           }}
         >
-          <div
-            className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-lg max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-lg font-semibold mb-4 items-center justify-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-sm max-h-[90vh]"
+          onClick={(e) => e.stopPropagation()}
+        >
+            <h2 className="text-lg font-semibold mb-4 items-center justify-center text-center">
               {modalMode === "add" ? "TAMBAH GAMBAR" : "EDIT GAMBAR"}
             </h2>
             
@@ -391,10 +438,11 @@ const UploadGaleri = () => {
                 Simpan
               </button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-
+      </AnimatePresence>
+      
       {/* Image Preview Modal */}
       {previewImage && (
         <div

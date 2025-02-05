@@ -17,6 +17,7 @@ import Modal from "../atoms/Modal";
 import gsap from "gsap";
 import { toast, ToastContainer } from "react-toastify";
 import { BiEditAlt } from "react-icons/bi";
+import { HiDocumentText } from "react-icons/hi2";
 import {
   MdDeleteOutline,
   MdInsertLink,
@@ -262,8 +263,8 @@ export default function TableCustom() {
       </Table>
       <ToastContainer
         position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
+        autoClose={300}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick={true}
         rtl={false}
@@ -283,48 +284,14 @@ export default function TableCustom() {
             }}
             className="h-[33rem] w-full max-w-3xl bg-white rounded-3xl px-7 pt-7 pb-5 flex flex-col gap-1"
           >
-            <h1 className="font-semibold text-2xl">Detail Permohonan</h1>
+            <h1 className="font-bold text-2xl mb-3 text-center">DETAIL PERMOHONAN</h1>
             <div
               className="w-full h-[95%] overflow-auto flex flex-col gap-2"
               id="print-area"
             >
-              <p className="text-md">
-                <strong>Nama Pemohon:</strong> {openedDetail?.nama_pemohon}
-              </p>
-              <p className="text-md">
-                <strong>OPD:</strong> {openedDetail?.opd}
-              </p>
-              <p className="text-md">
-                <strong>Paket Kegiatan:</strong> {openedDetail?.paket_kegiatan}
-              </p>
-              <p className="text-md">
-                <strong>Barang/Jasa:</strong> {openedDetail?.barang_jasa}
-              </p>
-              <p className="text-md">
-                <strong>KLPD:</strong> {openedDetail?.klpd}
-              </p>
-              <p className="text-md">
-                <strong>Nomor SIRUP:</strong> {openedDetail?.nomor_sirup}
-              </p>
-              <p className="text-md">
-                <strong>Tahun Anggaran:</strong> {openedDetail?.tahun_anggaran}
-              </p>
-              <p className="text-md">
-                <strong>Pagu Anggaran:</strong> Rp {openedDetail?.pagu_anggaran}
-              </p>
-              <p className="text-md">
-                <strong>Nilai HPS:</strong> Rp {openedDetail?.nilai_hps}
-              </p>
-              <p className="text-md">
-                <strong>Lokasi Pelaksanaan:</strong>{" "}
-                {openedDetail?.lokasi_pelaksanaan}
-              </p>
-              <p className="text-md">
-                <strong>Metode Pemilihan:</strong>{" "}
-                {openedDetail?.metode_pemilihan}
-              </p>
-              <div className="text-md flex flex-row justify-start items-center gap-1">
-                <strong>Status:</strong>{" "}
+              
+              <div className="text-md flex flex-row justify-center items-center gap-2 mb-4 text-center">
+                <strong className="text-center">Status Dokumen :</strong>{" "}
                 <Chip
                   className="capitalize"
                   color={statusColorMap[openedDetail?.status]}
@@ -334,22 +301,127 @@ export default function TableCustom() {
                   {openedDetail?.status}
                 </Chip>
               </div>
-              <p className="text-md">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm px-3">
+                <div>
+                  <label className="block font-bold">Nama Pemohon</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.nama_pemohon}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Tahun Anggaran</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.tahun_anggaran}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nama OPD</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.opd}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Pagu Anggaran</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.pagu_anggaran}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nama Paket Kegiatan</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.paket_kegiatan}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nilai HPS</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.nilai_hps}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nama Barang/Jasa</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.barang_jasa}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Lokasi Pelaksanaan</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.lokasi_pelaksanaan}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nama K/L/PD</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.klpd}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Metode Pemilihan</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.metode_pemilihan}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Nomor Sirup</label>
+                  <input
+                    disabled
+                    type="text"
+                    value={openedDetail?.nomor_sirup}
+                    className="border px-4 py-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold">Surat Permohonan</label>
+                  <a
+                    href={openedDetail?.file?.path} // Gunakan path yang benar
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600
+                    shadow-lg w-full text-center flex items-center justify-center"
+                  >
+                    <HiDocumentText className="inline mr-2" />
+                    Lihat Surat: {openedDetail?.file?.name}
+                  </a>               
+                </div>
+              </div>
+
+              <p className="text-md mt-3 px-3">
                 <strong>Catatan:</strong> {openedDetail?.catatan}
               </p>
-              <p className="text-md">
-                <strong>Surat Permohonan:</strong>{" "}
-                <a
-                  // href={URL.createObjectURL(openedDetail?.file)}
-                  href={openedDetail?.file?.path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  {openedDetail?.file?.name}
-                </a>
-              </p>
-              <div className="flex flex-col gap-1">
+
+              <div className="flex flex-col gap-1 px-3 mt-3">
                 <h1 className="font-bold">Keterangan</h1>
                 <textarea
                   className="border-2 rounded-md w-full p-2"

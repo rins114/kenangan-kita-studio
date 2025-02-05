@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiUpload, FiEye, FiX, FiCheck, FiSearch} from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { motion, AnimatePresence } from "framer-motion";
 
 const UploadTable = () => {
   const [documents, setDocuments] = useState([]);
@@ -277,23 +276,15 @@ const UploadTable = () => {
        />
 
       {/* Modal */}
-      <AnimatePresence>
       {isModalOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
-          onClick={(e) => {
-            if (e.target.classList.contains("bg-gray-900")) closeModal();
-          }}
-        >
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-sm"
+        <div
+        className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+        onClick={(e) => {
+          if (e.target.classList.contains("bg-gray-900")) closeModal();
+        }}
+      >
+        <div
+          className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-lg"
           onClick={(e) => e.stopPropagation()}
         >
             <h2 className="text-lg font-semibold mb-4 items-center justify-center">
@@ -328,7 +319,6 @@ const UploadTable = () => {
                 Judul Dokumen
               </label>
               <input
-                required
                 placeholder="Masukkan Judul Dokumen..."
                 type="text"
                 name="title"
@@ -401,10 +391,9 @@ const UploadTable = () => {
                 Simpan
               </button>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-      </AnimatePresence>
     </div>
   );
 };
