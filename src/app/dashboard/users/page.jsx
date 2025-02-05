@@ -372,6 +372,7 @@ const UsersTable = () => {
               </p>
               <p>
                 <strong>SK Jabatan: </strong>
+                <br />
                 {currentUser.skFile ? (
                   <>
                     <span>{currentUser.skFile.name}</span>
