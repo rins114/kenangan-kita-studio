@@ -263,8 +263,8 @@ const UploadTable = () => {
       {/* ToastContainer */}
        <ToastContainer
           position="top-center"
-          autoClose={1000}
-          hideProgressBar={false}
+          autoClose={300}
+          hideProgressBar={true}
           newestOnTop={false}
           closeOnClick={true}
           rtl={false}
