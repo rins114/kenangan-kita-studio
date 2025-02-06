@@ -9,6 +9,8 @@ export default function FileInputAtom({
   handleFileChange = () => {},
   jenisFile = [".pdf", ".doc", ".docx"],
   rounded = true,
+  labelSize = "text-sm",
+  labelColor = "text-black",
   height = 2.5,
 }) {
   // Handle file change event
@@ -19,7 +21,7 @@ export default function FileInputAtom({
 
   return (
     <div className="flex flex-col gap-0 truncate">
-      <h1 className="text-sm sm:line-clamp-1">{label}</h1>
+      <h1 className={`${labelSize} ${labelColor} sm:line-clamp-1`}>{label}</h1>
       <div
         className={`border-2 w-full ${
           rounded ? "rounded-md" : "rounded-none"
