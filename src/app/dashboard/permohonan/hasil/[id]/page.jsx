@@ -24,7 +24,7 @@ export default function HasilPage({ params }) {
   const navigate = useRouter();
   return (
     <div className="p-5 flex flex-col gap-3">
-      <FormContainer title="Data Permohonan Clearing House">
+      <FormContainer title="Hasil Permohonan Clearing House">
         <div className="p-5 flex flex-col gap-3">
           <DataView _key="Nama Pemohon" value="Budi Santoso" />
           <DataView _key="Nama OPD" value="Dinas Pendidikan Kota Mataram" />
@@ -64,15 +64,16 @@ export default function HasilPage({ params }) {
           <div className="p-5 flex flex-col gap-3">
             <RadioGroup
               color="primary"
-              label="Pilih tipe keputusan akhir"
+              label="Pilih Tipe Keputusan Akhir"
               orientation="horizontal"
               onValueChange={setIsLangsung}
               defaultValue={isLangsung}
             >
-              <Radio description="Tuliskan balasan langsung" value={true}>
+              <Radio description="Tuliskan Balasan Langsung" value={true}>
                 Langsung
               </Radio>
-              <Radio description="Perlu diskusi lebih lanjut" value={false}>
+              <div className="w-5"></div>
+              <Radio description="Perlu Diskusi Lebih Lanjut" value={false}>
                 Tidak Langsung
               </Radio>
             </RadioGroup>
