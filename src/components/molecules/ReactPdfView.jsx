@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { SpecialZoomLevel, Viewer, Worker } from "@react-pdf-viewer/core";
 import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
@@ -40,7 +40,7 @@ const PdfViewer = ({
         display: "flex",
         flexDirection: "column",
       }}
-      className="border-2 rounded-lg h-[50rem] max-w-2xl"
+      className="border-2 rounded-lg h-[30rem] w-full"
     >
       {/* URL Input */}
       {/* <div
@@ -95,7 +95,10 @@ const PdfViewer = ({
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <div style={{ flex: 1, overflow: "auto" }}>
           {/* {file ? ( */}
-          <Viewer fileUrl={fileUrl} plugins={[toolbarPluginInstance]} />
+          <Viewer fileUrl={fileUrl} plugins={[toolbarPluginInstance]} 
+            defaultScale={SpecialZoomLevel.PageWidth}
+          />
+          
           {/* ) : (
             <p style={{ textAlign: "center", marginTop: "2rem" }}>
               Please enter a valid PDF URL to view.
