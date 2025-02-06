@@ -5,7 +5,9 @@ import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 
-const PdfViewer = () => {
+const PdfViewer = ({
+  fileUrl = "http://localhost:3000/assets/pdf/dokumen1.pdf",
+}) => {
   const [url, setUrl] = useState(""); // State to hold the entered URL
   const [file, setFile] = useState(null); // State to store the fetched File object
   const toolbarPluginInstance = toolbarPlugin();
@@ -93,10 +95,7 @@ const PdfViewer = () => {
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <div style={{ flex: 1, overflow: "auto" }}>
           {/* {file ? ( */}
-          <Viewer
-            fileUrl={"http://localhost:3000/assets/pdf/dokumen1.pdf"}
-            plugins={[toolbarPluginInstance]}
-          />
+          <Viewer fileUrl={fileUrl} plugins={[toolbarPluginInstance]} />
           {/* ) : (
             <p style={{ textAlign: "center", marginTop: "2rem" }}>
               Please enter a valid PDF URL to view.
