@@ -24,38 +24,39 @@ export default function HasilPage({ params }) {
   const navigate = useRouter();
   return (
     <div className="p-5 flex flex-col gap-3">
-      <FormContainer title="Hasil Permohonan Clearing House">
+      <FormContainer title="Detail Permohonan Clearing House" className="text-center">
         <div className="p-5 flex flex-col gap-3">
-          <DataView _key="Nama Pemohon" value="Budi Santoso" />
-          <DataView _key="Nama OPD" value="Dinas Pendidikan Kota Mataram" />
+          <DataView _key="Status Dokumen" value="Terverifikasi" />
+          <DataView _key="Nama Pemohon" value="Andi Prasetyo" />
+          <DataView _key="Nama OPD" value="Dinas Pekerjaan Umum dan Penataan Ruang" />
           <DataView
             _key="Nama Paket Kegiatan"
-            value="Pengadaan Buku Pelajaran SD 2025"
+            value="Pembangunan Jalan Lingkungan"
           />
           <DataView
             _key="Nama Barang/Jasa"
-            value="Buku Pelajaran SD Kelas 1-6"
+            value="Jasa Konstruksi"
           />
           <DataView
             _key="Nama K/L/PD"
-            value="Kementerian Pendidikan dan Kebudayaan"
+            value="Kementerian PUPR"
           />
           <DataView _key="Nomor Sirup" value="1234567890" />
-          <DataView _key="Tahun Anggaran" value="2025" />
-          <DataView _key="Pagu Anggaran" value="500,000,000" />
-          <DataView _key="Nilai HPS" value="450,000,000" />
+          <DataView _key="Tahun Anggaran" value="2024" />
+          <DataView _key="Pagu Anggaran" value="1.500.000.000" />
+          <DataView _key="Nilai HPS" value="1.450.000.000" />
           <DataView
             _key="Lokasi Pelaksanaan"
-            value="Mataram, Nusa Tenggara Barat"
+            value="Kabupaten Lombok Tengah"
           />
-          <DataView _key="Metode Pemilihan" value="E-Tendering" />
+          <DataView _key="Metode Pemilihan" value="Tender Umum" />
           <DataView
             _key="Catatan"
-            value="Mohon segera diproses untuk pengadaan awal tahun. Pastikan semua dokumen lengkap dan sesuai dengan persyaratan untuk memperlancar proses pengadaan."
+            value="Pastikan dokumen pendukung sudah lengkap dan akurat sebelum diajukan untuk memastikan proses verifikasi berjalan lancar."
           />
           <DataFileView
             _key={"Surat Permohonan"}
-            fileUrl="http://localhost:3000/assets/pdf/dokumen1.pdf"
+            fileUrl="/assets/pdf/diazka.pdf"
           ></DataFileView>
         </div>
       </FormContainer>
@@ -92,8 +93,6 @@ export default function HasilPage({ params }) {
                 rows={7}
                 name=""
                 id=""
-                // value={keterangan}
-                // onChange={(e) => setKeterangan(e.target.value)}
               ></textarea>
             </div>
           </div>
