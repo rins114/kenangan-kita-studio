@@ -19,10 +19,10 @@ export default function SignUpForm() {
   return (
     <form
       action=""
-      className="flex flex-col justify-center items-center w-full gap-3"
+      className="flex flex-col justify-center items-center w-full gap-3 max-h-[33rem]"
     >
-      <div className="flex flex-row gap-5 w-full">
-        <div className="flex flex-col w-full gap-3">
+      <div className="flex flex-col lg:flex-row gap-5 w-full overflow-y-auto">
+        <div className="flex flex-col lg:w-1/2 gap-3">
           <Select
             isRequired
             labelPlacement="outside"
@@ -128,7 +128,7 @@ export default function SignUpForm() {
             className="w-full"
           />
         </div>
-        <div className="flex flex-col w-full gap-3">
+        <div className="flex flex-col lg:w-1/2 gap-3">
           <Input
             isRequired
             labelPlacement="outside"
@@ -170,22 +170,22 @@ export default function SignUpForm() {
             radius="none"
           />
           {accountType === "2" && (
-          <FileInputAtom
-            handleFileChange={() => {}}
-            label="SK Jabatan"
-            name="sk_jabatan"
-            fileName={"sk_jabatan"}
-            height={3}
-            rounded={false}
-          />
+            <FileInputAtom
+              handleFileChange={() => {}}
+              label="SK Jabatan"
+              name="sk_jabatan"
+              fileName={"sk_jabatan"}
+              height={3}
+              rounded={false}
+            />
           )}
         </div>
       </div>
-      
+
       <Button
         type="submit"
         size="lg"
-        className="w-full rounded-sm bg-mainColor text-white"
+        className="w-full rounded-sm bg-mainColor text-white h-[5rem] lg:h-[3rem]"
       >
         Daftar
       </Button>

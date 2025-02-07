@@ -4,7 +4,7 @@ import Logo from "../atoms/LogoAuth";
 
 export default function AuthImage() {
   return (
-    <section className="md:flex flex-col justify-center items-center h-full w-1/2 relative hidden">
+    <section className="lg:flex flex-col justify-center items-center h-full w-1/2 relative hidden">
       <Image
         src="/assets/images/authimg.jpg"
         alt="signin"
