@@ -22,10 +22,10 @@ export default function SignInPage() {
         </Button>
       </div>
       <section className="flex flex-col justify-center items-center w-full md:w-1/2 h-full px-2 sm:px-5">
-        <AuthContainer>
+        <AuthContainer classMinWidth="sm:min-w-30rem">
           {/* <Logo size={150} bordered></Logo> */}
-          <div className="w-1/3 justify-center items-center flex flex-col gap-1 mb-3">
-            <h1 className="text-2xl">Sign In</h1>
+          <div className="lg:w-1/2 justify-center items-center flex flex-col gap-1 mb-3">
+            <h1 className="text-2xl">Masuk Akun</h1>
             <hr className="border-2 w-1/2 border-mainColor" />
           </div>
 
