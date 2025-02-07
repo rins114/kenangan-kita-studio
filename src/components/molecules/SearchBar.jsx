@@ -98,14 +98,14 @@ export default function SearchBar() {
         <Button
           size="lg"
           isIconOnly
-          className="flex md:hidden bg-secondaryColor text-white font-medium"
+          className="flex md:hidden bg-gray-500 text-white font-medium"
           onClick={onOpen}
         >
           <FaFilter />
         </Button>
         <Button
           size="lg"
-          className="hidden md:flex bg-secondaryColor text-white font-medium"
+          className="hidden md:flex bg-gray-500 text-white font-medium"
           onClick={onOpen}
         >
           Filter
