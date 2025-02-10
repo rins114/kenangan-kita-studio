@@ -217,7 +217,7 @@ const UploadGaleri = () => {
               <th className="border-gray-400 px-4 py-2 text-center">Gambar</th>
               <th className="border-gray-400 px-4 py-2 text-center">Judul</th>
               <th className="border-gray-400 px-4 py-2 text-center">Deskripsi</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Tanggal Upload</th>
+              <th className="border-gray-400 px-4 py-2 text-center">Tanggal Unggah</th>
               <th className="border-gray-400 px-4 py-2 text-center">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>

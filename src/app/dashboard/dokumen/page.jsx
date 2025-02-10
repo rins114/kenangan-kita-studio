@@ -185,7 +185,7 @@ const UploadTable = () => {
               <th className="border-gray-400 px-4 py-2 text-start">Nomor Peraturan</th>
               <th className="border-gray-400 px-4 py-2 text-start">Produk Hukum</th>
               <th className="border-gray-400 px-4 py-2">Tahun Peraturan</th>
-              <th className="border-gray-400 px-4 py-2">Tanggal Upload</th>
+              <th className="border-gray-400 px-4 py-2">Tanggal Unggah</th>
               <th className="border-gray-400 px-4 py-2">Status</th>
               <th className="border-gray-400 px-4 py-2">Aksi</th>
             </tr>
