@@ -123,9 +123,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             Daftar Permohonan
           </Sidebar.Item>
 
-          {user?.roles !== "Pemohon" &&
-            user?.roles !== "Sekretariat" &&
-            user?.roles !== "Kepala_upbj" && (
+          {user?.roles === "Admin" && (
               <Sidebar.Item
                 className={`${
                   pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
@@ -139,9 +137,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
               </Sidebar.Item>
             )}
 
-          {user?.roles !== "Pemohon" &&
-            user?.roles !== "Sekretariat" &&
-            user?.roles !== "Kepala_upbj" && (
+          {user?.roles === "Admin" && (
               <Sidebar.Item
                 className={`${
                   pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
@@ -155,9 +151,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
               </Sidebar.Item>
             )}
 
-          {user?.roles !== "Pemohon" &&
-            user?.roles !== "Sekretariat" &&
-            user?.roles !== "Kepala_upbj" && (
+          {user?.roles === "Admin" && (
               <Sidebar.Item
                 className={`${
                   pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
@@ -171,9 +165,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
               </Sidebar.Item>
             )}
 
-          {user?.roles !== "Pemohon" &&
-            user?.roles !== "Sekretariat" &&
-            user?.roles !== "Admin" && (
+          {user?.roles === "Kepala_upbj" &&(
               <Sidebar.Item
                 className={`${
                   pathname === "/dashboard/daftar-laporan"

@@ -22,6 +22,29 @@ export default function SignUpForm({
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useRouter();
+  const [passwordError, setPasswordError] = useState(""); // State untuk menyimpan pesan error jika password kurang dari 6 karakter
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  useEffect(() => {
+    // ✅ Validasi panjang password minimal 6 karakter
+    if (formData.password.length > 0 && formData.password.length < 6) {
+      setPasswordError("Password harus minimal 6 karakter");
+    } else {
+      setPasswordError("");
+    }
+
+    // ✅ Validasi Confirm Password harus sama dengan Password
+    if (
+      formData.confirmPassword &&
+      formData.confirmPassword.length > 0 &&
+      formData.confirmPassword !== formData.password
+    ) {
+      setConfirmPasswordError("Konfirmasi password tidak cocok");
+    } else {
+      setConfirmPasswordError("");
+    }
+  }, [formData.password, formData.confirmPassword]); // 🔄 Akan dijalankan setiap Password atau Confirm Password berubah
+
 
   useEffect(() => {
     console.log(userSubRoles);
@@ -95,7 +118,13 @@ export default function SignUpForm({
             onChange={handleFormDataChange}
           />
           <Input
-            label="Password"
+            label={
+              passwordError ? (
+                <span className="text-red-500 text-sm">{passwordError}</span> // ✅ Pesan error muncul di label
+              ) : (
+                "Password" // ✅ Label default jika tidak ada error
+              )
+            }
             isRequired
             labelPlacement="outside"
             placeholder="Masukkan Password Anda"
@@ -121,15 +150,23 @@ export default function SignUpForm({
             type={isVisible ? "text" : "password"}
             className="w-full"
           />
+          
           <Input
-            label="Confirm Password"
+            label={
+              confirmPasswordError ? (
+                <span className="text-red-500 text-sm">{confirmPasswordError}</span> // ✅ Pesan error di label
+              ) : (
+                "Confirm Password" // ✅ Label default jika tidak ada error
+              )
+            }
             isRequired
             labelPlacement="outside"
             placeholder="Masukkan Konfirmasi Password"
             variant="bordered"
             radius="none"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleFormDataChange}
             endContent={
               <button
                 className="focus:outline-none h-full"

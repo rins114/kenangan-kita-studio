@@ -205,19 +205,16 @@ export default function TableCustom() {
       case "nama_pemohon":
         return (
           <>
-            {authUser.roles !== "Pemohon" && authUser.roles !== "Pemohon" ? (
-              <h1>{user.nama_pemohon}</h1>
+            {["Admin", "Sekretariat", "Kepala_upbj"].includes(authUser.roles) ? (
+              <h1>{user.nama_pemohon}</h1> // Peran ini hanya bisa melihat nama, tidak bisa klik
             ) : (
               <div
                 className="flex flex-row-reverse justify-end items-center gap-1 cursor-pointer"
                 onClick={() =>
-                  navigate.push(`/dashboard/permohonan/${user.id}`)
-                }
+                  navigate.push('/dashboard/permohonan/${user.id}')}
               >
                 <MdInsertLink className="text-lg" />
-                <h1 className="font-semibold line-clamp-1">
-                  {user.nama_pemohon}
-                </h1>
+                <h1 className="font-semibold truncate">{user.nama_pemohon}</h1>
               </div>
             )}
           </>
@@ -263,7 +260,9 @@ export default function TableCustom() {
                 </span>
               </Tooltip>
             )}
-            {authUser.roles === "Pemohon" && (
+            {authUser.roles !== "Admin" &&
+              authUser.roles !== "Sekretariat" &&
+              authUser.roles !== "Kepala_upbj" && (
               <Tooltip content="Lihat Detail" color="primary">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -321,6 +320,7 @@ export default function TableCustom() {
           )}
         </TableBody>
       </Table>
+
       <ToastContainer
         position="top-center"
         autoClose={300}
@@ -335,6 +335,7 @@ export default function TableCustom() {
         style={{ zIndex: 999999 }}
         limit={1}
       />
+
       {isModalEditOpen && (
         <Modal handleCloseModal={handleClose} overlayRef={overlayRef}>
           <div
@@ -483,7 +484,7 @@ export default function TableCustom() {
               <p className="text-md mt-3 px-3">
                 <strong>Catatan:</strong> {openedDetail?.catatan}
               </p>
-              {authUser.roles !== "Pemohon" && (
+              {authUser.roles === "Admin" && (
               <div className="flex flex-col gap-1 px-3 mt-3">
                 <h1 className="font-bold">Keterangan</h1>
                 <textarea
@@ -500,7 +501,7 @@ export default function TableCustom() {
             </div>
             <div className="flex flex-row gap-3 justify-end mt-5">
               <Button onPress={() => handleClose()}>Tutup</Button>
-              {authUser.roles !== "Pemohon" && (
+              {authUser.roles === "Admin" && (
                 <Button
                 className={`text-white ${
                   userStatus?.toLowerCase() === "ditolak"
@@ -517,7 +518,7 @@ export default function TableCustom() {
                   Tolak
                 </Button>
               )}
-              {authUser.roles !== "Pemohon" && (
+              {authUser.roles === "Admin" && (
               <Button
                 className={`text-white ${
                   userStatus?.toLowerCase() === "terverifikasi"
