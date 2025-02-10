@@ -48,7 +48,7 @@ export const users = [
     catatan:
       "Pastikan dokumen pendukung sudah lengkap dan akurat sebelum diajukan untuk memastikan proses verifikasi berjalan lancar.",
     file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: "Terverifikasi",
+    status: "Diproses",
   },
   {
     id: 2,
@@ -65,7 +65,7 @@ export const users = [
     metode_pemilihan: "E-Purchasing",
     catatan: "Pengadaan harus sesuai dengan spesifikasi teknis.",
     file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: "Ditolak",
+    status: "Diproses",
   },
   {
     id: 3,
@@ -109,15 +109,52 @@ export default function TableCustom() {
     setIsModalEditOpen(true);
   };
 
+  const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
+  const userStatus = usersData.find((user) => user.id === openedDetail?.id)?.status;
+
+  useEffect(() => {
+    const userKeterangan = usersData.find((user) => user.id === openedDetail?.id)?.keterangan || "";
+    setKeterangan(userKeterangan);
+  }, [openedDetail, usersData]);
+
+  const handleKeteranganChange = (e) => {
+    const newKeterangan = e.target.value;
+    setKeterangan(newKeterangan);
+  
+    // Simpan perubahan keterangan ke dalam usersData
+    setUsersData((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === openedDetail?.id ? { ...user, keterangan: newKeterangan } : user
+      )
+    );
+  };
+  
+
   const handleChangeStatus = (status) => {
-    if (keterangan == "") {
-      toast.warn("Harap isi keterangan!");
+    if (!keterangan.trim()) {
+      toast.warn("Harap Isi Keterangan!");
       return;
     }
+
+    if (!openedDetail) return;
+
+    // Perbarui status dokumen dalam tabel
+    setUsersData((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === openedDetail.id ? { ...user, status, keterangan } : user
+      )
+    );
+
+    // Tampilkan Toast
+    if (status === "Terverifikasi") {
+      toast.success("Dokumen Berhasil Diverifikasi!");
+    } else if (status === "Ditolak") {
+      toast.error("Dokumen Ditolak!");
+    }
+
+    // Tutup modal setelah mengubah status
     handleClose();
-    setKeterangan("");
-    return;
-  };
+};
 
   useEffect(() => {
     if (isModalEditOpen) {
@@ -157,7 +194,7 @@ export default function TableCustom() {
       case "nama_pemohon":
         return (
           <>
-            {authUser.roles !== "Pemohon" ? (
+            {authUser.roles !== "Pemohon" && authUser.roles !== "Pemohon" ? (
               <h1>{user.nama_pemohon}</h1>
             ) : (
               <div
@@ -215,6 +252,16 @@ export default function TableCustom() {
                 </span>
               </Tooltip>
             )}
+            {authUser.roles === "Pemohon" && (
+              <Tooltip content="Lihat Detail" color="primary">
+                <span
+                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                  onClick={() => handleOpenDetail(user.id)}
+                >
+                  <MdOutlineRemoveRedEye className="text-xl text-primary" />
+                </span>
+              </Tooltip>
+            )}
             {authUser.roles === "Sekretariat" && (
               <Tooltip content="Lihat Detail">
                 <span
@@ -253,7 +300,7 @@ export default function TableCustom() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={users}>
+        <TableBody items={usersData}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
@@ -297,11 +344,13 @@ export default function TableCustom() {
                 <strong className="text-center">Status Dokumen :</strong>{" "}
                 <Chip
                   className="capitalize"
-                  color={statusColorMap[openedDetail?.status]}
+                  color={statusColorMap[
+                    usersData.find((user) => user.id === openedDetail?.id)?.status || "default"
+                  ]}
                   size="sm"
                   variant="flat"
                 >
-                  {openedDetail?.status}
+                  {usersData.find((user) => user.id === openedDetail?.id)?.status || "Unknown"}
                 </Chip>
               </div>
 
@@ -423,7 +472,7 @@ export default function TableCustom() {
               <p className="text-md mt-3 px-3">
                 <strong>Catatan:</strong> {openedDetail?.catatan}
               </p>
-
+              {authUser.roles !== "Pemohon" && (
               <div className="flex flex-col gap-1 px-3 mt-3">
                 <h1 className="font-bold">Keterangan</h1>
                 <textarea
@@ -433,24 +482,48 @@ export default function TableCustom() {
                   name=""
                   id=""
                   value={keterangan}
-                  onChange={(e) => setKeterangan(e.target.value)}
+                  onChange={handleKeteranganChange}
                 ></textarea>
               </div>
+              )}
             </div>
             <div className="flex flex-row gap-3 justify-end mt-5">
-              <Button onPress={() => handleClose()}>Close</Button>
-              <Button
-                className="bg-red-500 text-white"
-                onPress={() => handleChangeStatus("Ditolak")}
+              <Button onPress={() => handleClose()}>Tutup</Button>
+              {authUser.roles !== "Pemohon" && (
+                <Button
+                className={`text-white ${
+                  userStatus?.toLowerCase() === "ditolak"
+                    ? "bg-gray-500 cursor-not-allowed text-black"
+                    : "bg-red-500"
+                }`}
+                onPress={() => {
+                  if (userStatus?.toLowerCase() !== "ditolak") {
+                    handleChangeStatus("Ditolak");
+                  }
+                }}
+                isDisabled={userStatus?.toLowerCase() === "ditolak"}
               >
-                Tolak
-              </Button>
+                  Tolak
+                </Button>
+              )}
+              {authUser.roles !== "Pemohon" && (
               <Button
-                className="text-white bg-secondaryColor"
-                onPress={() => handleChangeStatus("Terverifikasi")}
+                className={`text-white ${
+                  userStatus?.toLowerCase() === "terverifikasi"
+                    ? "bg-gray-500 cursor-not-allowed text-black"
+                    : "bg-secondaryColor"
+                }`}
+                onPress={() => {
+                  if (userStatus?.toLowerCase() !== "terverifikasi") {
+                    handleChangeStatus("Terverifikasi");
+                  }
+                }}
+                isDisabled={userStatus?.toLowerCase() === "terverifikasi"}
               >
                 Verifikasi
               </Button>
+              
+              )}
             </div>
           </div>
         </Modal>
