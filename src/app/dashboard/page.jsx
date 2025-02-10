@@ -1,4 +1,6 @@
 "use client";
+import { useAuthUser } from "@/contexts/AuthUserContext";
+import useLogin from "@/hooks/useLogin";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
@@ -10,6 +12,7 @@ import {
   CardFooter,
   CardHeader,
   Image,
+  user,
 } from "@nextui-org/react";
 import { IoHome } from "react-icons/io5";
 const ReactPdfView = dynamic(
@@ -25,6 +28,10 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function DashboardPage() {
+
+  const { user } = useAuthUser();
+  const { isLoading } = useLogin();
+
   const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
@@ -125,7 +132,7 @@ export default function DashboardPage() {
   return (
     <div className="p-5 flex flex-col justify-start items-center gap-3">
       <div className="w-full text-center text-xl font-bold mb-5">
-        {greeting ? greeting : "Halo"}, Selamat Datang di SIMPRO PBJ Kabupaten
+        {greeting ? greeting : "Halo"} {user?.name}, Selamat Datang di SIMPRO PBJ Kabupaten
         Sumbawa!
       </div>
       <div className="w-full flex flex-col lg:flex-row gap-5 justify-center items-center h-full">
