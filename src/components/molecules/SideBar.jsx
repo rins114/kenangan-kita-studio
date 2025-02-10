@@ -49,7 +49,11 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
 
           <div className={`${isMenuOpen ? "" : ""}`}>
             <h1 className="text-md">{user?.name}</h1>
-            <p className="text-xs">{user?.roles}</p>
+            <p className="text-xs">
+              {user?.roles.startsWith("Non_Penyedia_")
+                ? user.roles.split("_")[2]
+                : user.roles}
+            </p>
           </div>
         </div>
       </Sidebar.Items>
