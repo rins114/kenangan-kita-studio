@@ -23,6 +23,7 @@ import {
   MdInsertLink,
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
+import Swal from "sweetalert2";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -147,9 +148,19 @@ export default function TableCustom() {
 
     // Tampilkan Toast
     if (status === "Terverifikasi") {
-      toast.success("Dokumen Berhasil Diverifikasi!");
+      Swal.fire({
+        title: 'Berhasil Diverifikasi!',
+        text: 'Permohonan Telah Diverifikasi.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+      });
     } else if (status === "Ditolak") {
-      toast.error("Dokumen Ditolak!");
+        Swal.fire({
+          title: 'Permohonan Ditolak!',
+          text: 'Dokumen Telah Ditolak.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+        });
     }
 
     // Tutup modal setelah mengubah status
