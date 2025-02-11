@@ -58,6 +58,9 @@ export default function SignUpPage() {
     }
 
     if (formData.password !== confirmPassword) {
+      console.log(formData.password);
+      console.log(confirmPassword);
+
       await showToast("warning", "Konfirmasi Password salah");
       return;
     }

@@ -45,7 +45,6 @@ export default function SignUpForm({
     }
   }, [formData.password, formData.confirmPassword]); // 🔄 Akan dijalankan setiap Password atau Confirm Password berubah
 
-
   useEffect(() => {
     console.log(userSubRoles);
   }, [userSubRoles]);
@@ -150,11 +149,13 @@ export default function SignUpForm({
             type={isVisible ? "text" : "password"}
             className="w-full"
           />
-          
+
           <Input
             label={
               confirmPasswordError ? (
-                <span className="text-red-500 text-sm">{confirmPasswordError}</span> // ✅ Pesan error di label
+                <span className="text-red-500 text-sm">
+                  {confirmPasswordError}
+                </span> // ✅ Pesan error di label
               ) : (
                 "Confirm Password" // ✅ Label default jika tidak ada error
               )
@@ -165,8 +166,8 @@ export default function SignUpForm({
             variant="bordered"
             radius="none"
             name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleFormDataChange}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             endContent={
               <button
                 className="focus:outline-none h-full"
