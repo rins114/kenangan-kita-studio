@@ -32,3 +32,31 @@ export async function getClearingsHouseRequest(token) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function verifyClearingsHouseRequest(token, id) {
+  try {
+    const response = await axios.put(
+      API_ENDPOINT.VERIFY_CLEARING_HOUSE(id),
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}
+
+export async function rejectClearingsHouseRequest(token, id, keterangan) {
+  try {
+    const response = await axios.put(
+      API_ENDPOINT.REJECT_CLEARING_HOUSE(id),
+      { alasan: keterangan },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}

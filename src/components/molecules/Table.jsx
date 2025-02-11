@@ -25,7 +25,11 @@ import {
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
 import Swal from "sweetalert2";
-import { getClearingsHouseRequest } from "@/services/ClearingHouse";
+import {
+  getClearingsHouseRequest,
+  rejectClearingsHouseRequest,
+  verifyClearingsHouseRequest,
+} from "@/services/ClearingHouse";
 import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 
@@ -149,6 +153,36 @@ export default function TableCustom() {
   useEffect(() => {
     console.log(clearingHouseData);
   }, [clearingHouseData]);
+
+  async function handleVerifyClearingHouseRequest(id) {
+    const result = await verifyClearingsHouseRequest(TOKEN, id);
+    if (result.status !== 200) {
+      await showToast(
+        "error",
+        "Kesalahan pada server: verifyClearingsHouseRequest"
+      );
+      return;
+    }
+    await showToast("success", "Verifikasi berhasil");
+    window.location.reload();
+  }
+
+  async function handleRejectClearingHouseRequest(id) {
+    if (!keterangan.trim()) {
+      toast.warn("Harap Isi Keterangan!");
+      return;
+    }
+    const result = await rejectClearingsHouseRequest(TOKEN, id, keterangan);
+    if (result.status !== 200) {
+      await showToast(
+        "error",
+        "Kesalahan pada server: rejectClearingsHouseRequest"
+      );
+      return;
+    }
+    await showToast("success", "Verifikasi berhasil");
+    window.location.reload();
+  }
 
   const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
   const getUserStatus = (status) => {
@@ -572,7 +606,7 @@ export default function TableCustom() {
                     name=""
                     id=""
                     value={keterangan}
-                    onChange={handleKeteranganChange}
+                    onChange={(e) => setKeterangan(e.target.value)}
                   ></textarea>
                 </div>
               )}
@@ -581,14 +615,21 @@ export default function TableCustom() {
               <Button onPress={() => handleClose()}>Tutup</Button>
               {authUser.roles === "Admin" && (
                 <Button
+                  disabled={
+                    openedDetail.status === 3 ||
+                    openedDetail.status === 2 ||
+                    openedDetail.status === 5
+                  }
                   className={`text-white ${
                     openedDetail.status === 2
                       ? "bg-gray-500 cursor-not-allowed text-black"
                       : "bg-red-500"
                   }`}
-                  onPress={() => {
+                  onPress={async () => {
                     if (openedDetail.status !== 2) {
-                      handleChangeStatus("Ditolak");
+                      await handleRejectClearingHouseRequest(
+                        openedDetail.request_id
+                      );
                     }
                   }}
                   isDisabled={openedDetail.status === 2}
@@ -598,14 +639,21 @@ export default function TableCustom() {
               )}
               {authUser.roles === "Admin" && (
                 <Button
+                  disabled={
+                    openedDetail.status === 1 ||
+                    openedDetail.status === 2 ||
+                    openedDetail.status === 5
+                  }
                   className={`text-white ${
                     openedDetail.status === 1
                       ? "bg-gray-500 cursor-not-allowed text-black"
                       : "bg-secondaryColor"
                   }`}
-                  onPress={() => {
+                  onPress={async () => {
                     if (openedDetail.status !== 1) {
-                      handleChangeStatus("Terverifikasi");
+                      await handleVerifyClearingHouseRequest(
+                        openedDetail.request_id
+                      );
                     }
                   }}
                   isDisabled={openedDetail.status === 1}
