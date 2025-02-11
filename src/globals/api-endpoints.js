@@ -10,6 +10,8 @@ const API_ENDPOINT = {
   GET_CLEARING_HOUSE: `${API_BASE_URL}get/clearing-house`,
   GET_USERS: `${API_BASE_URL}get-user`,
   GET_USER_ROLES: `${API_BASE_URL}roles`,
+  VERIFY_USER: (id) => `${API_BASE_URL}verifikasi/${id}/verify`,
+  REJECT_USER: (id) => `${API_BASE_URL}verifikasi/${id}/reject`,
 };
 
 export default API_ENDPOINT;
