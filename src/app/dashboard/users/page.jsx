@@ -333,7 +333,7 @@ const UsersTable = () => {
           }}
         >
           <div
-            className="bg-white rounded-lg p-8 w-full md:w-1/2 shadow-lg h-fit overflow-y-auto"
+            className="bg-white rounded-lg p-8 w-full max-w-2xl shadow-lg h-fit overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-bold mb-2 text-center">
@@ -344,21 +344,16 @@ const UsersTable = () => {
                 <strong>Status :</strong>
                 <span
                   className={
-                    currentUser.isVerified ? "text-green-500" : "text-red-500"
+                    currentUser.is_verified ? "text-green-500" : "text-red-500"
                   }
                 >
-                  {currentUser.isVerified
+                  {currentUser.is_verified
                     ? " Terverifikasi"
                     : " Belum Terverifikasi"}
                 </span>
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-2 max-w-3xl mx-auto text-sm">
-              <p>
-                <strong>Nama Pengguna :</strong>
-                <br />
-                <span className="italic">{currentUser.name}</span>
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-3xl mx-auto text-sm">
               <p>
                 <strong>Nama Lengkap :</strong>
                 <br />
@@ -372,12 +367,16 @@ const UsersTable = () => {
               <p>
                 <strong>Tipe Pemohon:</strong>
                 <br />
-                {currentUser.role}
+                {currentUser.roles.startsWith("Non_Penyedia")
+                  ? "Non Penyedia"
+                  : currentUser.roles}
               </p>
               <p>
                 <strong>Tipe Pengguna:</strong>
                 <br />
-                {currentUser.userType}
+                {currentUser.roles.startsWith("Non_Penyedia")
+                  ? currentUser.roles.split("_")[2]
+                  : currentUser.roles}
               </p>
               <p>
                 <strong>NIP:</strong>
@@ -407,7 +406,7 @@ const UsersTable = () => {
               <p>
                 <strong>No. HP:</strong>
                 <br />
-                {currentUser.no_hp}
+                {currentUser.no_hp ?? "-"}
               </p>
               <p>
                 <strong>SK Jabatan: </strong>
@@ -417,13 +416,12 @@ const UsersTable = () => {
                     <span>{currentUser.sk_jabatan.name}</span>
                     <button
                       onClick={(e) => {
-                        e.preventDefault(); // Mencegah aksi default
-                        const fileUrl = URL.createObjectURL(
-                          currentUser.sk_jabatan
+                        window.open(
+                          `${APP_CONFIG.STORAGE_URL}${currentUser.sk_jabatan}`,
+                          "_blank"
                         );
-                        window.open(fileUrl, "_blank"); // Membuka file dalam tab baru
                       }}
-                      className="text-blue-500 hover:underline ml-2"
+                      className="text-blue-500 hover:underline"
                     >
                       Lihat File
                     </button>
@@ -640,16 +638,12 @@ const UsersTable = () => {
                       <span>SK Jabatan: {editedUser.sk_jabatan.name}</span>
                       <button
                         onClick={(e) => {
-                          e.preventDefault(); // Mencegah aksi default
-                          // const fileUrl = URL.createObjectURL(
-                          //   editedUser.sk_jabatan
-                          // );
                           window.open(
                             `${APP_CONFIG.STORAGE_URL}${editedUser.sk_jabatan}`,
                             "_blank"
                           ); // Membuka file dalam tab baru
                         }}
-                        className="text-blue-500 hover:underline ml-2"
+                        className="text-blue-500 hover:underline"
                       >
                         Lihat File PDF
                       </button>
