@@ -112,13 +112,13 @@ export default function SearchBar() {
         </Button>
       </form>
 
-      <Modal 
-        isOpen={isOpen} 
+      <Modal
+        isOpen={isOpen}
         onClose={onClose}
         size="md"
         placement="center"
         className="pt-1"
-        >
+      >
         <ModalContent
           style={{
             zIndex: 1050,
@@ -127,7 +127,9 @@ export default function SearchBar() {
         >
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-3">Filter Pencarian</ModalHeader>
+              <ModalHeader className="flex flex-col gap-3">
+                Filter Pencarian
+              </ModalHeader>
               <ModalBody className="px-6">
                 <div className="space-y-8 gap-3">
                   <Select
@@ -136,7 +138,9 @@ export default function SearchBar() {
                     placeholder="Pilih bentuk peraturan"
                     variant="bordered"
                     selectedKeys={filters.bentuk ? [filters.bentuk] : []}
-                    onChange={(e) => handleFilterChange("bentuk", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("bentuk", e.target.value)
+                    }
                   >
                     {bentukPeraturan.map((bentuk) => (
                       <SelectItem key={bentuk.value} value={bentuk.value}>
@@ -151,7 +155,9 @@ export default function SearchBar() {
                     placeholder="Masukkan nomor peraturan"
                     variant="bordered"
                     value={filters.nomorPeraturan}
-                    onChange={(e) => handleFilterChange("nomorPeraturan", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("nomorPeraturan", e.target.value)
+                    }
                   />
 
                   <Select
@@ -159,8 +165,12 @@ export default function SearchBar() {
                     labelPlacement="outside"
                     placeholder="Pilih tahun peraturan"
                     variant="bordered"
-                    selectedKeys={filters.tahunPeraturan ? [filters.tahunPeraturan] : []}
-                    onChange={(e) => handleFilterChange("tahunPeraturan", e.target.value)}
+                    selectedKeys={
+                      filters.tahunPeraturan ? [filters.tahunPeraturan] : []
+                    }
+                    onChange={(e) =>
+                      handleFilterChange("tahunPeraturan", e.target.value)
+                    }
                   >
                     {years.map((year) => (
                       <SelectItem key={year.value} value={year.value}>
@@ -174,8 +184,8 @@ export default function SearchBar() {
                 <Button color="danger" variant="light" onClick={onClose}>
                   Batal
                 </Button>
-                <Button 
-                  color="primary" 
+                <Button
+                  color="primary"
                   onClick={handleSearch}
                   className="bg-mainColor"
                 >
