@@ -164,10 +164,18 @@ export default function TableCustom() {
   };
 
   useEffect(() => {
+    console.log("openedDetail:", openedDetail);
+    console.log("usersData:", usersData);
+  
+    if (!openedDetail?.id || !usersData?.length) return;
+  
     const userKeterangan =
-      usersData.find((user) => user.id === openedDetail?.id)?.keterangan || "";
+      usersData.find((user) => user.id === openedDetail.id)?.keterangan || "";
+  
+    console.log("userKeterangan:", userKeterangan);
     setKeterangan(userKeterangan);
   }, [openedDetail, usersData]);
+  
 
   const handleKeteranganChange = (e) => {
     const newKeterangan = e.target.value;
