@@ -235,10 +235,7 @@ export default function ClearingHouseForm({
         />
       </div>
 
-      <div className="flex flex-col xs:flex-row gap-3 justify-end items-center">
-        <Button type="submit" className="bg-green-500 text-white font-medium">
-          Simpan
-        </Button>
+      <div className="flex flex-col xs:flex-row gap-3 justify-center items-center">
         <Button type="submit" className="bg-warning-500 text-white font-medium">
           Simpan & Ajukan
         </Button>
