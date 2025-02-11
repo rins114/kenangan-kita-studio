@@ -381,7 +381,7 @@ const UploadGaleri = () => {
                 className="hidden"
               />
               {formData.gambar && (
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-600 w-full md:w-1/2">
                   File Terpilih: <span className="font-medium">{formData.gambar.name}</span>
                 </p>
               )}
@@ -446,10 +446,10 @@ const UploadGaleri = () => {
       {/* Image Preview Modal */}
       {previewImage && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
           onClick={() => setPreviewImage(null)}
         >
-          <div className="bg-white p-2 rounded-lg max-w-2xl max-h-2xl">
+          <div className="bg-white p-1 rounded-lg max-w-2xl max-h-2xl">
             <img
               src={previewImage}
               alt="Preview"
@@ -462,10 +462,10 @@ const UploadGaleri = () => {
       {/* Deskripsi Preview Modal */}
       {previewDeskripsi && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
+          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
           onClick={() => setPreviewDeskripsi(null)}
         >
-          <div className="bg-white p-6 rounded-lg max-w-2xl">
+          <div className="bg-white p-6 w-full md:w-1/2 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Deskripsi Lengkap</h3>
             <p className="text-gray-700 whitespace-pre-wrap">{previewDeskripsi}</p>
             <button

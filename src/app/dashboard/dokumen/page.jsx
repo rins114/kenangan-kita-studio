@@ -199,7 +199,13 @@ const UploadTable = () => {
                   <td className="border-gray-400 px-4 py-2">{doc.regulationNumber}</td>
                   <td className="border-gray-400 px-4 py-2">{doc.legalProduct}</td>
                   <td className="border-gray-400 px-4 py-2 text-center">{doc.year}</td>
-                  <td className="border-gray-400 px-4 py-2 text-center">{doc.uploadDate}</td>
+                  <td className="border-gray-400 px-4 py-2 text-center">
+                    {new Date(doc.uploadDate).toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                  </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     {doc.isUploaded ? (
                       <span className="text-green-500">Terbit</span>
