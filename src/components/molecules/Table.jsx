@@ -27,6 +27,7 @@ import {
 import Swal from "sweetalert2";
 import { getClearingsHouseRequest } from "@/services/ClearingHouse";
 import { showToast } from "@/utils/ShowToast";
+import APP_CONFIG from "@/globals/app-config";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -91,7 +92,7 @@ export const users = [
 ];
 
 const statusColorMap = {
-  4: "success",
+  1: "success",
   2: "danger",
   0: "warning",
   5: "success",
@@ -110,10 +111,20 @@ export default function TableCustom() {
   const [clearingHouseData, setClearingHouseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleOpenDetail = (id) => {
-    const dataDetail = users.filter((data) => data.id === id);
-    console.log(dataDetail);
-    setOpenedDetail(dataDetail[0]);
+  const handleOpenDetail = async (id) => {
+    const result = await getClearingsHouseRequest(TOKEN);
+    if (result.status !== 200) {
+      await showToast(
+        "error",
+        "Kesalahan pada server: getClearingsHouseRequest"
+      );
+      return;
+    }
+    const dataDetail = result?.data?.clearing_requests?.find(
+      (data) => data.request_id === id
+    );
+    console.log("Data Detail:", dataDetail);
+    setOpenedDetail(dataDetail);
     setIsModalEditOpen(true);
   };
 
@@ -140,9 +151,17 @@ export default function TableCustom() {
   }, [clearingHouseData]);
 
   const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
-  const userStatus = usersData.find(
-    (user) => user.id === openedDetail?.id
-  )?.status;
+  const getUserStatus = (status) => {
+    const statusMap = {
+      0: "Diproses",
+      1: "Terverifikasi",
+      2: "Ditolak",
+      3: "Dihapus",
+      5: "Selesai",
+    };
+
+    return statusMap[status] || "Tidak Diketahui";
+  };
 
   useEffect(() => {
     const userKeterangan =
@@ -274,17 +293,7 @@ export default function TableCustom() {
             size="sm"
             variant="flat"
           >
-            {user?.status === 0
-              ? "Diproses"
-              : user?.status === 1
-              ? "Terverifikasi"
-              : user?.status === 2
-              ? "Ditolak"
-              : user?.status === 3
-              ? "Dihapus"
-              : user?.status === 5
-              ? "Selesai"
-              : "Tidak Diketahui"}
+            {getUserStatus(user.status)}
           </Chip>
         );
       case "actions":
@@ -414,17 +423,11 @@ export default function TableCustom() {
                 <strong className="text-center">Status Dokumen :</strong>{" "}
                 <Chip
                   className="capitalize"
-                  color={
-                    statusColorMap[
-                      usersData.find((user) => user.id === openedDetail?.id)
-                        ?.status || "default"
-                    ]
-                  }
+                  color={statusColorMap[openedDetail?.status]}
                   size="sm"
                   variant="flat"
                 >
-                  {usersData.find((user) => user.id === openedDetail?.id)
-                    ?.status || "Unknown"}
+                  {getUserStatus(openedDetail?.status)}
                 </Chip>
               </div>
 
@@ -452,7 +455,7 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.opd}
+                    value={openedDetail?.nama_opd}
                     className="border px-4 py-2 w-full"
                   />
                 </div>
@@ -470,7 +473,7 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.paket_kegiatan}
+                    value={openedDetail?.nama_paket_kegiatan}
                     className="border px-4 py-2 w-full"
                   />
                 </div>
@@ -488,7 +491,7 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.barang_jasa}
+                    value={openedDetail?.nama_barang_jasa}
                     className="border px-4 py-2 w-full"
                   />
                 </div>
@@ -506,7 +509,7 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.klpd}
+                    value={openedDetail?.nama_kl_pd}
                     className="border px-4 py-2 w-full"
                   />
                 </div>
@@ -531,14 +534,19 @@ export default function TableCustom() {
                 <div>
                   <label className="block font-bold">Surat Permohonan</label>
                   <a
-                    href={openedDetail?.file?.path} // Gunakan path yang benar
+                    href={`${
+                      APP_CONFIG.STORAGE_URL
+                    }${openedDetail?.surat_permohonan.replace(
+                      "/storage/",
+                      ""
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600
                     w-full text-center flex items-center justify-center"
                   >
                     <HiDocumentText className="inline mr-2" />
-                    Lihat Surat: {openedDetail?.file?.name}
+                    Lihat Surat Permohonan
                   </a>
                 </div>
               </div>
@@ -566,16 +574,16 @@ export default function TableCustom() {
               {authUser.roles === "Admin" && (
                 <Button
                   className={`text-white ${
-                    userStatus?.toLowerCase() === "ditolak"
+                    openedDetail.status === 2
                       ? "bg-gray-500 cursor-not-allowed text-black"
                       : "bg-red-500"
                   }`}
                   onPress={() => {
-                    if (userStatus?.toLowerCase() !== "ditolak") {
+                    if (openedDetail.status !== 2) {
                       handleChangeStatus("Ditolak");
                     }
                   }}
-                  isDisabled={userStatus?.toLowerCase() === "ditolak"}
+                  isDisabled={openedDetail.status === 2}
                 >
                   Tolak
                 </Button>
@@ -583,16 +591,16 @@ export default function TableCustom() {
               {authUser.roles === "Admin" && (
                 <Button
                   className={`text-white ${
-                    userStatus?.toLowerCase() === "terverifikasi"
+                    openedDetail.status === 1
                       ? "bg-gray-500 cursor-not-allowed text-black"
                       : "bg-secondaryColor"
                   }`}
                   onPress={() => {
-                    if (userStatus?.toLowerCase() !== "terverifikasi") {
+                    if (openedDetail.status !== 1) {
                       handleChangeStatus("Terverifikasi");
                     }
                   }}
-                  isDisabled={userStatus?.toLowerCase() === "terverifikasi"}
+                  isDisabled={openedDetail.status === 1}
                 >
                   Verifikasi
                 </Button>
