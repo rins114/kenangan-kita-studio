@@ -35,7 +35,8 @@ import APP_CONFIG from "@/globals/app-config";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
-  { name: "OPD", uid: "nama_opd" },
+  { name: "ORGANISASI PERANGKAT DAERAH", uid: "nama_opd" },
+  { name: "TANGGAL PENGAJUAN", uid: "created_at" },
   { name: "STATUS", uid: "status" },
   { name: "AKSI", uid: "actions" },
 ];
@@ -200,16 +201,15 @@ export default function TableCustom() {
   useEffect(() => {
     console.log("openedDetail:", openedDetail);
     console.log("usersData:", usersData);
-  
+
     if (!openedDetail?.id || !usersData?.length) return;
-  
+
     const userKeterangan =
       usersData.find((user) => user.id === openedDetail.id)?.keterangan || "";
-  
+
     console.log("userKeterangan:", userKeterangan);
     setKeterangan(userKeterangan);
   }, [openedDetail, usersData]);
-  
 
   const handleKeteranganChange = (e) => {
     const newKeterangan = e.target.value;
@@ -322,9 +322,6 @@ export default function TableCustom() {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user?.nama_opd}
-            </p>
           </div>
         );
       case "status":
@@ -337,6 +334,16 @@ export default function TableCustom() {
           >
             {getUserStatus(user.status)}
           </Chip>
+        );
+      case "created_at":
+        return (
+          <h1 className="capitalize" size="sm" variant="flat">
+            {new Date(user.created_at).toLocaleDateString("id-ID", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })}
+          </h1>
         );
       case "actions":
         return (
@@ -413,7 +420,13 @@ export default function TableCustom() {
           {(column) => (
             <TableColumn
               key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
+              align={
+                column.uid === "actions" ||
+                column.uid === "status" ||
+                column.uid === "nama_opd"
+                  ? "center"
+                  : "start"
+              }
             >
               {column.name}
             </TableColumn>
