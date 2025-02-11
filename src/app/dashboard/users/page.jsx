@@ -11,9 +11,10 @@ import {
 } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getUsers } from "@/services/Users";
+import { getUsers, rejectUser, verifyUser } from "@/services/Users";
 import { showToast } from "@/utils/ShowToast";
 import { useRouter } from "next/navigation";
+import APP_CONFIG from "@/globals/app-config";
 const TOKEN = localStorage.getItem("access_token");
 
 const UsersTable = () => {
@@ -46,6 +47,27 @@ const UsersTable = () => {
     }
     fetchUsers();
   }, []);
+
+  //Method integrasi backend untuk verifikasi user
+  const handleVerifikasiToggle = async (id) => {
+    if (!editedUser.is_verified) {
+      const result = await verifyUser(TOKEN, id);
+      if (result.status !== 200) {
+        await showToast("error", `Verifikasi user: ${result.message}`);
+        return;
+      }
+      toast.success("Pengguna berhasil diverifikasi!");
+      window.location.reload();
+    } else {
+      const result = await rejectUser(TOKEN, id);
+      if (result.status !== 200) {
+        await showToast("error", `Verifikasi user: ${result.message}`);
+        return;
+      }
+      toast.error("Verifikasi pengguna dibatalkan.");
+      window.location.reload();
+    }
+  };
 
   useEffect(() => {
     console.log(users);
@@ -209,9 +231,6 @@ const UsersTable = () => {
             <tr className="bg-gray-300">
               <th className="border-gray-400 px-4 py-2 text-center">No.</th>
               <th className="border-gray-400 px-4 py-2 text-start">
-                Nama Pengguna
-              </th>
-              <th className="border-gray-400 px-4 py-2 text-start">
                 Nama Lengkap
               </th>
               <th className="border-gray-400 px-4 py-2 text-start">Email</th>
@@ -232,16 +251,21 @@ const UsersTable = () => {
                   <td className="border-gray-400 px-4 py-2 italic">
                     {user.name}
                   </td>
-                  <td className="border-gray-400 px-4 py-2">{user.name}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
-                  <td className="border-gray-400 px-4 py-2">{user.name}</td>
+                  <td className="border-gray-400 px-4 py-2">
+                    {user?.roles?.startsWith("Non_Penyedia_")
+                      ? user?.roles?.split("_")[2]
+                      : user?.roles}
+                  </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <span
                       className={
-                        user.isVerified ? "text-green-500" : "text-red-500"
+                        user.is_verified === 1
+                          ? "text-green-500"
+                          : "text-red-500"
                       }
                     >
-                      {user.isVerified
+                      {user.is_verified === 1
                         ? "Terverifikasi"
                         : "Belum Terverifikasi"}
                     </span>
@@ -443,7 +467,7 @@ const UsersTable = () => {
                 </label>
                 <div className="flex items-center gap-4">
                   {/* Tampilkan status verifikasi dengan ikon */}
-                  {editedUser.isVerified ? (
+                  {editedUser.is_verified ? (
                     <div className="flex items-center gap-2 m-2">
                       <FiCheck className="w-5 h-5 text-green-500" />
                       <span className="font-semibold text-green-500">
@@ -462,20 +486,11 @@ const UsersTable = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <label className="block">Nama Pengguna</label>
-                  <input
-                    disabled
-                    type="text"
-                    value={editedUser.username}
-                    className="border px-4 py-2 w-full italic"
-                  />
-                </div>
-                <div>
                   <label className="block">Nama Lengkap</label>
                   <input
                     disabled
                     type="text"
-                    value={editedUser.fullName}
+                    value={editedUser.name}
                     onChange={(e) =>
                       setEditedUser({ ...editedUser, fullName: e.target.value })
                     }
@@ -497,7 +512,11 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Tipe Pemohon</label>
                   <select
-                    value={editedUser.applicantType}
+                    value={
+                      editedUser.roles.startsWith("Non_Penyedia")
+                        ? "Non Penyedia"
+                        : "Penyedia"
+                    }
                     onChange={(e) =>
                       setEditedUser({
                         ...editedUser,
@@ -513,18 +532,18 @@ const UsersTable = () => {
                 <div>
                   <label className="block">Tipe Pengguna</label>
                   <select
-                    value={editedUser.userType}
+                    value={editedUser.roles}
                     onChange={(e) =>
                       setEditedUser({ ...editedUser, userType: e.target.value })
                     }
                     className="border px-4 py-2 w-full"
                     placeholder="PILIH"
                   >
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="PA">PA</option>
-                    <option value="BENDAHARA">BENDAHARA</option>
-                    <option value="PPK">BENDAHARA</option>
-                    <option value="PPTK">BENDAHARA</option>
+                    <option value="Penyedia">Penyedia</option>
+                    <option value="Non_Penyedia_PA">PA</option>
+                    <option value="Non_Penyedia_BENDAHARA">BENDAHARA</option>
+                    <option value="Non_Penyedia_PPK">BENDAHARA</option>
+                    <option value="Non_Penyedia_PPTK">BENDAHARA</option>
                   </select>
                 </div>
                 <div>
@@ -556,7 +575,7 @@ const UsersTable = () => {
                   <input
                     disabled
                     type="text"
-                    value={editedUser.npwp}
+                    value={editedUser.no_npwp}
                     onChange={(e) =>
                       setEditedUser({ ...editedUser, npwp: e.target.value })
                     }
@@ -568,7 +587,7 @@ const UsersTable = () => {
                   <input
                     disabled
                     type="text"
-                    value={editedUser.institutionName}
+                    value={editedUser.nama_perusahaan}
                     onChange={(e) =>
                       setEditedUser({
                         ...editedUser,
@@ -583,7 +602,7 @@ const UsersTable = () => {
                   <input
                     disabled
                     type="text"
-                    value={editedUser.institutionAddress}
+                    value={editedUser.alamat_perusahaan}
                     onChange={(e) =>
                       setEditedUser({
                         ...editedUser,
@@ -597,7 +616,8 @@ const UsersTable = () => {
                   <label className="block">No. HP</label>
                   <input
                     type="text"
-                    value={editedUser.phoneNumber}
+                    disabled
+                    value={editedUser.no_hp ? editedUser.no_hp : "-"}
                     onChange={(e) =>
                       setEditedUser({
                         ...editedUser,
@@ -608,23 +628,26 @@ const UsersTable = () => {
                   />
                 </div>
                 <div>
-                  <label className="block">SK Jabatan (.pdf)</label>
+                  {/* <label className="block">SK Jabatan (.pdf)</label>
                   <input
                     type="file"
                     onChange={handleSkFileChange}
                     className="border px-4 py-2 w-full"
-                  />
+                  /> */}
                   {/* Display file name if available */}
-                  {editedUser.skFile && (
+                  {editedUser.sk_jabatan && (
                     <div className="mt-2">
-                      <span>File yang diunggah: {editedUser.skFile.name}</span>
+                      <span>SK Jabatan: {editedUser.sk_jabatan.name}</span>
                       <button
                         onClick={(e) => {
                           e.preventDefault(); // Mencegah aksi default
-                          const fileUrl = URL.createObjectURL(
-                            editedUser.skFile
-                          );
-                          window.open(fileUrl, "_blank"); // Membuka file dalam tab baru
+                          // const fileUrl = URL.createObjectURL(
+                          //   editedUser.sk_jabatan
+                          // );
+                          window.open(
+                            `${APP_CONFIG.STORAGE_URL}${editedUser.sk_jabatan}`,
+                            "_blank"
+                          ); // Membuka file dalam tab baru
                         }}
                         className="text-blue-500 hover:underline ml-2"
                       >
@@ -637,10 +660,10 @@ const UsersTable = () => {
             </form>
             <div className="mt-4 flex justify-center gap-4 text-sm">
               {/* Tombol Verifikasi atau Batalkan Verifikasi */}
-              {!editedUser.isVerified ? (
+              {!editedUser.is_verified ? (
                 <button
                   type="button"
-                  onClick={handleVerificationToggle}
+                  onClick={() => handleVerifikasiToggle(editedUser.id)}
                   className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 flex items-center gap-2"
                 >
                   <FiCheck className="w-5 h-5" />
@@ -649,7 +672,7 @@ const UsersTable = () => {
               ) : (
                 <button
                   type="button"
-                  onClick={handleVerificationToggle}
+                  onClick={() => handleVerifikasiToggle(editedUser.id)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 flex items-center gap-2"
                 >
                   <FiX className="w-5 h-5" />
