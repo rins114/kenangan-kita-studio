@@ -10,6 +10,7 @@ import {
   Chip,
   Tooltip,
   Button,
+  CircularProgress,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -24,10 +25,11 @@ import {
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
 import Swal from "sweetalert2";
+import { getClearingsHouseRequest } from "@/services/ClearingHouse";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
-  { name: "OPD", uid: "opd" },
+  { name: "OPD", uid: "nama_opd" },
   { name: "STATUS", uid: "status" },
   { name: "AKSI", uid: "actions" },
 ];
@@ -49,7 +51,7 @@ export const users = [
     catatan:
       "Pastikan dokumen pendukung sudah lengkap dan akurat sebelum diajukan untuk memastikan proses verifikasi berjalan lancar.",
     file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: "Diproses",
+    status: 0,
   },
   {
     id: 2,
@@ -66,7 +68,7 @@ export const users = [
     metode_pemilihan: "E-Purchasing",
     catatan: "Pengadaan harus sesuai dengan spesifikasi teknis.",
     file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: "Diproses",
+    status: 0,
   },
   {
     id: 3,
@@ -83,16 +85,18 @@ export const users = [
     metode_pemilihan: "Pengadaan Langsung",
     catatan: "Perhatikan ketentuan K3 saat pelaksanaan proyek.",
     file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: "Diproses",
+    status: 0,
   },
 ];
 
 const statusColorMap = {
-  Terverifikasi: "success",
-  Ditolak: "danger",
-  Diproses: "warning",
-  Selesai: "success",
+  4: "success",
+  2: "danger",
+  0: "warning",
+  5: "success",
 };
+
+const TOKEN = localStorage.getItem("access_token");
 
 export default function TableCustom() {
   const navigate = useRouter();
@@ -102,6 +106,8 @@ export default function TableCustom() {
   const overlayRef = useRef(null);
   const [openedDetail, setOpenedDetail] = useState(null);
   const [keterangan, setKeterangan] = useState("");
+  const [clearingHouseData, setClearingHouseData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleOpenDetail = (id) => {
     const dataDetail = users.filter((data) => data.id === id);
@@ -110,26 +116,52 @@ export default function TableCustom() {
     setIsModalEditOpen(true);
   };
 
-  const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
-  const userStatus = usersData.find((user) => user.id === openedDetail?.id)?.status;
+  useEffect(() => {
+    async function fetchClearingHouseRequest() {
+      const result = await getClearingsHouseRequest(TOKEN);
+      if (result.status !== 200) {
+        await showToast(
+          "error",
+          "Kesalahan pada server: getClearingsHouseRequest"
+        );
+        return;
+      }
+      console.log(result.data);
+
+      setClearingHouseData(result.data.clearing_requests);
+      setIsLoading(false);
+    }
+    fetchClearingHouseRequest();
+  }, []);
 
   useEffect(() => {
-    const userKeterangan = usersData.find((user) => user.id === openedDetail?.id)?.keterangan || "";
+    console.log(clearingHouseData);
+  }, [clearingHouseData]);
+
+  const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
+  const userStatus = usersData.find(
+    (user) => user.id === openedDetail?.id
+  )?.status;
+
+  useEffect(() => {
+    const userKeterangan =
+      usersData.find((user) => user.id === openedDetail?.id)?.keterangan || "";
     setKeterangan(userKeterangan);
   }, [openedDetail, usersData]);
 
   const handleKeteranganChange = (e) => {
     const newKeterangan = e.target.value;
     setKeterangan(newKeterangan);
-  
+
     // Simpan perubahan keterangan ke dalam usersData
     setUsersData((prevUsers) =>
       prevUsers.map((user) =>
-        user.id === openedDetail?.id ? { ...user, keterangan: newKeterangan } : user
+        user.id === openedDetail?.id
+          ? { ...user, keterangan: newKeterangan }
+          : user
       )
     );
   };
-  
 
   const handleChangeStatus = (status) => {
     if (!keterangan.trim()) {
@@ -149,23 +181,23 @@ export default function TableCustom() {
     // Tampilkan Toast
     if (status === "Terverifikasi") {
       Swal.fire({
-        title: 'Berhasil Diverifikasi!',
-        text: 'Permohonan Telah Diverifikasi.',
-        icon: 'success',
-        confirmButtonColor: '#3085d6',
+        title: "Berhasil Diverifikasi!",
+        text: "Permohonan Telah Diverifikasi.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
       });
     } else if (status === "Ditolak") {
-        Swal.fire({
-          title: 'Permohonan Ditolak!',
-          text: 'Dokumen Telah Ditolak.',
-          icon: 'error',
-          confirmButtonColor: '#3085d6',
-        });
+      Swal.fire({
+        title: "Permohonan Ditolak!",
+        text: "Dokumen Telah Ditolak.",
+        icon: "error",
+        confirmButtonColor: "#3085d6",
+      });
     }
 
     // Tutup modal setelah mengubah status
     handleClose();
-};
+  };
 
   useEffect(() => {
     if (isModalEditOpen) {
@@ -205,26 +237,31 @@ export default function TableCustom() {
       case "nama_pemohon":
         return (
           <>
-            {["Admin", "Sekretariat", "Kepala_upbj"].includes(authUser.roles) ? (
+            {["Admin", "Sekretariat", "Kepala_upbj"].includes(
+              authUser.roles
+            ) ? (
               <h1>{user.nama_pemohon}</h1> // Peran ini hanya bisa melihat nama, tidak bisa klik
             ) : (
               <div
                 className="flex flex-row-reverse justify-end items-center gap-1 cursor-pointer"
                 onClick={() =>
-                  navigate.push('/dashboard/permohonan/${user.id}')}
+                  navigate.push(`/dashboard/permohonan/${user?.request_id}`)
+                }
               >
                 <MdInsertLink className="text-lg" />
-                <h1 className="font-semibold truncate">{user.nama_pemohon}</h1>
+                <h1 className="font-semibold line-clamp-1">
+                  {user?.nama_pemohon}
+                </h1>
               </div>
             )}
           </>
         );
-      case "opd":
+      case "nama_opd":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
             <p className="text-bold text-sm capitalize text-default-400">
-              {user.opd}
+              {user?.nama_opd}
             </p>
           </div>
         );
@@ -232,11 +269,21 @@ export default function TableCustom() {
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[user?.status]}
             size="sm"
             variant="flat"
           >
-            {user.status}
+            {user?.status === 0
+              ? "Diproses"
+              : user?.status === 1
+              ? "Terverifikasi"
+              : user?.status === 2
+              ? "Ditolak"
+              : user?.status === 3
+              ? "Dihapus"
+              : user?.status === 5
+              ? "Selesai"
+              : "Tidak Diketahui"}
           </Chip>
         );
       case "actions":
@@ -254,7 +301,7 @@ export default function TableCustom() {
               <Tooltip content="Edit Status" color="primary">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                  onClick={() => handleOpenDetail(user.id)}
+                  onClick={() => handleOpenDetail(user?.request_id)}
                 >
                   <BiEditAlt className="text-xl text-primary" />
                 </span>
@@ -263,21 +310,23 @@ export default function TableCustom() {
             {authUser.roles !== "Admin" &&
               authUser.roles !== "Sekretariat" &&
               authUser.roles !== "Kepala_upbj" && (
-              <Tooltip content="Lihat Detail" color="primary">
-                <span
-                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                  onClick={() => handleOpenDetail(user.id)}
-                >
-                  <MdOutlineRemoveRedEye className="text-xl text-primary" />
-                </span>
-              </Tooltip>
-            )}
+                <Tooltip content="Lihat Detail" color="primary">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                    onClick={() => handleOpenDetail(user?.request_id)}
+                  >
+                    <MdOutlineRemoveRedEye className="text-xl text-primary" />
+                  </span>
+                </Tooltip>
+              )}
             {authUser.roles === "Sekretariat" && (
               <Tooltip content="Lihat Detail">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
                   onClick={() => {
-                    navigate.push(`/dashboard/permohonan/hasil/${user.id}`);
+                    navigate.push(
+                      `/dashboard/permohonan/hasil/${user?.request_id}`
+                    );
                   }}
                 >
                   <MdOutlineRemoveRedEye className="text-xl" />
@@ -297,6 +346,14 @@ export default function TableCustom() {
     }
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress size={60} />
+      </div>
+    );
+  }
+
   return (
     <>
       <Table aria-label="Example table with custom cells">
@@ -310,9 +367,9 @@ export default function TableCustom() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={usersData}>
+        <TableBody items={clearingHouseData}>
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.request_id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
@@ -356,13 +413,17 @@ export default function TableCustom() {
                 <strong className="text-center">Status Dokumen :</strong>{" "}
                 <Chip
                   className="capitalize"
-                  color={statusColorMap[
-                    usersData.find((user) => user.id === openedDetail?.id)?.status || "default"
-                  ]}
+                  color={
+                    statusColorMap[
+                      usersData.find((user) => user.id === openedDetail?.id)
+                        ?.status || "default"
+                    ]
+                  }
                   size="sm"
                   variant="flat"
                 >
-                  {usersData.find((user) => user.id === openedDetail?.id)?.status || "Unknown"}
+                  {usersData.find((user) => user.id === openedDetail?.id)
+                    ?.status || "Unknown"}
                 </Chip>
               </div>
 
@@ -485,56 +546,55 @@ export default function TableCustom() {
                 <strong>Catatan:</strong> {openedDetail?.catatan}
               </p>
               {authUser.roles === "Admin" && (
-              <div className="flex flex-col gap-1 px-3 mt-3">
-                <h1 className="font-bold">Keterangan</h1>
-                <textarea
-                  className="border-2 rounded-md w-full p-2"
-                  placeholder="Masukkan keterangan di sini..."
-                  rows={7}
-                  name=""
-                  id=""
-                  value={keterangan}
-                  onChange={handleKeteranganChange}
-                ></textarea>
-              </div>
+                <div className="flex flex-col gap-1 px-3 mt-3">
+                  <h1 className="font-bold">Keterangan</h1>
+                  <textarea
+                    className="border-2 rounded-md w-full p-2"
+                    placeholder="Masukkan keterangan di sini..."
+                    rows={7}
+                    name=""
+                    id=""
+                    value={keterangan}
+                    onChange={handleKeteranganChange}
+                  ></textarea>
+                </div>
               )}
             </div>
             <div className="flex flex-row gap-3 justify-end mt-5">
               <Button onPress={() => handleClose()}>Tutup</Button>
               {authUser.roles === "Admin" && (
                 <Button
-                className={`text-white ${
-                  userStatus?.toLowerCase() === "ditolak"
-                    ? "bg-gray-500 cursor-not-allowed text-black"
-                    : "bg-red-500"
-                }`}
-                onPress={() => {
-                  if (userStatus?.toLowerCase() !== "ditolak") {
-                    handleChangeStatus("Ditolak");
-                  }
-                }}
-                isDisabled={userStatus?.toLowerCase() === "ditolak"}
-              >
+                  className={`text-white ${
+                    userStatus?.toLowerCase() === "ditolak"
+                      ? "bg-gray-500 cursor-not-allowed text-black"
+                      : "bg-red-500"
+                  }`}
+                  onPress={() => {
+                    if (userStatus?.toLowerCase() !== "ditolak") {
+                      handleChangeStatus("Ditolak");
+                    }
+                  }}
+                  isDisabled={userStatus?.toLowerCase() === "ditolak"}
+                >
                   Tolak
                 </Button>
               )}
               {authUser.roles === "Admin" && (
-              <Button
-                className={`text-white ${
-                  userStatus?.toLowerCase() === "terverifikasi"
-                    ? "bg-gray-500 cursor-not-allowed text-black"
-                    : "bg-secondaryColor"
-                }`}
-                onPress={() => {
-                  if (userStatus?.toLowerCase() !== "terverifikasi") {
-                    handleChangeStatus("Terverifikasi");
-                  }
-                }}
-                isDisabled={userStatus?.toLowerCase() === "terverifikasi"}
-              >
-                Verifikasi
-              </Button>
-              
+                <Button
+                  className={`text-white ${
+                    userStatus?.toLowerCase() === "terverifikasi"
+                      ? "bg-gray-500 cursor-not-allowed text-black"
+                      : "bg-secondaryColor"
+                  }`}
+                  onPress={() => {
+                    if (userStatus?.toLowerCase() !== "terverifikasi") {
+                      handleChangeStatus("Terverifikasi");
+                    }
+                  }}
+                  isDisabled={userStatus?.toLowerCase() === "terverifikasi"}
+                >
+                  Verifikasi
+                </Button>
               )}
             </div>
           </div>

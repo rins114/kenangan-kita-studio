@@ -7,6 +7,8 @@ const API_ENDPOINT = {
   SESSION: `${API_BASE_URL}me`,
   LOGOUT: `${API_BASE_URL}logout`,
   POST_CLEARING_HOUSE: `${API_BASE_URL}clearing-house`,
+  GET_CLEARING_HOUSE: `${API_BASE_URL}get/clearing-house`,
+  GET_USERS: `${API_BASE_URL}get-user`,
   GET_USER_ROLES: `${API_BASE_URL}roles`,
 };
 
