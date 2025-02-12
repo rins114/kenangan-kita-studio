@@ -12,6 +12,7 @@ const TOKEN = localStorage.getItem("access_token");
 import scanFileGif from "../../../../../public/assets/gif/scan_doc_3";
 import rejectedFileGif from "../../../../../public/assets/gif/rejected_doc";
 import acceptedFileGif from "../../../../../public/assets/gif/accepted_doc";
+import workingGif from "../../../../../public/assets/gif/working";
 import Lottie from "react-lottie";
 
 export default function PermohonanDetailPage({ params }) {
@@ -118,91 +119,115 @@ export default function PermohonanDetailPage({ params }) {
         </section>
       )}
       {section === "Step-2" && (
-        <section className="h-full min-h-96 border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
+        <section className="h-full min-h-[40rem] border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
           {getUserStatus(clearingHouseData.status) === "Diproses" && (
-            <div className="p-5 flex flex-col justify-center items-center">
+            <div className="p-5 flex flex-col justify-center items-center max-w-3xl">
               <h1 className="font-medium text-3xl">
                 Permohonan berhasil diajukan
               </h1>
               <h1>Mohon menunggu proses verifikasi berkas</h1>
-
-              <Lottie
-                options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: scanFileGif,
-                  rendererSettings: {
-                    preserveAspectRatio: "xMidYMid slice",
-                  },
-                }}
-                height={200}
-                width={200}
-              />
+              <div className="w-full max-w-lg">
+                <Lottie
+                  options={{
+                    loop: true,
+                    autoplay: true,
+                    animationData: scanFileGif,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
             </div>
           )}
           {getUserStatus(clearingHouseData.status) === "Ditolak" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
-              <h1 className="font-medium text-3xl">
+              <h1 className="font-medium text-3xl text-center">
                 Permohonan Ditolak, dengan alasan:
               </h1>
               <p className="text-lg text-red-500">
                 {clearingHouseData.remarks}
               </p>
-              <Lottie
-                options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: rejectedFileGif,
-                  rendererSettings: {
-                    preserveAspectRatio: "xMidYMid slice",
-                  },
-                }}
-                height={200}
-                width={200}
-              />
+              <div className="w-full max-w-lg">
+                <Lottie
+                  options={{
+                    loop: false,
+                    autoplay: true,
+                    animationData: rejectedFileGif,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
             </div>
           )}
           {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
-
-              <Lottie
-                options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: acceptedFileGif,
-                  rendererSettings: {
-                    preserveAspectRatio: "xMidYMid slice",
-                  },
-                }}
-                height={200}
-                width={200}
-              />
+              <div className="w-full max-w-lg">
+                <Lottie
+                  options={{
+                    loop: false,
+                    autoplay: true,
+                    animationData: acceptedFileGif,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
             </div>
           )}
           {getUserStatus(clearingHouseData.status) === "Selesai" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
-
-              <Lottie
-                options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: acceptedFileGif,
-                  rendererSettings: {
-                    preserveAspectRatio: "xMidYMid slice",
-                  },
-                }}
-                height={200}
-                width={200}
-              />
+              <div className="w-full max-w-lg">
+                <Lottie
+                  options={{
+                    loop: false,
+                    autoplay: true,
+                    animationData: acceptedFileGif,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
             </div>
           )}
         </section>
       )}
       {section === "Step-3" && (
-        <section className="h-full min-h-96 border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md">
-          <h1>Content Step 3</h1>
+        <section className="h-full min-h-[40rem] border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
+          {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
+            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
+              <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
+              <h1 className="text-lg">Mohon menunggu proses keputusan akhir</h1>
+              <div className="w-full max-w-lg">
+                <Lottie
+                  options={{
+                    loop: true,
+                    autoplay: true,
+                    animationData: workingGif,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
+            </div>
+          )}
         </section>
       )}
     </div>
