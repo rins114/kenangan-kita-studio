@@ -4,6 +4,10 @@ import DataView from "@/components/atoms/DataView";
 import FileInputAtom from "@/components/atoms/FileInput";
 import FormContainer from "@/components/molecules/FormContainer";
 import PdfViewer from "@/components/molecules/ReactPdfView";
+import APP_CONFIG from "@/globals/app-config";
+import { getClearingsHouseRequest } from "@/services/ClearingHouse";
+import { postClearingHouseRequestOutput } from "@/services/ClearingHouseOutput";
+import { showToast } from "@/utils/ShowToast";
 import {
   Button,
   CircularProgress,
@@ -15,53 +19,151 @@ import {
 } from "@nextui-org/react";
 import { FileInput, Label } from "flowbite-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+const TOKEN = localStorage.getItem("access_token");
 
 export default function HasilPage({ params }) {
   const { id } = React.use(params);
   const [isLangsung, setIsLangsung] = useState(true);
   const navigate = useRouter();
+  const [file, setFile] = useState({ name: "", keluaran: "" });
+  const [keterangan, setKeterangan] = useState("");
+
+  const [clearingHouseData, setClearingHouseData] = useState(null);
+
+  const getUserStatus = (status) => {
+    const statusMap = {
+      0: "Diproses",
+      1: "Terverifikasi",
+      2: "Ditolak",
+      3: "Dihapus",
+      5: "Selesai",
+    };
+
+    return statusMap[status] || "Tidak Diketahui";
+  };
+
+  useEffect(() => {
+    async function fetchClearingHouseData() {
+      const result = await getClearingsHouseRequest(TOKEN);
+      if (result.status !== 200) {
+        await showToast(
+          "error",
+          "Kesalahan pada server: getClearingsHouseRequest"
+        );
+        return;
+      }
+
+      const chData = result.data.clearing_requests.find(
+        (data) => data.request_id === parseInt(id)
+      );
+      setClearingHouseData(chData);
+    }
+    fetchClearingHouseData();
+  }, []);
+
+  async function handlePostHasil(e) {
+    e.preventDefault();
+    if (keterangan === "") {
+      toast.warn("Harap isi Balasan");
+      return;
+    }
+    if (!isLangsung && file.keluaran === "") {
+      toast.warn("Harap upload hasil diskusi");
+      return;
+    }
+    const data = {
+      request_id: id,
+      tipe_process: isLangsung ? "langsung" : "tidak langsung",
+      keluaran: file.keluaran,
+      remarks: keterangan,
+    };
+
+    const formDataToSend = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formDataToSend.append(key, value);
+      }
+    });
+
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    const result = await postClearingHouseRequestOutput(TOKEN, formDataToSend);
+
+    if (result.status !== 201) {
+      await showToast(
+        "error",
+        "Kesalahan pada server: postClearingHouseRequestOutput"
+      );
+      return;
+    }
+    toast.success("Berhasil");
+    navigate.push(`/dashboard/permohonan`);
+  }
+
+  function handleFileChange(name, keluaran) {
+    setFile((prevState) => ({ ...prevState, name, keluaran }));
+  }
+
   return (
     <div className="p-5 flex flex-col gap-3">
-      <FormContainer title="Detail Permohonan Clearing House" className="text-center">
+      <FormContainer
+        title="Detail Permohonan Clearing House"
+        className="text-center"
+      >
         <div className="p-5 flex flex-col gap-3">
-          <DataView _key="Status Dokumen" value="Terverifikasi" />
-          <DataView _key="Nama Pemohon" value="Andi Prasetyo" />
-          <DataView _key="Nama OPD" value="Dinas Pekerjaan Umum dan Penataan Ruang" />
+          <DataView
+            _key="Status Dokumen"
+            value={getUserStatus(clearingHouseData?.status)}
+          />
+          <DataView
+            _key="Nama Pemohon"
+            value={clearingHouseData?.nama_pemohon}
+          />
+          <DataView _key="Nama OPD" value={clearingHouseData?.nama_opd} />
           <DataView
             _key="Nama Paket Kegiatan"
-            value="Pembangunan Jalan Lingkungan"
+            value={clearingHouseData?.nama_paket_kegiatan}
           />
           <DataView
             _key="Nama Barang/Jasa"
-            value="Jasa Konstruksi"
+            value={clearingHouseData?.nama_barang_jasa}
+          />
+          <DataView _key="Nama K/L/PD" value={clearingHouseData?.nama_kl_pd} />
+          <DataView _key="Nomor Sirup" value={clearingHouseData?.nomor_sirup} />
+          <DataView
+            _key="Tahun Anggaran"
+            value={clearingHouseData?.tahun_anggaran}
           />
           <DataView
-            _key="Nama K/L/PD"
-            value="Kementerian PUPR"
+            _key="Pagu Anggaran"
+            value={clearingHouseData?.pagu_anggaran}
           />
-          <DataView _key="Nomor Sirup" value="1234567890" />
-          <DataView _key="Tahun Anggaran" value="2024" />
-          <DataView _key="Pagu Anggaran" value="1.500.000.000" />
-          <DataView _key="Nilai HPS" value="1.450.000.000" />
+          <DataView _key="Nilai HPS" value={clearingHouseData?.nilai_hps} />
           <DataView
             _key="Lokasi Pelaksanaan"
-            value="Kabupaten Lombok Tengah"
+            value={clearingHouseData?.lokasi_pelaksanaan}
           />
-          <DataView _key="Metode Pemilihan" value="Tender Umum" />
           <DataView
-            _key="Catatan"
-            value="Pastikan dokumen pendukung sudah lengkap dan akurat sebelum diajukan untuk memastikan proses verifikasi berjalan lancar."
+            _key="Metode Pemilihan"
+            value={clearingHouseData?.metode_pemilihan}
           />
+          <DataView _key="Catatan" value={clearingHouseData?.catatan} />
           <DataFileView
             _key={"Surat Permohonan"}
-            fileUrl="/assets/pdf/diazka.pdf"
+            fileUrl={`${
+              APP_CONFIG.STORAGE_URL
+            }${clearingHouseData?.surat_permohonan.replace(/\/storage\//, "")}`}
           ></DataFileView>
         </div>
       </FormContainer>
       <FormContainer title="Keputusan Akhir">
-        <form action="">
+        <form onSubmit={async (e) => await handlePostHasil(e)}>
           <div className="p-5 flex flex-col gap-3">
             <RadioGroup
               color="primary"
@@ -80,9 +182,12 @@ export default function HasilPage({ params }) {
             </RadioGroup>
             {!isLangsung && (
               <FileInputAtom
+                handleFileChange={handleFileChange}
                 labelSize="text-md"
                 labelColor="text-zinc-500"
                 label="Upload Berkas Hasil Diskusi"
+                name="keluaran"
+                fileName={file.name}
               ></FileInputAtom>
             )}
             <div className="flex flex-col gap-1">
@@ -93,6 +198,8 @@ export default function HasilPage({ params }) {
                 rows={7}
                 name=""
                 id=""
+                value={keterangan}
+                onChange={(e) => setKeterangan(e.target.value)}
               ></textarea>
             </div>
           </div>
@@ -112,6 +219,20 @@ export default function HasilPage({ params }) {
           </div>
         </form>
       </FormContainer>
+      <ToastContainer
+        position="top-center"
+        autoClose={300}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        style={{ zIndex: 999999 }}
+        limit={1}
+      />
     </div>
   );
 }

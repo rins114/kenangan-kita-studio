@@ -38,6 +38,7 @@ export const columns = [
   { name: "ORGANISASI PERANGKAT DAERAH", uid: "nama_opd" },
   { name: "TANGGAL PENGAJUAN", uid: "created_at" },
   { name: "STATUS", uid: "status" },
+  { name: "Pesan", uid: "pesan" },
   { name: "AKSI", uid: "actions" },
 ];
 
@@ -334,6 +335,14 @@ export default function TableCustom() {
           >
             {getUserStatus(user.status)}
           </Chip>
+        );
+      case "pesan":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">
+              {user.remarks ?? "-"}
+            </p>
+          </div>
         );
       case "created_at":
         return (

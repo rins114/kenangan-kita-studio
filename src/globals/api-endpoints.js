@@ -10,6 +10,7 @@ const API_ENDPOINT = {
   GET_CLEARING_HOUSE: `${API_BASE_URL}get/clearing-house`,
   VERIFY_CLEARING_HOUSE: (id) => `${API_BASE_URL}clearing-house/${id}}/verify`,
   REJECT_CLEARING_HOUSE: (id) => `${API_BASE_URL}clearing-house/${id}}/reject`,
+  POST_CLEARING_HOUSE_OUTPUT: `${API_BASE_URL}clearing-house/hasil`,
   GET_USERS: `${API_BASE_URL}get-user`,
   GET_USER_ROLES: `${API_BASE_URL}roles`,
   VERIFY_USER: (id) => `${API_BASE_URL}verifikasi/${id}/verify`,
