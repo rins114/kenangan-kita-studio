@@ -18,7 +18,7 @@ export default function JoyStepper({ setSection, data }) {
       case "Terverifikasi":
       case "Selesai":
         return "success";
-      case "Diajukan":
+      case "Diproses":
         return "primary";
       default:
         return ""; // Untuk status yang tidak sesuai
@@ -33,8 +33,8 @@ export default function JoyStepper({ setSection, data }) {
         return "primary";
       case "Ditolak":
         return "danger";
-      case "Diajukan":
-      case "Belum diajukan":
+      case "Diproses":
+      case "Belum diproses":
         return "";
       default:
         return "";
@@ -82,23 +82,24 @@ export default function JoyStepper({ setSection, data }) {
         >
           <Step
             completed={
-              data.status === "Diajukan" ||
+              data.status === "Diproses" ||
               data.status === "Ditolak" ||
               data.status === "Terverifikasi" ||
               data.status === "Selesai"
             }
-            active={data.status === "Belum diajukan"}
+            active={data.status === "Belum diproses"}
             indicator={
               <StepIndicator
                 variant="solid"
-                color={data.status === "Belum diajukan" ? "primary" : "success"}
+                color={data.status === "Belum diproses" ? "primary" : "success"}
               >
-                {data.status === "Belum diajukan" && (
+                {data.status === "Belum diproses" && (
                   <AppRegistrationRoundedIcon />
                 )}
-                {(data.status === "Diajukan" || data.status === "Ditolak") && (
-                  <CheckRoundedIcon />
-                )}
+                {(data.status === "Diproses" ||
+                  data.status === "Ditolak" ||
+                  data.status === "Selesai" ||
+                  data.status === "Terverifikasi") && <CheckRoundedIcon />}
               </StepIndicator>
             }
           >
@@ -118,15 +119,15 @@ export default function JoyStepper({ setSection, data }) {
             completed={
               data.status === "Terverifikasi" || data.status === "Selesai"
             }
-            active={data.status === "Diajukan"}
-            disabled={data.status === "Belum diajukan"}
+            active={data.status === "Diproses"}
+            disabled={data.status === "Belum diproses"}
             indicator={
               <StepIndicator variant="solid" color={getColorStep2(data.status)}>
                 {data.status === "Ditolak" && <CancelOutlinedIcon />}
                 {(data.status === "Terverifikasi" ||
                   data.status === "Selesai") && <CheckRoundedIcon />}
-                {data.status === "Diajukan" && <AppRegistrationRoundedIcon />}
-                {data.status === "Belum diajukan" && (
+                {data.status === "Diproses" && <AppRegistrationRoundedIcon />}
+                {data.status === "Belum diproses" && (
                   <StepIndicator>2</StepIndicator>
                 )}
               </StepIndicator>
@@ -160,7 +161,7 @@ export default function JoyStepper({ setSection, data }) {
             completed={data.status === "Selesai"}
             active={data.status === "Terverifikasi"}
             disabled={
-              data.status === "Diajukan" || data.status === "Belum diajukan"
+              data.status === "Diproses" || data.status === "Belum diproses"
             }
             indicator={
               <StepIndicator variant="solid" color={getColorStep3(data.status)}>
@@ -169,8 +170,8 @@ export default function JoyStepper({ setSection, data }) {
                 )}
                 {data.status === "Selesai" && <CheckRoundedIcon />}
                 {data.status === "Ditolak" && <CancelOutlinedIcon />}
-                {(data.status === "Diajukan" ||
-                  data.status === "Belum diajukan") && (
+                {(data.status === "Diproses" ||
+                  data.status === "Belum diproses") && (
                   <StepIndicator>3</StepIndicator>
                 )}
               </StepIndicator>
@@ -181,9 +182,16 @@ export default function JoyStepper({ setSection, data }) {
                 Step 3
               </Typography>
               <button
+                disabled={
+                  data.status === "Diproses" || data.status === "Ditolak"
+                }
                 className={`${
                   data.status === "Ditolak" ? "text-danger" : "text-black"
-                } hover:underline text-left
+                } ${
+                  data.status === "Diproses" || data.status === "Ditolak"
+                    ? ""
+                    : "hover:underline"
+                } text-left
               }`}
                 onClick={() => setSection("Step-3")}
               >
