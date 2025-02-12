@@ -59,6 +59,14 @@ export default function ClearingHousePage() {
       console.log(`${key}:`, value);
     }
     const result = await postClearingHouseRequest(formDataToSend, TOKEN);
+    if (result.status === 403) {
+      await showToast(
+        "warning",
+        "Akun belum di verifikasi. Silahkan hubungi admin."
+      );
+      return;
+    }
+
     if (result.status !== 200) {
       await showToast("error", "Gagal mengajukan permohonan");
       return;

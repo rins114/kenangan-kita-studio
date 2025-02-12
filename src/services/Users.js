@@ -30,11 +30,11 @@ export async function verifyUser(token, id) {
   }
 }
 
-export async function rejectUser(token, id) {
+export async function rejectUser(token, id, keterangan) {
   try {
     const response = await axios.post(
       API_ENDPOINT.REJECT_USER(id),
-      { keterangan: "Membatalkan verifikasi user oleh admin" },
+      { keterangan },
       {
         headers: { Authorization: `Bearer ${token}` },
       }

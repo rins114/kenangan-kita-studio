@@ -106,7 +106,7 @@ export default function NavbarCustom() {
           ) : (
             <div
               className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
-              onClick={() => (window.location.href = "/signin")}
+              onClick={() => (window.location.href = "/dashboard")}
             >
               <Avatar></Avatar>
               {/* <h1 className="!font-normal">

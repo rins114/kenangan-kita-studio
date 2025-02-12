@@ -15,6 +15,7 @@ import { getUsers, rejectUser, verifyUser } from "@/services/Users";
 import { showToast } from "@/utils/ShowToast";
 import { useRouter } from "next/navigation";
 import APP_CONFIG from "@/globals/app-config";
+import { GrDocument } from "react-icons/gr";
 const TOKEN = localStorage.getItem("access_token");
 
 const UsersTable = () => {
@@ -29,6 +30,7 @@ const UsersTable = () => {
   const [skFile, setSkFile] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
   const navigate = useRouter();
+  const [keterangan, setKeterangan] = useState("");
 
   useEffect(() => {
     async function fetchUsers() {
@@ -50,7 +52,7 @@ const UsersTable = () => {
 
   //Method integrasi backend untuk verifikasi user
   const handleVerifikasiToggle = async (id) => {
-    if (!editedUser.is_verified) {
+    if (editedUser.is_verified !== 1) {
       const result = await verifyUser(TOKEN, id);
       if (result.status !== 200) {
         await showToast("error", `Verifikasi user: ${result.message}`);
@@ -59,12 +61,16 @@ const UsersTable = () => {
       toast.success("Pengguna berhasil diverifikasi!");
       window.location.reload();
     } else {
-      const result = await rejectUser(TOKEN, id);
+      if (keterangan === "") {
+        toast.warn("Harap Isi Keterangan!");
+        return;
+      }
+      const result = await rejectUser(TOKEN, id, keterangan);
       if (result.status !== 200) {
         await showToast("error", `Verifikasi user: ${result.message}`);
         return;
       }
-      toast.error("Verifikasi pengguna dibatalkan.");
+      toast.success("Verifikasi pengguna dibatalkan.");
       window.location.reload();
     }
   };
@@ -340,7 +346,7 @@ const UsersTable = () => {
           }}
         >
           <div
-            className="bg-white rounded-lg p-8 w-full max-w-2xl shadow-lg h-fit overflow-y-auto"
+            className="bg-white rounded-xl py-6 px-8 w-full max-w-2xl shadow-lg h-fit overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-bold mb-2 text-center">
@@ -418,7 +424,7 @@ const UsersTable = () => {
               <p>
                 <strong>SK Jabatan: </strong>
                 <br />
-                {currentUser.sk_jabatan ? (
+                {currentUser.sk_jabatan !== "-" ? (
                   <>
                     <span>{currentUser.sk_jabatan.name}</span>
                     <button
@@ -428,13 +434,13 @@ const UsersTable = () => {
                           "_blank"
                         );
                       }}
-                      className="text-blue-500 hover:underline"
+                      className="text-blue-500 hover:underline flex gap-1 justify-start items-center mt-1"
                     >
-                      Lihat File
+                      <GrDocument className="mb-1"></GrDocument> Lihat File
                     </button>
                   </>
                 ) : (
-                  currentUser.skPosition
+                  <span>Tidak ada file</span>
                 )}
               </p>
             </div>
@@ -472,7 +478,7 @@ const UsersTable = () => {
                 </label>
                 <div className="flex items-center gap-4">
                   {/* Tampilkan status verifikasi dengan ikon */}
-                  {editedUser.is_verified ? (
+                  {editedUser.is_verified === 1 ? (
                     <div className="flex items-center gap-2 m-2">
                       <FiCheck className="w-5 h-5 text-green-500" />
                       <span className="font-semibold text-green-500">
@@ -640,9 +646,11 @@ const UsersTable = () => {
                     className="border px-4 py-2 w-full"
                   /> */}
                   {/* Display file name if available */}
-                  {editedUser.sk_jabatan && (
-                    <div className="mt-2">
-                      <span>SK Jabatan: {editedUser.sk_jabatan.name}</span>
+                  <div className="mt-2 flex gap-1">
+                    <span>SK Jabatan: {editedUser.sk_jabatan.name}</span>
+                    {editedUser.sk_jabatan === "-" || !editedUser.sk_jabatan ? (
+                      <h1 className="font-medium">Tidak ada file</h1>
+                    ) : (
                       <button
                         onClick={(e) => {
                           window.open(
@@ -654,14 +662,26 @@ const UsersTable = () => {
                       >
                         Lihat File PDF
                       </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
+              </div>
+              <div className="flex flex-col gap-1 mt-3">
+                <h1 className="font-normal">Keterangan</h1>
+                <textarea
+                  className="border-[1.5px] rounded-none w-full p-2"
+                  placeholder="Masukkan keterangan di sini..."
+                  rows={4}
+                  name=""
+                  id=""
+                  value={keterangan}
+                  onChange={(e) => setKeterangan(e.target.value)}
+                ></textarea>
               </div>
             </form>
             <div className="mt-4 flex justify-center gap-4 text-sm">
               {/* Tombol Verifikasi atau Batalkan Verifikasi */}
-              {!editedUser.is_verified ? (
+              {editedUser.is_verified !== 1 ? (
                 <button
                   type="button"
                   onClick={() => handleVerifikasiToggle(editedUser.id)}
