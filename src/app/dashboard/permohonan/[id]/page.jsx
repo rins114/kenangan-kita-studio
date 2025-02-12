@@ -119,14 +119,14 @@ export default function PermohonanDetailPage({ params }) {
         </section>
       )}
       {section === "Step-2" && (
-        <section className="h-full min-h-[40rem] border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
+        <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-start">
           {getUserStatus(clearingHouseData.status) === "Diproses" && (
             <div className="p-5 flex flex-col justify-center items-center max-w-3xl">
-              <h1 className="font-medium text-3xl">
+              <h1 className="font-medium text-xl md:text-3xl">
                 Permohonan berhasil diajukan
               </h1>
               <h1>Mohon menunggu proses verifikasi berkas</h1>
-              <div className="w-full max-w-lg">
+              <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
                     loop: true,
@@ -144,13 +144,13 @@ export default function PermohonanDetailPage({ params }) {
           )}
           {getUserStatus(clearingHouseData.status) === "Ditolak" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
-              <h1 className="font-medium text-3xl text-center">
+              <h1 className="font-medium text-xl md:text-3xl text-center">
                 Permohonan Ditolak, dengan alasan:
               </h1>
               <p className="text-lg text-red-500">
                 {clearingHouseData.remarks}
               </p>
-              <div className="w-full max-w-lg">
+              <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
                     loop: false,
@@ -168,8 +168,10 @@ export default function PermohonanDetailPage({ params }) {
           )}
           {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
-              <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
-              <div className="w-full max-w-lg">
+              <h1 className="font-medium text-xl md:text-3xl">
+                Permohonan Terverifikasi
+              </h1>
+              <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
                     loop: false,
@@ -187,8 +189,10 @@ export default function PermohonanDetailPage({ params }) {
           )}
           {getUserStatus(clearingHouseData.status) === "Selesai" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
-              <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
-              <div className="w-full max-w-lg">
+              <h1 className="font-medium text-xl md:text-3xl">
+                Permohonan Terverifikasi
+              </h1>
+              <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
                     loop: false,
@@ -207,12 +211,14 @@ export default function PermohonanDetailPage({ params }) {
         </section>
       )}
       {section === "Step-3" && (
-        <section className="h-full min-h-[40rem] border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
+        <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
           {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
-              <h1 className="font-medium text-3xl">Permohonan Terverifikasi</h1>
+              <h1 className="font-medium text-xl md:text-3xl">
+                Permohonan Terverifikasi
+              </h1>
               <h1 className="text-lg">Mohon menunggu proses keputusan akhir</h1>
-              <div className="w-full max-w-lg">
+              <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
                     loop: true,
