@@ -13,6 +13,19 @@ export default function ClearingHouseForm({
   isUploading,
   fileInputRef,
 }) {
+  const [isTyping, setIsTyping] = React.useState(false);
+  const formatWithDots = (number) => {
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+  const handleKeyDown = (e) => {
+    if (
+      !/[0-9]/.test(e.key) &&
+      !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "."].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -86,6 +99,7 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="no_sirup"
+              type="number"
               value={formData.no_sirup}
               onChange={handleChange}
             />
@@ -99,6 +113,7 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="thn_anggaran"
+              type="number"
               value={formData.thn_anggaran}
               onChange={handleChange}
             />
@@ -110,8 +125,18 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="pagu_anggaran"
-              value={formData.pagu_anggaran}
+              type="text"
+              value={
+                isTyping
+                  ? formData.pagu_anggaran
+                  : formData.pagu_anggaran
+                  ? `Rp. ${formatWithDots(formData.pagu_anggaran)},00`
+                  : ""
+              }
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
             <Input
               labelPlacement="outside"
@@ -121,8 +146,18 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="nilai_hps"
-              value={formData.nilai_hps}
+              type="text"
+              value={
+                isTyping
+                  ? formData.nilai_hps
+                  : formData.nilai_hps
+                  ? `Rp. ${formatWithDots(formData.nilai_hps)},00`
+                  : ""
+              }
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
             <Input
               labelPlacement="outside"

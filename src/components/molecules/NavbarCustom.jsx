@@ -193,7 +193,7 @@ export default function NavbarCustom() {
             <div className="block rounded-md px-3 py-2">
               <Button
                 className="!w-full font-bold bg-mainColor text-white text-base py-2"
-                onPress={() => (window.location.href = "/signin")}
+                onPress={() => (window.location.href = "/dashboard")}
               >
                 MASUK
               </Button>
