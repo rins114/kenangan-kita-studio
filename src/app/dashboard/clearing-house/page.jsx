@@ -6,6 +6,7 @@ import { showToast } from "@/utils/ShowToast";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import { IoHome } from "react-icons/io5";
+import Swal from "sweetalert2";
 const TOKEN = localStorage.getItem("access_token");
 
 export default function ClearingHousePage() {
@@ -71,7 +72,12 @@ export default function ClearingHousePage() {
       await showToast("error", "Gagal mengajukan permohonan");
       return;
     }
-    await showToast("success", "Berhasil mengajukan permohonan");
+    await Swal.fire({
+      icon: "success",
+      title: "Berhasil!",
+      text: "Permohonan berhasil diajukan. Silahkan menunggu proses verifikasi.",
+      confirmButtonText: "OK",
+    });
     setFormData({
       nama_pemohon: "",
       nama_opd: "",
@@ -88,6 +94,7 @@ export default function ClearingHousePage() {
       catatan: "",
     });
     fileInputRef.current.value = "";
+    navigate("/dashboard");
   };
 
   useEffect(() => {
