@@ -120,7 +120,7 @@ export default function PermohonanDetailPage({ params }) {
       )}
       {section === "Step-2" && (
         <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-start">
-          {getUserStatus(clearingHouseData.status) === "Diproses" && (
+          {getUserStatus(clearingHouseData?.status) === "Diproses" && (
             <div className="p-5 flex flex-col justify-center items-center max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
                 Permohonan berhasil diajukan
@@ -142,7 +142,7 @@ export default function PermohonanDetailPage({ params }) {
               </div>
             </div>
           )}
-          {getUserStatus(clearingHouseData.status) === "Ditolak" && (
+          {getUserStatus(clearingHouseData?.status) === "Ditolak" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl text-center">
                 Permohonan Ditolak, dengan alasan:
@@ -166,7 +166,7 @@ export default function PermohonanDetailPage({ params }) {
               </div>
             </div>
           )}
-          {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
+          {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
                 Permohonan Terverifikasi
@@ -187,7 +187,7 @@ export default function PermohonanDetailPage({ params }) {
               </div>
             </div>
           )}
-          {getUserStatus(clearingHouseData.status) === "Selesai" && (
+          {getUserStatus(clearingHouseData?.status) === "Selesai" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
                 Permohonan Terverifikasi
@@ -212,7 +212,7 @@ export default function PermohonanDetailPage({ params }) {
       )}
       {section === "Step-3" && (
         <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
-          {getUserStatus(clearingHouseData.status) === "Terverifikasi" && (
+          {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
             <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
                 Permohonan Terverifikasi
