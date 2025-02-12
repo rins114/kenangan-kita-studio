@@ -519,7 +519,11 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.pagu_anggaran}
+                    value={
+                      openedDetail?.pagu_anggaran
+                        ? `Rp. ${openedDetail.pagu_anggaran}`
+                        : ""
+                    }
                     className="border px-4 py-2 w-full"
                   />
                 </div>
@@ -537,7 +541,11 @@ export default function TableCustom() {
                   <input
                     disabled
                     type="text"
-                    value={openedDetail?.nilai_hps}
+                    value={
+                      openedDetail?.nilai_hps
+                        ? `Rp. ${openedDetail.nilai_hps}`
+                        : ""
+                    }
                     className="border px-4 py-2 w-full"
                   />
                 </div>
