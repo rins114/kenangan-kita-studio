@@ -7,9 +7,11 @@ import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import { IoHome } from "react-icons/io5";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 const TOKEN = localStorage.getItem("access_token");
 
 export default function ClearingHousePage() {
+  const navigate = useRouter();
   const ClearingHouseFormRef = useRef(null);
   const [file, setFile] = React.useState(null);
   const [isUploading, setIsUploading] = React.useState(false);
@@ -74,8 +76,12 @@ export default function ClearingHousePage() {
     }
     await Swal.fire({
       icon: "success",
-      title: "Berhasil!",
-      text: "Permohonan berhasil diajukan. Silahkan menunggu proses verifikasi.",
+      title: "Berhasil Mengajukan Permohonan!",
+      html: `
+          <strong style="font-size: 18px; color: red;">PERINGATAN!</strong><br>
+          Silahkan menunggu proses verifikasi.<br>
+          Cek secara berkala status permohonan anda pada menu <b>Daftar Permohonan!</b>
+        `,
       confirmButtonText: "OK",
     });
     setFormData({
@@ -94,7 +100,7 @@ export default function ClearingHousePage() {
       catatan: "",
     });
     fileInputRef.current.value = "";
-    navigate("/dashboard");
+    navigate.push("/dashboard/permohonan");
   };
 
   useEffect(() => {
