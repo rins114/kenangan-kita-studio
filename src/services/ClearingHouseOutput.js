@@ -15,3 +15,16 @@ export async function postClearingHouseRequestOutput(token, formData) {
     return { status: error.status, message: error.message };
   }
 }
+
+export async function getClearingHouseRequestOutput(token, id) {
+  try {
+    const response = await axios.get(
+      API_ENDPOINT.GET_CLEARING_HOUSE_OUTPUT(id),
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, message: error.message };
+  }
+}
