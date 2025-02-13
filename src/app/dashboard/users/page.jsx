@@ -243,7 +243,9 @@ const UsersTable = () => {
               <th className="border-gray-400 px-4 py-2 text-start">
                 Tipe Pemohon
               </th>
-              <th className="border-gray-400 px-4 py-2 text-start">Tanggal Daftar</th>
+              <th className="border-gray-400 px-4 py-2 text-start">
+                Tanggal Daftar
+              </th>
               <th className="border-gray-400 px-4 py-2 text-center">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
@@ -255,20 +257,19 @@ const UsersTable = () => {
                   <td className="border-gray-400 px-4 py-2 text-center">
                     {index + 1}
                   </td>
-                  <td className="border-gray-400 px-4 py-2">
-                    {user.name}
-                  </td>
+                  <td className="border-gray-400 px-4 py-2">{user.name}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
                   <td className="border-gray-400 px-4 py-2">
                     {user?.roles?.startsWith("Non_Penyedia_")
                       ? user?.roles?.split("_")[2]
                       : user?.roles}
                   </td>
-                  <td className="border-gray-400 px-4 py-2">{new Date(user.created_at).toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      })}
+                  <td className="border-gray-400 px-4 py-2">
+                    {new Date(user.created_at).toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <span

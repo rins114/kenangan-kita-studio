@@ -51,6 +51,10 @@ export default function PermohonanDetailPage({ params }) {
     return statusMap[status] || "Tidak Diketahui";
   };
 
+  const formatWithDots = (number) => {
+    return (Number(number) || 0).toLocaleString("id-ID");
+  };
+
   return (
     <div className="w-full flex flex-col justify-start items-center p-7 gap-7">
       <section className="p-5 rounded-xl h-full bg-blue-950/0 flex flex-col w-full">
@@ -94,9 +98,16 @@ export default function PermohonanDetailPage({ params }) {
             />
             <DataView
               _key="Pagu Anggaran"
-              value={clearingHouseData?.pagu_anggaran}
+              value={`Rp. ${formatWithDots(
+                clearingHouseData?.pagu_anggaran || 0
+              )},00`}
             />
-            <DataView _key="Nilai HPS" value={clearingHouseData?.nilai_hps} />
+            <DataView
+              _key="Nilai HPS"
+              value={`Rp. ${formatWithDots(
+                clearingHouseData?.nilai_hps || 0
+              )},00`}
+            />
             <DataView
               _key="Lokasi Pelaksanaan"
               value={clearingHouseData?.lokasi_pelaksanaan}
@@ -232,6 +243,11 @@ export default function PermohonanDetailPage({ params }) {
                   width={"100%"}
                 />
               </div>
+            </div>
+          )}
+          {getUserStatus(clearingHouseData?.status) === "Selesai" && (
+            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl">
+              <h1>Selesai</h1>
             </div>
           )}
         </section>
