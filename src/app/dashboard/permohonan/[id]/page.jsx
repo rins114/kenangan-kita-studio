@@ -36,6 +36,15 @@ export default function PermohonanDetailPage({ params }) {
       const chData = result.data.clearing_requests.find(
         (data) => data.request_id === parseInt(id)
       );
+      if (chData.status === 0) {
+        setSection("Step-2");
+      } else if (chData.status === 1) {
+        setSection("Step-3");
+      } else if (chData.status === 2) {
+        setSection("Step-2");
+      } else if (chData.status === 5) {
+        setSection("Step-3");
+      }
       setClearingHouseData(chData);
     }
     fetchClearingHouseData();
@@ -44,6 +53,9 @@ export default function PermohonanDetailPage({ params }) {
   useEffect(() => {
     async function fetchClearingHouseOutput() {
       const result = await getClearingHouseRequestOutput(TOKEN, id);
+      if (result.status === 404) {
+        return;
+      }
       if (result.status !== 200) {
         await showToast(
           "error",
