@@ -243,7 +243,7 @@ export default function SignUpForm({
             <FileInputAtom
               label="SK Jabatan"
               name="sk_jabatan"
-              fileName={"sk_jabatan"}
+              fileName={formData.sk_jabatan}
               height={3}
               rounded={false}
               handleFileChange={handleFileChange}
