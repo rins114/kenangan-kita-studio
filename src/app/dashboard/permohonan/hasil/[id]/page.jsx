@@ -6,7 +6,10 @@ import FormContainer from "@/components/molecules/FormContainer";
 import PdfViewer from "@/components/molecules/ReactPdfView";
 import APP_CONFIG from "@/globals/app-config";
 import { getClearingsHouseRequest } from "@/services/ClearingHouse";
-import { postClearingHouseRequestOutput } from "@/services/ClearingHouseOutput";
+import {
+  getClearingHouseRequestOutput,
+  postClearingHouseRequestOutput,
+} from "@/services/ClearingHouseOutput";
 import { showToast } from "@/utils/ShowToast";
 import {
   Button,
@@ -32,6 +35,9 @@ export default function HasilPage({ params }) {
   const [keterangan, setKeterangan] = useState("");
 
   const [clearingHouseData, setClearingHouseData] = useState(null);
+  const [clearingRequestOutput, setClearingRequestOutput] = useState(null);
+  const [isUpdateToggle, setIsUpdateToggle] = useState(false);
+  const [isUpdateTogglePressed, setIsUpdateTogglePressed] = useState(false);
 
   const getUserStatus = (status) => {
     const statusMap = {
@@ -62,6 +68,25 @@ export default function HasilPage({ params }) {
       setClearingHouseData(chData);
     }
     fetchClearingHouseData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchClearingHouseOutput() {
+      const result = await getClearingHouseRequestOutput(TOKEN, id);
+      if (result.status === 404) {
+        return;
+      }
+      if (result.status !== 200) {
+        await showToast(
+          "error",
+          "Kesalahan pada server: getClearingHouseOutput"
+        );
+        return;
+      }
+      console.log(result.data.data);
+      setClearingRequestOutput(result.data.data);
+    }
+    fetchClearingHouseOutput();
   }, []);
 
   async function handlePostHasil(e) {
@@ -174,61 +199,106 @@ export default function HasilPage({ params }) {
         </div>
       </FormContainer>
       <FormContainer title="Keputusan Akhir">
-        <form onSubmit={async (e) => await handlePostHasil(e)}>
-          <div className="p-5 flex flex-col gap-3">
-            <RadioGroup
-              color="primary"
-              label="Pilih Tipe Keputusan Akhir"
-              orientation="horizontal"
-              onValueChange={setIsLangsung}
-              defaultValue={isLangsung}
-            >
-              <Radio description="Tuliskan Balasan Langsung" value={true}>
-                Langsung
-              </Radio>
-              <div className="w-5"></div>
-              <Radio description="Perlu Diskusi Lebih Lanjut" value={false}>
-                Tidak Langsung
-              </Radio>
-            </RadioGroup>
-            {!isLangsung && (
-              <FileInputAtom
-                handleFileChange={handleFileChange}
-                labelSize="text-md"
-                labelColor="text-zinc-500"
-                label="Upload Berkas Hasil Diskusi"
-                name="keluaran"
-                fileName={file.keluaran}
-              ></FileInputAtom>
-            )}
-            <div className="flex flex-col gap-1">
-              <h1 className="font-normal text-zinc-500">Balasan</h1>
-              <textarea
-                className="border-2 rounded-md w-full p-2"
-                placeholder="Tuliskan balasan di sini..."
-                rows={7}
-                name=""
-                id=""
-                value={keterangan}
-                onChange={(e) => setKeterangan(e.target.value)}
-              ></textarea>
+        {!clearingRequestOutput || isUpdateToggle ? (
+          <form onSubmit={async (e) => await handlePostHasil(e)}>
+            <div className="p-5 flex flex-col gap-3">
+              <RadioGroup
+                color="primary"
+                label="Pilih Tipe Keputusan Akhir"
+                orientation="horizontal"
+                onValueChange={setIsLangsung}
+                defaultValue={isLangsung}
+              >
+                <Radio description="Tuliskan Balasan Langsung" value={true}>
+                  Langsung
+                </Radio>
+                <div className="w-5"></div>
+                <Radio description="Perlu Diskusi Lebih Lanjut" value={false}>
+                  Tidak Langsung
+                </Radio>
+              </RadioGroup>
+              {!isLangsung && (
+                <FileInputAtom
+                  handleFileChange={handleFileChange}
+                  labelSize="text-md"
+                  labelColor="text-zinc-500"
+                  label="Upload Berkas Hasil Diskusi"
+                  name="keluaran"
+                  fileName={file.keluaran}
+                ></FileInputAtom>
+              )}
+              <div className="flex flex-col gap-1">
+                <h1 className="font-normal text-zinc-500">Balasan</h1>
+                <textarea
+                  className="border-2 rounded-md w-full p-2"
+                  placeholder="Tuliskan balasan di sini..."
+                  rows={7}
+                  name=""
+                  id=""
+                  value={keterangan}
+                  onChange={(e) => setKeterangan(e.target.value)}
+                ></textarea>
+              </div>
+            </div>
+            <div className="px-5 pb-5 w-full flex flex-row gap-3 justify-end items-center">
+              {isUpdateTogglePressed && (
+                <Button
+                  onPress={() => {
+                    setIsUpdateToggle(false);
+                  }}
+                  className="w-full rounded-xl max-w-[10rem] bg-red-500 text-white font-medium"
+                >
+                  Batal Update
+                </Button>
+              )}
+              <Button
+                className="bg-default text-zinc-700 font-medium"
+                onPress={() => navigate.back()}
+              >
+                Kembali
+              </Button>
+              <Button
+                type="submit"
+                className="bg-secondaryColor text-white font-medium"
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <div className="p-5">
+            <div className="flex flex-col gap-3">
+              <DataView
+                _key="Tipe"
+                value={
+                  clearingRequestOutput.tipe_process === "langsung"
+                    ? "Langsung"
+                    : "Tidak Langsung"
+                }
+              />
+              <DataView
+                _key="Hasil Diskusi"
+                value={clearingRequestOutput?.remarks}
+              />
+              {clearingRequestOutput.tipe_process !== "langsung" && (
+                <DataFileView
+                  labelButton="Lihat File"
+                  _key={"File Hasil Akhir"}
+                  fileUrl={`${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`}
+                ></DataFileView>
+              )}
+              <Button
+                onPress={() => {
+                  setIsUpdateTogglePressed(true);
+                  setIsUpdateToggle(true);
+                }}
+                className="w-full rounded-xl max-w-[10rem] bg-orange-400 text-white font-medium"
+              >
+                Update Data
+              </Button>
             </div>
           </div>
-          <div className="px-5 pb-5 w-full flex flex-row gap-3 justify-end items-center">
-            <Button
-              className="bg-default text-zinc-700 font-medium"
-              onPress={() => navigate.back()}
-            >
-              Kembali
-            </Button>
-            <Button
-              type="submit"
-              className="bg-secondaryColor text-white font-medium"
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
+        )}
       </FormContainer>
       <ToastContainer
         position="top-center"
