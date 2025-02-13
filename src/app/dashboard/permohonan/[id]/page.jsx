@@ -73,10 +73,6 @@ export default function PermohonanDetailPage({ params }) {
     return (Number(number) || 0).toLocaleString("id-ID");
   };
 
-  const formatWithDots = (number) => {
-    return (Number(number) || 0).toLocaleString("id-ID");
-  };
-
   return (
     <div className="w-full flex flex-col justify-start items-center p-7 gap-7">
       <section className="p-5 rounded-xl h-full bg-blue-950/0 flex flex-col w-full">
