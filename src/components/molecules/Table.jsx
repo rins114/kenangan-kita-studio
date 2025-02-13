@@ -165,7 +165,7 @@ export default function TableCustom() {
       );
       return;
     }
-    await showToast("success", "Verifikasi berhasil");
+    await showToast("success", "Permohonan Berhasil Diverifikasi");
     window.location.reload();
   }
 
@@ -182,7 +182,7 @@ export default function TableCustom() {
       );
       return;
     }
-    await showToast("success", "Verifikasi berhasil");
+    await showToast("success", "Permohonan Telah Ditolak!");
     window.location.reload();
   }
 
@@ -321,8 +321,8 @@ export default function TableCustom() {
         );
       case "nama_opd":
         return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
+          <div className="flex flex-col max-w-xs">
+            <p className="text-sm capitalize">{cellValue}</p>
           </div>
         );
       case "status":
@@ -349,7 +349,7 @@ export default function TableCustom() {
           <h1 className="capitalize" size="sm" variant="flat">
             {new Date(user.created_at).toLocaleDateString("id-ID", {
               day: "2-digit",
-              month: "long",
+              month: "short",
               year: "numeric",
             })}
           </h1>
@@ -430,9 +430,7 @@ export default function TableCustom() {
             <TableColumn
               key={column.uid}
               align={
-                column.uid === "actions" ||
-                column.uid === "status" ||
-                column.uid === "nama_opd"
+                column.uid === "actions" || column.uid === "status"
                   ? "center"
                   : "start"
               }
