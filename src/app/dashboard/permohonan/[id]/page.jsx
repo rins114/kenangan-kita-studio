@@ -73,6 +73,10 @@ export default function PermohonanDetailPage({ params }) {
     return (Number(number) || 0).toLocaleString("id-ID");
   };
 
+  const formatWithDots = (number) => {
+    return (Number(number) || 0).toLocaleString("id-ID");
+  };
+
   return (
     <div className="w-full flex flex-col justify-start items-center p-7 gap-7">
       <section className="p-5 rounded-xl h-full bg-blue-950/0 flex flex-col w-full">
@@ -118,6 +122,12 @@ export default function PermohonanDetailPage({ params }) {
               _key="Pagu Anggaran"
               value={`Rp. ${formatWithDots(
                 clearingHouseData?.pagu_anggaran || 0
+              )},00`}
+            />
+            <DataView
+              _key="Nilai HPS"
+              value={`Rp. ${formatWithDots(
+                clearingHouseData?.nilai_hps || 0
               )},00`}
             />
             <DataView
