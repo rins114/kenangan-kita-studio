@@ -110,6 +110,10 @@ export default function HasilPage({ params }) {
     setFile((prevState) => ({ ...prevState, name, keluaran }));
   }
 
+  const formatWithDots = (number) => {
+    return (Number(number) || 0).toLocaleString("id-ID");
+  };
+
   return (
     <div className="p-5 flex flex-col gap-3">
       <FormContainer
@@ -142,9 +146,16 @@ export default function HasilPage({ params }) {
           />
           <DataView
             _key="Pagu Anggaran"
-            value={clearingHouseData?.pagu_anggaran}
+            value={`Rp. ${formatWithDots(
+              clearingHouseData?.pagu_anggaran || 0
+            )},00`}
           />
-          <DataView _key="Nilai HPS" value={clearingHouseData?.nilai_hps} />
+          <DataView
+            _key="Nilai HPS"
+            value={`Rp. ${formatWithDots(
+              clearingHouseData?.nilai_hps || 0
+            )},00`}
+          />
           <DataView
             _key="Lokasi Pelaksanaan"
             value={clearingHouseData?.lokasi_pelaksanaan}
