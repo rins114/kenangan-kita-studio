@@ -6,5 +6,10 @@ export default function Home() {
   useEffect(() => {
     redirect("/landing");
   });
-  return null;
+  return (
+    <div className="flex justify-center items-center w-full h-96">
+      <h1>Redirecting...</h1>
+      <p>You will be redirected to the landing page shortly.</p>
+    </div>
+  );
 }

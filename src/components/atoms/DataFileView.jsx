@@ -7,8 +7,8 @@ export default function DataFileView({
   fileUrl = "http://localhost:3000/assets/pdf/diazka.pdf",
 }) {
   return (
-    <div className="flex flex-row w-full justify-start items-start gap-1">
-      <div className="w-1/4 text-gray-500">
+    <div className="flex flex-col md:flex-row w-full justify-start items-start gap-1">
+      <div className="lg:w-1/4 w-full text-gray-500">
         <p>{_key}</p>
       </div>
 

@@ -43,7 +43,7 @@ export default function JoyStepper({ setSection, data }) {
   return (
     <>
       {data && (
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto py-2">
           <Stepper
             orientation="horizontal"
             sx={(theme) => ({

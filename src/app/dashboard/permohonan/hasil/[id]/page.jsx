@@ -187,7 +187,7 @@ export default function HasilPage({ params }) {
                 labelColor="text-zinc-500"
                 label="Upload Berkas Hasil Diskusi"
                 name="keluaran"
-                fileName={file.name}
+                fileName={file.keluaran}
               ></FileInputAtom>
             )}
             <div className="flex flex-col gap-1">
