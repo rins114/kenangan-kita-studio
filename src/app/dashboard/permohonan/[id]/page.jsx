@@ -14,11 +14,13 @@ import rejectedFileGif from "../../../../../public/assets/gif/rejected_doc";
 import acceptedFileGif from "../../../../../public/assets/gif/accepted_doc";
 import workingGif from "../../../../../public/assets/gif/working";
 import Lottie from "react-lottie";
+import { getClearingHouseRequestOutput } from "@/services/ClearingHouseOutput";
 
 export default function PermohonanDetailPage({ params }) {
   const { id } = React.use(params);
   const [section, setSection] = useState("Step-1");
   const [clearingHouseData, setClearingHouseData] = useState(null);
+  const [clearingRequestOutput, setClearingRequestOutput] = useState(null);
 
   useEffect(() => {
     async function fetchClearingHouseData() {
@@ -37,6 +39,22 @@ export default function PermohonanDetailPage({ params }) {
       setClearingHouseData(chData);
     }
     fetchClearingHouseData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchClearingHouseOutput() {
+      const result = await getClearingHouseRequestOutput(TOKEN, id);
+      if (result.status !== 200) {
+        await showToast(
+          "error",
+          "Kesalahan pada server: getClearingHouseOutput"
+        );
+        return;
+      }
+      console.log(result.data.data);
+      setClearingRequestOutput(result.data.data);
+    }
+    fetchClearingHouseOutput();
   }, []);
 
   const getUserStatus = (status) => {
@@ -231,6 +249,33 @@ export default function PermohonanDetailPage({ params }) {
                   height={"100%"}
                   width={"100%"}
                 />
+              </div>
+            </div>
+          )}
+          {getUserStatus(clearingHouseData?.status) === "Selesai" && (
+            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
+              <div className="mt-2 flex flex-col gap-1">
+                <span>Output:</span>
+                {clearingRequestOutput?.keluaran === "-" ||
+                !clearingRequestOutput?.keluaran ? (
+                  <h1>Balasan: {clearingRequestOutput?.remarks}</h1>
+                ) : (
+                  <>
+                    <h1>Balasan: {clearingRequestOutput?.remarks}</h1>
+                    <h1>File: </h1>
+                    <button
+                      onClick={(e) => {
+                        window.open(
+                          `${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`,
+                          "_blank"
+                        ); // Membuka file dalam tab baru
+                      }}
+                      className="text-blue-500 hover:underline"
+                    >
+                      Lihat File PDF
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           )}
