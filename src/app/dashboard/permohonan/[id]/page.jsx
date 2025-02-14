@@ -168,11 +168,14 @@ export default function PermohonanDetailPage({ params }) {
       {section === "Step-2" && (
         <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-start">
           {getUserStatus(clearingHouseData?.status) === "Diproses" && (
-            <div className="p-5 flex flex-col justify-center items-center max-w-3xl xl:min-h-[35rem]">
+            <div className="px-5 py-9 flex flex-col justify-start items-center max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
-                Permohonan berhasil diajukan
+                PERMOHONAN SEDANG DI PROSES
               </h1>
-              <h1>Mohon menunggu proses verifikasi berkas</h1>
+              <h1 className="text-lg my-3 text-warning">
+                Mohon menunggu proses verifikasi berkas, silahkan cek secara
+                berkala.
+              </h1>
               <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
@@ -190,13 +193,13 @@ export default function PermohonanDetailPage({ params }) {
             </div>
           )}
           {getUserStatus(clearingHouseData?.status) === "Ditolak" && (
-            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
+            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl text-center">
-                Permohonan Ditolak, dengan alasan:
+                PERMOHONAN DITOLAK
               </h1>
-              <p className="text-lg text-red-500">
-                {clearingHouseData.remarks}
-              </p>
+              <h1 className="text-lg m-5 text-red-500">
+                Alasan Ditolak : {clearingHouseData.remarks}.
+              </h1>
               <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
@@ -214,11 +217,11 @@ export default function PermohonanDetailPage({ params }) {
             </div>
           )}
           {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
-            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
+            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
-                Permohonan Terverifikasi
+                PERMOHONAN TERVERIFIKASI
               </h1>
-              <div className="w-full max-w-[10rem] md:max-w-sm">
+              <div className="w-full max-w-[10rem] md:max-w-sm mt-5">
                 <Lottie
                   options={{
                     loop: false,
@@ -235,11 +238,11 @@ export default function PermohonanDetailPage({ params }) {
             </div>
           )}
           {getUserStatus(clearingHouseData?.status) === "Selesai" && (
-            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
+            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
-                Permohonan Terverifikasi
+                PERMOHONAN TERVERIFIKASI
               </h1>
-              <div className="w-full max-w-[10rem] md:max-w-sm">
+              <div className="w-full max-w-[10rem] md:max-w-sm mt-5">
                 <Lottie
                   options={{
                     loop: false,
@@ -260,11 +263,14 @@ export default function PermohonanDetailPage({ params }) {
       {section === "Step-3" && (
         <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
           {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
-            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
+            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
               <h1 className="font-medium text-xl md:text-3xl">
-                Permohonan Terverifikasi
+                PERMOHONAN TERVERIFIKASI
               </h1>
-              <h1 className="text-lg">Mohon menunggu proses keputusan akhir</h1>
+              <h1 className="text-lg text-warning m-5">
+                Mohon menunggu proses keputusan akhir, silahkan cek secara
+                berkala.
+              </h1>
               <div className="w-full max-w-[10rem] md:max-w-sm">
                 <Lottie
                   options={{
@@ -282,27 +288,37 @@ export default function PermohonanDetailPage({ params }) {
             </div>
           )}
           {getUserStatus(clearingHouseData?.status) === "Selesai" && (
-            <div className="p-5 flex flex-col justify-center items-center w-full max-w-3xl xl:min-h-[35rem]">
-              <div className="mt-2 flex flex-col gap-1">
-                <span>Output:</span>
+            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
+              <h1 className="font-medium text-xl md:text-3xl">
+                PERMOHONAN SELESAI
+              </h1>
+              <div className="flex flex-col gap-1">
+                <h1 className="font-medium text-xl mt-8 text-red-500 text-center">
+                  Hasil Keputusan Akhir
+                </h1>
                 {clearingRequestOutput?.keluaran === "-" ||
                 !clearingRequestOutput?.keluaran ? (
-                  <h1>Balasan: {clearingRequestOutput?.remarks}</h1>
+                  <h1 className="font-medium text-lg mb-5 text-justify">
+                    {clearingRequestOutput?.remarks}
+                  </h1>
                 ) : (
                   <>
-                    <h1>Balasan: {clearingRequestOutput?.remarks}</h1>
-                    <h1>File: </h1>
-                    <button
-                      onClick={(e) => {
-                        window.open(
-                          `${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`,
-                          "_blank"
-                        ); // Membuka file dalam tab baru
-                      }}
-                      className="text-blue-500 hover:underline"
-                    >
-                      Lihat File PDF
-                    </button>
+                    <h1 className="font-medium text-lg mb-5 text-justify">
+                      {clearingRequestOutput?.remarks}
+                    </h1>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => {
+                          window.open(
+                            `${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`,
+                            "_blank"
+                          );
+                        }}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+                      >
+                        Lihat File Keputusan Akhir
+                      </button>
+                    </div>
                   </>
                 )}
               </div>
