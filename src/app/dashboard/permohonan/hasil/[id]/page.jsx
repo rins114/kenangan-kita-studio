@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 const TOKEN = localStorage.getItem("access_token");
 
 export default function HasilPage({ params }) {
@@ -127,8 +128,26 @@ export default function HasilPage({ params }) {
       );
       return;
     }
-    toast.success("Berhasil");
-    navigate.push(`/dashboard/permohonan`);
+    await Swal.fire({
+      title: "Memproses...",
+      text: "Mohon tunggu sebentar",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    setTimeout(() => {
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "Data telah berhasil disimpan!",
+        confirmButtonColor: "#3B82F6",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate.push(`/dashboard/permohonan/hasil`);
+        }
+      });
+    }, 3000);
   }
 
   function handleFileChange(name, keluaran) {
@@ -269,7 +288,7 @@ export default function HasilPage({ params }) {
           <div className="p-5">
             <div className="flex flex-col gap-3">
               <DataView
-                _key="Tipe"
+                _key="Tipe Keputusan Akhir"
                 value={
                   clearingRequestOutput.tipe_process === "langsung"
                     ? "Langsung"
