@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { showToast } from "@/utils/ShowToast";
-import { getGallery, postGallery } from "@/services/Galeri";
+import { deleteGallery, getGallery, postGallery } from "@/services/Galeri";
 import APP_CONFIG from "@/globals/app-config";
 import { Pagination } from "@nextui-org/react";
 import paginate from "@/utils/PaginationHelper";
@@ -36,6 +36,7 @@ const UploadGaleri = () => {
     gambar: null,
     // isPublished: false,
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [paginatedData, setPaginatedData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -77,18 +78,22 @@ const UploadGaleri = () => {
       toast.error("Deskripsi tidak boleh lebih dari 60 kata.");
       return;
     }
+    setButtonDisabled(true);
     const formDataToUpload = new FormData();
     formDataToUpload.append("title", formData.judul);
     formDataToUpload.append("desc", formData.deskripsi);
     formDataToUpload.append("img", formData.gambar);
+
     const result = await postGallery(TOKEN, formDataToUpload);
     console.log(result);
     if (result.status !== 201) {
       await showToast("error", "Kesalahan pada server");
       return;
     }
-    closeModal();
+
     setToggleUpdate(!toggleUpdate);
+    closeModal();
+    setButtonDisabled(false);
     await showToast("success", "Berhasil upload data");
   };
 
@@ -193,7 +198,7 @@ const UploadGaleri = () => {
     closeModal();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     Swal.fire({
       title: "Apakah Anda Yakin?",
       text: "Gambar yang dihapus tidak dapat dikembalikan!",
@@ -203,9 +208,14 @@ const UploadGaleri = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setGaleri((prev) => prev.filter((item) => item.id !== id));
+        const result = await deleteGallery(TOKEN, id);
+        if (result.status !== 200) {
+          await showToast("error", "Gagal menghapus galeri");
+          return;
+        }
+        setToggleUpdate(!toggleUpdate);
         Swal.fire({
           title: "Berhasil!",
           text: "Gambar telah dihapus dari galeri.",
@@ -541,6 +551,7 @@ const UploadGaleri = () => {
                   Batal
                 </button>
                 <button
+                  disabled={buttonDisabled}
                   onClick={handleUploadGaleri}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
