@@ -1,6 +1,6 @@
 "use client";
 import Swal from "sweetalert2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiEdit,
   FiTrash2,
@@ -13,23 +13,100 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  deletePeraturan,
+  getPeraturan,
+  postPeraturan,
+} from "@/services/Peraturan";
+import { showToast } from "@/utils/ShowToast";
+import APP_CONFIG from "@/globals/app-config";
+import { CircularProgress, Pagination } from "@nextui-org/react";
+import paginate from "@/utils/PaginationHelper";
+const TOKEN = localStorage.getItem("access_token");
 
 const UploadTable = () => {
   const [documents, setDocuments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add"); // 'add' or 'edit'
   const [currentDocument, setCurrentDocument] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     regulationNumber: "",
     legalProduct: "",
     year: "2025",
-    uploadDate: new Date().toLocaleDateString(),
     file: null,
     isUploaded: false,
   });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParams, setSearchParams] = useState({
+    title: "",
+    bentuk: "",
+    nomor: "",
+    tahun: "",
+  });
   const [filterCategory, setFilterCategory] = useState("");
+  const [triggerUpdate, setTriggerUpdate] = useState(false);
+  const [paginatedData, setPaginatedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [entries, setEntries] = useState(10);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  useEffect(() => {
+    async function fetchPeraturan() {
+      setIsSearching(true);
+      const result = await getPeraturan(TOKEN, searchParams);
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", "Kesalahan pada server: fetchPeraturan");
+        return;
+      }
+      setDocuments(result.data);
+      setIsSearching(false);
+    }
+    fetchPeraturan();
+  }, [triggerUpdate, searchParams.title]);
+
+  useEffect(() => {
+    console.log(documents);
+    const _paginateData = paginate(documents, currentPage, entries);
+    console.log(_paginateData);
+    setTotalPages(_paginateData.totalPages);
+    setTotalItems(_paginateData.totalItems);
+    setPaginatedData(_paginateData.data);
+  }, [documents, currentPage]);
+
+  const handleUploadPeraturan = async () => {
+    if (
+      !formData.title ||
+      !formData.regulationNumber ||
+      !formData.legalProduct ||
+      !formData.file
+    ) {
+      toast.error("Harap lengkapi semua kolom!");
+      return;
+    }
+
+    const formDataToUpload = new FormData();
+    formDataToUpload.append("title", formData.title);
+    formDataToUpload.append("no_peraturan", formData.regulationNumber);
+    formDataToUpload.append("bentuk_peraturan", formData.legalProduct);
+    formDataToUpload.append("tahun_peraturan", formData.year);
+    formDataToUpload.append("file", formData.file);
+    const result = await postPeraturan(TOKEN, formDataToUpload);
+    console.log(result);
+    if (result.status !== 201) {
+      await showToast("error", `Gagal Upload dokumen: ${result.message}`);
+      return;
+    }
+    setTriggerUpdate(!triggerUpdate);
+    closeModal();
+    await showToast("success", "Berhasil upload");
+  };
 
   const openModal = (mode, document = null) => {
     setModalMode(mode);
@@ -53,9 +130,7 @@ const UploadTable = () => {
       regulationNumber: "",
       legalProduct: "",
       year: "2025",
-      uploadDate: new Date().toLocaleDateString(),
       file: null,
-      isUploaded: false,
     });
   };
 
@@ -114,8 +189,8 @@ const UploadTable = () => {
     closeModal();
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
       title: "Apakah Anda Yakin?",
       text: "Dokumen yang dihapus tidak dapat dikembalikan!",
       icon: "warning",
@@ -124,18 +199,17 @@ const UploadTable = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setDocuments((prev) => prev.filter((doc) => doc.id !== id));
-        // Tampilkan pesan SweetAlert berhasil
-        Swal.fire({
-          title: "Berhasil!",
-          text: "Dokumen telah dihapus.",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        });
-      }
     });
+
+    if (result.isConfirmed) {
+      const result = await deletePeraturan(TOKEN, id);
+      if (result.status !== 200) {
+        await showToast("error", `Gagal Hapus Dokumen: ${result.message}`);
+        return;
+      }
+      setTriggerUpdate(!triggerUpdate);
+      await showToast("success", "Dokumen berhasil dihapus!");
+    }
   };
 
   const handleUpload = (id) => {
@@ -155,19 +229,18 @@ const UploadTable = () => {
   const handleView = (id) => {
     const doc = documents.find((doc) => doc.id === id);
     if (doc && doc.file) {
-      const fileURL = URL.createObjectURL(doc.file);
-      window.open(fileURL, "_blank");
+      window.open(`${APP_CONFIG.STORAGE_URL}${doc.file}`, "_blank");
     }
   };
 
-  const filteredDocuments = documents.filter(
-    (doc) =>
-      (doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doc.regulationNumber
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())) &&
-      (filterCategory ? doc.legalProduct === filterCategory : true)
-  );
+  // const filteredDocuments = documents.filter(
+  //   (doc) =>
+  //     (doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       doc.regulationNumber
+  //         .toLowerCase()
+  //         .includes(searchTerm.toLowerCase())) &&
+  //     (filterCategory ? doc.legalProduct === filterCategory : true)
+  // );
 
   return (
     <div className="p-5">
@@ -186,8 +259,13 @@ const UploadTable = () => {
           <input
             type="text"
             placeholder="Cari..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchParams.title}
+            onChange={(e) =>
+              setSearchParams((prevState) => ({
+                ...prevState,
+                title: e.target.value,
+              }))
+            }
             onFocus={(e) => e.target.nextSibling.classList.add("text-gray-950")}
             onBlur={(e) =>
               e.target.nextSibling.classList.remove("text-gray-950")
@@ -214,70 +292,46 @@ const UploadTable = () => {
                 Produk Hukum
               </th>
               <th className="border-gray-400 px-4 py-2">Tahun Peraturan</th>
-              <th className="border-gray-400 px-4 py-2">Tanggal Unggah</th>
-              <th className="border-gray-400 px-4 py-2">Status</th>
+              {/* <th className="border-gray-400 px-4 py-2">Tanggal Unggah</th> */}
+              {/* <th className="border-gray-400 px-4 py-2">Status</th> */}
               <th className="border-gray-400 px-4 py-2">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {filteredDocuments.length > 0 ? (
-              filteredDocuments.map((doc, index) => (
+            {isSearching ? (
+              <tr>
+                <td
+                  colSpan="6"
+                  className="border-gray-400 px-4 py-2 text-gray-500"
+                >
+                  <div className="w-full flex justify-center items-center">
+                    <CircularProgress></CircularProgress>
+                  </div>
+                </td>
+              </tr>
+            ) : paginatedData.length > 0 ? (
+              paginatedData.map((doc, index) => (
                 <tr key={doc.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {index + 1}
+                    {(currentPage - 1) * entries + index + 1}
                   </td>
                   <td className="border-gray-400 px-4 py-2">{doc.title}</td>
                   <td className="border-gray-400 px-4 py-2">
-                    {doc.regulationNumber}
+                    {doc.no_peraturan}
                   </td>
                   <td className="border-gray-400 px-4 py-2">
-                    {doc.legalProduct}
+                    {doc.bentuk_peraturan}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {doc.year}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    {new Date(doc.uploadDate).toLocaleDateString("id-ID", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    {doc.isUploaded ? (
-                      <span className="text-green-500">Terbit</span>
-                    ) : (
-                      <span className="text-danger-500">Draft</span>
-                    )}
+                    {doc.tahun_peraturan}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <div className="flex flex-row gap-1 justify-center items-center">
-                      {doc.isUploaded ? (
-                        <button
-                          onClick={() => handleCancelUpload(doc.id)}
-                          className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
-                        >
-                          <FiX />
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleUpload(doc.id)}
-                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        >
-                          <FiUpload />
-                        </button>
-                      )}
                       <button
                         onClick={() => handleView(doc.id)}
                         className="p-2 bg-teal-500 text-white rounded hover:bg-teal-600"
                       >
                         <FiEye />
-                      </button>
-                      <button
-                        onClick={() => openModal("edit", doc)}
-                        className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                      >
-                        <FiEdit />
                       </button>
                       <button
                         onClick={() => handleDelete(doc.id)}
@@ -292,7 +346,7 @@ const UploadTable = () => {
             ) : (
               <tr>
                 <td
-                  colSpan="8"
+                  colSpan="5"
                   className="border-gray-400 px-4 py-2 text-center text-gray-500"
                 >
                   Tidak ada dokumen.
@@ -302,6 +356,19 @@ const UploadTable = () => {
           </tbody>
         </table>
       </div>
+      {totalItems > entries && (
+        <div className="flex flex-col mt-5">
+          <Pagination
+            showControls
+            isCompact
+            color="warning"
+            className="pg"
+            initialPage={currentPage}
+            total={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
 
       {/* ToastContainer */}
       <ToastContainer
@@ -440,7 +507,7 @@ const UploadTable = () => {
                   Batal
                 </button>
                 <button
-                  onClick={handleSave}
+                  onClick={handleUploadPeraturan}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Simpan

@@ -1,4 +1,5 @@
 import API_ENDPOINT from "@/globals/api-endpoints";
+import paginate from "@/utils/PaginationHelper";
 import axios from "axios";
 
 export async function postClearingHouseRequest(data, token) {
@@ -25,7 +26,6 @@ export async function getClearingsHouseRequest(token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
