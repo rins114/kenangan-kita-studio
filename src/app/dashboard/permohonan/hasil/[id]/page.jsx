@@ -128,7 +128,7 @@ export default function HasilPage({ params }) {
       );
       return;
     }
-    await Swal.fire({
+    Swal.fire({
       title: "Memproses...",
       text: "Mohon tunggu sebentar",
       allowOutsideClick: false,

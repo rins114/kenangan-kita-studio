@@ -21,10 +21,8 @@ const UploadGaleri = () => {
   const [currentGaleri, setCurrentGaleri] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
-  const [previewDeskripsi, setPreviewDeskripsi] = useState(null);
   const [formData, setFormData] = useState({
     judul: "",
-    deskripsi: "",
     tanggal: new Date().toLocaleDateString("id-ID", {
       day: "2-digit",
       month: "long",
@@ -53,7 +51,6 @@ const UploadGaleri = () => {
   const resetFormData = () => {
     setFormData({
       judul: "",
-      deskripsi: "",
       tanggal: new Date().toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "long",
@@ -100,7 +97,7 @@ const UploadGaleri = () => {
   };
 
   const handleSave = () => {
-    if (!formData.judul || !formData.deskripsi || !formData.gambar) {
+    if (!formData.judul || !formData.gambar) {
       toast.error("Harap lengkapi semua kolom!");
       return;
     }
@@ -113,24 +110,6 @@ const UploadGaleri = () => {
         icon: "success",
         confirmButtonColor: "#3085d6",
       });
-    } else if (modalMode === "edit" && currentGaleri) {
-      // Check jika ada perubahan
-      const hasChanges =
-        formData.judul !== currentGaleri.judul ||
-        formData.deskripsi !== currentGaleri.deskripsi ||
-        formData.gambar !== currentGaleri.gambar;
-
-      if (!hasChanges) {
-        toast.info("Tidak ada perubahan yang dilakukan");
-        return;
-      }
-
-      setGaleri((prev) =>
-        prev.map((item) =>
-          item.id === currentGaleri.id ? { ...formData, id: item.id } : item
-        )
-      );
-      toast.success("Galeri berhasil diperbarui!");
     }
     closeModal();
   };
@@ -158,47 +137,12 @@ const UploadGaleri = () => {
     });
   };
 
-  const handlePublish = (id) => {
-    setGaleri((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, isPublished: true } : item
-      )
-    );
-    toast.success("Gambar berhasil dipublikasikan!");
-  };
-
-  const handleUnpublish = (id) => {
-    setGaleri((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, isPublished: false } : item
-      )
-    );
-    toast.error("Publikasi gambar dibatalkan!");
-  };
-
   const handleImagePreview = (image) => {
     setPreviewImage(URL.createObjectURL(image));
   };
 
-  const handleDeskripsiPreview = (deskripsi) => {
-    setPreviewDeskripsi(deskripsi);
-  };
-
-  const truncateText = (text, lines = 3) => {
-    const words = text.split(" ");
-    const averageWordsPerLine = 6;
-    const maxWords = lines * averageWordsPerLine;
-
-    if (words.length > maxWords) {
-      return words.slice(0, maxWords).join(" ") + "...";
-    }
-    return text;
-  };
-
-  const filteredGaleri = galeri.filter(
-    (item) =>
-      item.judul.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.deskripsi.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredGaleri = galeri.filter((item) =>
+    item.judul.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -234,17 +178,13 @@ const UploadGaleri = () => {
           <thead>
             <tr className="bg-gray-300">
               <th className="border-gray-400 px-4 py-2 text-center">No.</th>
-              <th className="border-gray-400 px-4 py-2 text-center">
-                Gambar Galeri
+              <th className="border-gray-400 px-4 py-2 text-start">
+                Gambar Slider
               </th>
-              <th className="border-gray-400 px-4 py-2 text-center">Judul</th>
-              <th className="border-gray-400 px-4 py-2 text-center">
-                Deskripsi
-              </th>
-              <th className="border-gray-400 px-4 py-2 text-center">
+              <th className="border-gray-400 px-4 py-2 text-start">Judul</th>
+              <th className="border-gray-400 px-4 py-2 text-start">
                 Tanggal Unggah
               </th>
-              <th className="border-gray-400 px-4 py-2 text-center">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
@@ -263,77 +203,18 @@ const UploadGaleri = () => {
                       onClick={() => handleImagePreview(item.gambar)}
                     />
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  <td className="border-gray-400 px-4 py-2 text-start">
                     {item.judul}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-start">
-                    <div className="max-h-[6.5em] overflow-hidden">
-                      {truncateText(item.deskripsi)}
-                    </div>
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
                     {new Date(item.tanggal).toLocaleDateString("id-ID", {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
                     })}
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
-                    <span
-                      className={`text-sm ${
-                        item.isPublished ? "text-green-500" : "text-red-500"
-                      }`}
-                    >
-                      {item.isPublished ? "Dipublikasi" : "Draft"}
-                    </span>
-                  </td>
                   <td className="border-gray-400 px-4 py-2">
                     <div className="flex gap-1 justify-center">
-                      <div className="relative group">
-                        {item.isPublished ? (
-                          <button
-                            onClick={() => handleUnpublish(item.id)}
-                            className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
-                          >
-                            <FiX />
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handlePublish(item.id)}
-                            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                          >
-                            <FiUpload />
-                          </button>
-                        )}
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          {item.isPublished ? "Unpublish" : "Publish"}
-                        </span>
-                      </div>
-
-                      <div className="relative group">
-                        <button
-                          onClick={() => handleDeskripsiPreview(item.deskripsi)}
-                          className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
-                        >
-                          <FiEye />
-                        </button>
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          Deskripsi Lengkap
-                        </span>
-                      </div>
-
-                      <div className="relative group">
-                        <button
-                          onClick={() => openModal("edit", item)}
-                          className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                        >
-                          <FiEdit />
-                        </button>
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          Edit
-                        </span>
-                      </div>
-
                       <div className="relative group">
                         <button
                           onClick={() => handleDelete(item.id)}
@@ -394,7 +275,7 @@ const UploadGaleri = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-lg backdrop-blur-sm max-h-[90vh]"
+              className="bg-white rounded-lg p-6 w-1/2 md:w-1/2 shadow-lg backdrop-blur-sm max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-lg font-semibold mb-4 items-center justify-center text-center">
@@ -437,35 +318,6 @@ const UploadGaleri = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Deskripsi
-                </label>
-                <textarea
-                  name="deskripsi"
-                  value={formData.deskripsi}
-                  onChange={(e) => {
-                    const words = e.target.value.trim().split(/\s+/);
-                    if (words.length <= 50) {
-                      handleInputChange(e);
-                    } else {
-                      toast.error("Deskripsi tidak boleh lebih dari 50 kata");
-                    }
-                  }}
-                  rows="5"
-                  placeholder="Maksimal 50 Kata"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                <span className="sm:text-sm mt-1 text-gray-700">
-                  Sisa Kata:{" "}
-                  {50 -
-                    formData.deskripsi
-                      .trim()
-                      .split(/\s+/)
-                      .filter((word) => word.length > 0).length}
-                </span>
-              </div>
-
               <div className="flex justify-end">
                 <button
                   onClick={closeModal}
@@ -497,27 +349,6 @@ const UploadGaleri = () => {
               alt="Preview"
               className="max-w-full max-h-[80vh] object-contain"
             />
-          </div>
-        </div>
-      )}
-
-      {/* Deskripsi Preview Modal */}
-      {previewDeskripsi && (
-        <div
-          className="fixed px-3 inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
-          onClick={() => setPreviewDeskripsi(null)}
-        >
-          <div className="bg-white p-6 w-full md:w-1/2 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">Deskripsi Lengkap</h3>
-            <p className="text-gray-700 whitespace-pre-wrap">
-              {previewDeskripsi}
-            </p>
-            <button
-              onClick={() => setPreviewDeskripsi(null)}
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Tutup
-            </button>
           </div>
         </div>
       )}
