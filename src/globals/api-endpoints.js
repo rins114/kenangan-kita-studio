@@ -32,7 +32,16 @@ const API_ENDPOINT = {
   DELETE_PERATURAN: (id) => `${API_BASE_URL}peraturan/${id}`,
   POST_GALERI: `${API_BASE_URL}galeri`,
   GET_GALERI: `${API_BASE_URL}galeri`,
+  GET_PUBLISHED_GALERI: `${API_BASE_URL}galeritrue`,
+  TOOGLE_GALERI_UPLOAD_STATUS: (id) =>
+    `${API_BASE_URL}gallery/updatetrue/${id}`,
   DELETE_GALERI: (id) => `${API_BASE_URL}galeri/${id}`,
+  POST_SLIDER: `${API_BASE_URL}slider`,
+  GET_SLIDER: `${API_BASE_URL}slider`,
+  GET_PUBLISHED_SLIDER: `${API_BASE_URL}slidertrue`,
+  DELETE_SLIDER: (id) => `${API_BASE_URL}slider/${id}`,
+  TOOGLE_SLIDER_UPLOAD_STATUS: (id) =>
+    `${API_BASE_URL}sliders/updatetrue/${id}`,
 };
 
 export default API_ENDPOINT;

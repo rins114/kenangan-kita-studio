@@ -14,7 +14,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { showToast } from "@/utils/ShowToast";
-import { deleteGallery, getGallery, postGallery } from "@/services/Galeri";
+import {
+  deleteGallery,
+  getGallery,
+  postGallery,
+  toggleGalleryUpload,
+} from "@/services/Galeri";
 import APP_CONFIG from "@/globals/app-config";
 import { Pagination } from "@nextui-org/react";
 import paginate from "@/utils/PaginationHelper";
@@ -226,13 +231,14 @@ const UploadGaleri = () => {
     });
   };
 
-  const handlePublish = (id) => {
-    setGaleri((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, isPublished: true } : item
-      )
-    );
-    toast.success("Gambar berhasil dipublikasikan!");
+  const handlePublish = async (id) => {
+    const result = await toggleGalleryUpload(TOKEN, id);
+    if (result.status !== 200) {
+      await showToast("error", "Gagal mengubah status publikasi");
+      return;
+    }
+    setToggleUpdate(!toggleUpdate);
+    await showToast("success", "Berhasil");
   };
 
   const handleUnpublish = (id) => {
@@ -312,7 +318,7 @@ const UploadGaleri = () => {
               {/* <th className="border-gray-400 px-4 py-2 text-center">
                 Tanggal Unggah
               </th> */}
-              {/* <th className="border-gray-400 px-4 py-2 text-center">Status</th> */}
+              <th className="border-gray-400 px-4 py-2 text-center">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
@@ -346,21 +352,21 @@ const UploadGaleri = () => {
                       year: "numeric",
                     })}
                   </td> */}
-                  {/* <td className="border-gray-400 px-4 py-2 text-center">
+                  <td className="border-gray-400 px-4 py-2 text-center">
                     <span
                       className={`text-sm ${
-                        item.isPublished ? "text-green-500" : "text-red-500"
+                        item.is_upload ? "text-green-500" : "text-red-500"
                       }`}
                     >
-                      {item.isPublished ? "Dipublikasi" : "Draft"}
+                      {item.is_upload ? "Dipublikasi" : "Draft"}
                     </span>
-                  </td> */}
+                  </td>
                   <td className="border-gray-400 px-4 py-2">
                     <div className="flex gap-1 justify-center">
                       <div className="relative group">
-                        {/* {item.isPublished ? (
+                        {item.is_upload ? (
                           <button
-                            onClick={() => handleUnpublish(item.id)}
+                            onClick={() => handlePublish(item.id)}
                             className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
                           >
                             <FiX />
@@ -372,9 +378,9 @@ const UploadGaleri = () => {
                           >
                             <FiUpload />
                           </button>
-                        )} */}
+                        )}
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          {item.isPublished ? "Unpublish" : "Publish"}
+                          {item.is_upload ? "Unpublish" : "Publish"}
                         </span>
                       </div>
 

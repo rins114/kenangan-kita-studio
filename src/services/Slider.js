@@ -1,9 +1,9 @@
 import API_ENDPOINT from "@/globals/api-endpoints";
 import axios from "axios";
 
-export async function postGallery(token, formData) {
+export async function postSlider(token, formData) {
   try {
-    const response = await axios.post(API_ENDPOINT.POST_GALERI, formData, {
+    const response = await axios.post(API_ENDPOINT.POST_SLIDER, formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;
@@ -12,10 +12,9 @@ export async function postGallery(token, formData) {
     return { status: error.status, error: error.message };
   }
 }
-
-export async function getGallery(token) {
+export async function getSlider(token) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_GALERI, {
+    const response = await axios.get(API_ENDPOINT.GET_SLIDER, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;
@@ -24,10 +23,9 @@ export async function getGallery(token) {
     return { status: error.status, error: error.message };
   }
 }
-
-export async function deleteGallery(token, id) {
+export async function deleteSlider(token, id) {
   try {
-    const response = await axios.delete(`${API_ENDPOINT.DELETE_GALERI(id)}`, {
+    const response = await axios.delete(API_ENDPOINT.DELETE_SLIDER(id), {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;
@@ -36,13 +34,14 @@ export async function deleteGallery(token, id) {
     return { status: error.status, error: error.message };
   }
 }
-
-export async function toggleGalleryUpload(token, id) {
+export async function toggleSliderStatus(token, id) {
   try {
     const response = await axios.put(
-      API_ENDPOINT.TOOGLE_GALERI_UPLOAD_STATUS(id),
+      API_ENDPOINT.TOOGLE_SLIDER_UPLOAD_STATUS(id),
       {},
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return response;
   } catch (error) {
@@ -51,9 +50,9 @@ export async function toggleGalleryUpload(token, id) {
   }
 }
 
-export async function getPublishedGallery(token) {
+export async function getPublishedSlider(token) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_GALERI, {
+    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_SLIDER, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;

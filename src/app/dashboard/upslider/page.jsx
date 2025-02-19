@@ -1,6 +1,6 @@
 "use client";
 import Swal from "sweetalert2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiEdit,
   FiTrash2,
@@ -13,9 +13,20 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  deleteSlider,
+  getSlider,
+  postSlider,
+  toggleSliderStatus,
+} from "@/services/Slider";
+import { showToast } from "@/utils/ShowToast";
+import APP_CONFIG from "@/globals/app-config";
+import { Pagination } from "@nextui-org/react";
+import paginate from "@/utils/PaginationHelper";
+const TOKEN = localStorage.getItem("access_token");
 
-const UploadGaleri = () => {
-  const [galeri, setGaleri] = useState([]);
+const UploadSlider = () => {
+  const [slider, setSlider] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add");
   const [currentGaleri, setCurrentGaleri] = useState(null);
@@ -31,6 +42,35 @@ const UploadGaleri = () => {
     gambar: null,
     isPublished: false,
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [paginatedData, setPaginatedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [entries, setEntries] = useState(10);
+
+  useEffect(() => {
+    async function fetchSlider() {
+      const result = await getSlider(TOKEN);
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", "Kesalahan pada server: getSlider");
+        return;
+      }
+      setSlider(result.data);
+    }
+    fetchSlider();
+  }, [toggleUpdate]);
+
+  useEffect(() => {
+    console.log(slider);
+    const _paginateData = paginate(slider, currentPage, entries);
+    console.log(_paginateData);
+    setTotalPages(_paginateData.totalPages);
+    setTotalItems(_paginateData.totalItems);
+    setPaginatedData(_paginateData.data);
+  }, [slider, currentPage]);
 
   const openModal = (mode, item = null) => {
     setModalMode(mode);
@@ -51,13 +91,7 @@ const UploadGaleri = () => {
   const resetFormData = () => {
     setFormData({
       judul: "",
-      tanggal: new Date().toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }),
       gambar: null,
-      isPublished: false,
     });
   };
 
@@ -68,50 +102,41 @@ const UploadGaleri = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      // Create a new image object to check dimensions
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const size = Math.min(img.width, img.height);
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext("2d");
-
-        // Calculate cropping
-        const offsetX = (img.width - size) / 2;
-        const offsetY = (img.height - size) / 2;
-
-        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
-
-        canvas.toBlob((blob) => {
-          const croppedFile = new File([blob], file.name, { type: file.type });
-          setFormData({ ...formData, gambar: croppedFile });
-          toast.success("Gambar berhasil ditambahkan");
-        }, file.type);
-      };
-      img.src = URL.createObjectURL(file);
-    } else {
-      toast.error("File harus berupa gambar!");
-    }
+    setFormData({ ...formData, gambar: file });
+    toast.success("File dokumen ditambahkan");
   };
 
-  const handleSave = () => {
+  const handlePublish = async (id) => {
+    const result = await toggleSliderStatus(TOKEN, id);
+    if (result.status !== 200) {
+      await showToast("error", "Gagal mengubah status publikasi");
+      return;
+    }
+    setToggleUpdate(!toggleUpdate);
+    await showToast("success", "Berhasil");
+  };
+
+  const handleSave = async () => {
     if (!formData.judul || !formData.gambar) {
       toast.error("Harap lengkapi semua kolom!");
       return;
     }
+    setButtonDisabled(true);
 
-    if (modalMode === "add") {
-      setGaleri((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
-      Swal.fire({
-        title: "Berhasil!",
-        text: "Gambar telah ditambahkan ke galeri.",
-        icon: "success",
-        confirmButtonColor: "#3085d6",
-      });
+    const formDataToUpload = new FormData();
+
+    formDataToUpload.append("title", formData.judul);
+    formDataToUpload.append("img", formData.gambar);
+    const result = await postSlider(TOKEN, formDataToUpload);
+    console.log(result);
+    if (result.status !== 201) {
+      await showToast("error", result.message);
+      return;
     }
+    setToggleUpdate(!toggleUpdate);
     closeModal();
+    setButtonDisabled(false);
+    await showToast("success", "Berhasil upload slider");
   };
 
   const handleDelete = (id) => {
@@ -124,9 +149,14 @@ const UploadGaleri = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setGaleri((prev) => prev.filter((item) => item.id !== id));
+        const result = await deleteSlider(TOKEN, id);
+        if (result.status !== 200) {
+          await showToast("error", "Kesalahan pada server: deleteSlider");
+          return;
+        }
+        setToggleUpdate(!toggleUpdate);
         Swal.fire({
           title: "Berhasil!",
           text: "Gambar telah dihapus dari galeri.",
@@ -138,12 +168,12 @@ const UploadGaleri = () => {
   };
 
   const handleImagePreview = (image) => {
-    setPreviewImage(URL.createObjectURL(image));
+    setPreviewImage(APP_CONFIG.STORAGE_URL + image);
   };
 
-  const filteredGaleri = galeri.filter((item) =>
-    item.judul.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredGaleri = galeri.filter((item) =>
+  //   item.judul.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <div className="p-5">
@@ -156,7 +186,7 @@ const UploadGaleri = () => {
           <span className="hidden sm:inline text-sm">Tambah Gambar</span>
           <span className="sm:hidden">Tambah</span>
         </button>
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="Cari..."
@@ -169,7 +199,7 @@ const UploadGaleri = () => {
             className="block w-full pr-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        </div>
+        </div> */}
       </div>
 
       {/* Tabel Galeri */}
@@ -182,39 +212,59 @@ const UploadGaleri = () => {
                 Gambar Slider
               </th>
               <th className="border-gray-400 px-4 py-2 text-start">Judul</th>
-              <th className="border-gray-400 px-4 py-2 text-start">
-                Tanggal Unggah
-              </th>
+              <th className="border-gray-400 px-4 py-2 text-start">Status</th>
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {filteredGaleri.length > 0 ? (
-              filteredGaleri.map((item, index) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((item, index) => (
                 <tr key={item.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {index + 1}
+                    {(currentPage - 1) * entries + index + 1}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <img
-                      src={URL.createObjectURL(item.gambar)}
-                      alt={item.judul}
+                      src={`${APP_CONFIG.STORAGE_URL}/${item.img}`}
+                      alt={item.title}
                       className="w-16 h-16 object-cover cursor-pointer"
-                      onClick={() => handleImagePreview(item.gambar)}
+                      onClick={() => handleImagePreview(item.img)}
                     />
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-start">
-                    {item.judul}
+                    {item.title}
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-start">
-                    {new Date(item.tanggal).toLocaleDateString("id-ID", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                  <td className="border-gray-400 px-4 py-2">
+                    <span
+                      className={`text-sm ${
+                        item.is_upload ? "text-green-500" : "text-red-500"
+                      }`}
+                    >
+                      {item.is_upload ? "Dipublikasi" : "Draft"}
+                    </span>
                   </td>
                   <td className="border-gray-400 px-4 py-2">
                     <div className="flex gap-1 justify-center">
+                      <div className="relative group">
+                        {item.is_upload ? (
+                          <button
+                            onClick={() => handlePublish(item.id)}
+                            className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                          >
+                            <FiX />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handlePublish(item.id)}
+                            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                          >
+                            <FiUpload />
+                          </button>
+                        )}
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          {item.is_upload ? "Unpublish" : "Publish"}
+                        </span>
+                      </div>
                       <div className="relative group">
                         <button
                           onClick={() => handleDelete(item.id)}
@@ -243,6 +293,19 @@ const UploadGaleri = () => {
           </tbody>
         </table>
       </div>
+      {totalItems > entries && (
+        <div className="flex flex-col mt-5">
+          <Pagination
+            showControls
+            isCompact
+            color="warning"
+            className="pg"
+            initialPage={currentPage}
+            total={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
 
       <ToastContainer
         position="top-center"
@@ -284,6 +347,7 @@ const UploadGaleri = () => {
 
               <div className="mb-4">
                 <button
+                  type="button"
                   onClick={() => document.getElementById("file-input").click()}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
                 >
@@ -326,6 +390,7 @@ const UploadGaleri = () => {
                   Batal
                 </button>
                 <button
+                  disabled={buttonDisabled}
                   onClick={handleSave}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
@@ -356,4 +421,4 @@ const UploadGaleri = () => {
   );
 };
 
-export default UploadGaleri;
+export default UploadSlider;
