@@ -238,7 +238,7 @@ const UploadGaleri = () => {
       return;
     }
     setToggleUpdate(!toggleUpdate);
-    await showToast("success", "Berhasil");
+    await showToast("success", "Berhasil ganti status!");
   };
 
   const handleUnpublish = (id) => {
