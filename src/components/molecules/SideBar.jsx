@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
 import { useAuthUser } from "@/contexts/AuthUserContext";
 import { IoDocumentsSharp } from "react-icons/io5";
-import { FaClipboardList, FaListUl, FaImages } from "react-icons/fa";
+import { FaClipboardList, FaListUl, FaImages, FaImage } from "react-icons/fa";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import useLogin from "@/hooks/useLogin";
 
@@ -124,62 +124,76 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           </Sidebar.Item>
 
           {user?.roles === "Admin" && (
-              <Sidebar.Item
-                className={`${
-                  pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
-                } cursor-pointer`}
-                onClick={() => {
-                  navigate.push("/dashboard/users");
-                }}
-                icon={HiUser}
-              >
-                Daftar Pengguna
-              </Sidebar.Item>
-            )}
+            <Sidebar.Item
+              className={`${
+                pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
+              } cursor-pointer`}
+              onClick={() => {
+                navigate.push("/dashboard/users");
+              }}
+              icon={HiUser}
+            >
+              Daftar Pengguna
+            </Sidebar.Item>
+          )}
 
           {user?.roles === "Admin" && (
-              <Sidebar.Item
-                className={`${
-                  pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
-                } cursor-pointer`}
-                onClick={() => {
-                  navigate.push("/dashboard/dokumen");
-                }}
-                icon={IoDocumentsSharp}
-              >
-                Dokumen Peraturan
-              </Sidebar.Item>
-            )}
+            <Sidebar.Item
+              className={`${
+                pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
+              } cursor-pointer`}
+              onClick={() => {
+                navigate.push("/dashboard/dokumen");
+              }}
+              icon={IoDocumentsSharp}
+            >
+              Dokumen Peraturan
+            </Sidebar.Item>
+          )}
 
           {user?.roles === "Admin" && (
-              <Sidebar.Item
-                className={`${
-                  pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
-                } cursor-pointer`}
-                onClick={() => {
-                  navigate.push("/dashboard/upgaleri");
-                }}
-                icon={FaImages}
-              >
-                Upload Galeri
-              </Sidebar.Item>
-            )}
+            <Sidebar.Item
+              className={`${
+                pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
+              } cursor-pointer`}
+              onClick={() => {
+                navigate.push("/dashboard/upgaleri");
+              }}
+              icon={FaImage}
+            >
+              Foto Galeri
+            </Sidebar.Item>
+          )}
 
-          {user?.roles === "Kepala_upbj" &&(
-              <Sidebar.Item
-                className={`${
-                  pathname === "/dashboard/daftar-laporan"
-                    ? "bg-slate-500/40"
-                    : ""
-                } cursor-pointer`}
-                onClick={() => {
-                  navigate.push("/dashboard/daftar-laporan");
-                }}
-                icon={FaClipboardList}
-              >
-                Daftar Laporan
-              </Sidebar.Item>
-            )}
+          {user?.roles === "Admin" && (
+            <Sidebar.Item
+              className={`${
+                pathname === "/dashboard/upslider" ? "bg-slate-500/40" : ""
+              } cursor-pointer`}
+              onClick={() => {
+                navigate.push("/dashboard/upslider");
+              }}
+              icon={FaImages}
+            >
+              Foto Slider
+            </Sidebar.Item>
+          )}
+
+          {user?.roles === "Kepala_upbj" && (
+            <Sidebar.Item
+              className={`${
+                pathname === "/dashboard/daftar-laporan"
+                  ? "bg-slate-500/40"
+                  : ""
+              } cursor-pointer`}
+              onClick={() => {
+                navigate.push("/dashboard/daftar-laporan");
+              }}
+              icon={FaClipboardList}
+            >
+              Daftar Laporan
+            </Sidebar.Item>
+          )}
 
           {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
