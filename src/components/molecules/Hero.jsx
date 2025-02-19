@@ -10,12 +10,27 @@ import { Autoplay } from "swiper/modules";
 import { getPublishedSlider } from "@/services/Slider";
 import APP_CONFIG from "@/globals/app-config";
 import { CircularProgress } from "@nextui-org/react";
-const TOKEN = localStorage.getItem("access_token");
+import { showToast } from "@/utils/ShowToast";
+// const TOKEN = localStorage.getItem("access_token");
 
 export default function Hero() {
   const { homeRef } = useNavigation();
   const swiperRef = useRef(null);
   const [slider, setSlider] = useState([]);
+  const [token, setToken] = useState(null); // Gunakan state untuk menyimpan token
+
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        const savedToken = localStorage.getItem("access_token");
+        if (savedToken) {
+          setToken(savedToken);
+        }
+      }
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
+    }
+  }, []);
 
   // Function to handle the fade-in animation
   const handleSlideChange = () => {
@@ -31,7 +46,8 @@ export default function Hero() {
 
   useEffect(() => {
     async function fetchSlider() {
-      const result = await getPublishedSlider(TOKEN);
+      if (!token) return;
+      const result = await getPublishedSlider(token);
       console.log(result);
       if (result.status !== 200) {
         await showToast("error", "Kesalahan pada server: getPublishedSlider");
@@ -40,7 +56,7 @@ export default function Hero() {
       setSlider(result.data);
     }
     fetchSlider();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     gsap.from("#heroTitle", { opacity: 0, y: 100, duration: 1 });

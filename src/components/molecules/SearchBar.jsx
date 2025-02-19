@@ -13,7 +13,7 @@ import {
 import React, { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
 
-export default function SearchBar() {
+export default function SearchBar({ searchParams, setSearchParams }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Data untuk dropdown bentuk peraturan
@@ -54,9 +54,16 @@ export default function SearchBar() {
     <>
       <form
         action=""
-        className="flex flex-row gap-5 w-3/4 max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-montserrat shadow-md"
+        className="flex flex-row gap-5 w-full max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-montserrat shadow-md"
       >
         <Input
+          value={searchParams.title}
+          onChange={(e) =>
+            setSearchParams((prevState) => ({
+              ...prevState,
+              title: e.target.value,
+            }))
+          }
           size="lg"
           placeholder="Masukkan kata kunci pencarian"
           variant="bordered"
@@ -89,12 +96,12 @@ export default function SearchBar() {
         >
           <FaSearch />
         </Button>
-        <Button
+        {/* <Button
           size="lg"
           className="hidden md:flex bg-mainColor text-white font-medium"
         >
           Search
-        </Button>
+        </Button> */}
         <Button
           size="lg"
           isIconOnly
