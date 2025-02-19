@@ -364,7 +364,7 @@ const UploadGaleri = () => {
                   <td className="border-gray-400 px-4 py-2">
                     <div className="flex gap-1 justify-center">
                       <div className="relative group">
-                        {item.isPublished ? (
+                        {item.is_upload ? (
                           <button
                             onClick={() => handlePublish(item.id)}
                             className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -380,7 +380,7 @@ const UploadGaleri = () => {
                           </button>
                         )}
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          {item.isPublished ? "Unpublish" : "Publish"}
+                          {item.is_upload ? "Unpublish" : "Publish"}
                         </span>
                       </div>
 

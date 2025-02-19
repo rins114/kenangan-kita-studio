@@ -50,3 +50,15 @@ export async function toggleGalleryUpload(token, id) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function getPublishedGallery(token) {
+  try {
+    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_GALERI, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}

@@ -49,3 +49,15 @@ export async function toggleSliderStatus(token, id) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function getPublishedSlider(token) {
+  try {
+    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_SLIDER, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}
