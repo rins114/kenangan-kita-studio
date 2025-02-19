@@ -1,6 +1,6 @@
 "use client";
 import Swal from "sweetalert2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiEdit,
   FiTrash2,
@@ -13,6 +13,13 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { showToast } from "@/utils/ShowToast";
+import { getGallery, postGallery } from "@/services/Galeri";
+import APP_CONFIG from "@/globals/app-config";
+import { Pagination } from "@nextui-org/react";
+import paginate from "@/utils/PaginationHelper";
+const TOKEN = localStorage.getItem("access_token");
+const MAX_CHAR_DESC = 500;
 
 const UploadGaleri = () => {
   const [galeri, setGaleri] = useState([]);
@@ -22,17 +29,68 @@ const UploadGaleri = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
   const [previewDeskripsi, setPreviewDeskripsi] = useState(null);
+  const [toggleUpdate, setToggleUpdate] = useState(false);
   const [formData, setFormData] = useState({
     judul: "",
     deskripsi: "",
-    tanggal: new Date().toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    }),
     gambar: null,
-    isPublished: false,
+    // isPublished: false,
   });
+  const [paginatedData, setPaginatedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [entries, setEntries] = useState(10);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  useEffect(() => {
+    async function fetchGalleryData() {
+      const result = await getGallery(TOKEN);
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", "Kesalahan pada server: getGallery");
+        return;
+      }
+      setGaleri(result.data);
+    }
+    fetchGalleryData();
+  }, [toggleUpdate]);
+
+  useEffect(() => {
+    console.log(galeri);
+    const _paginateData = paginate(galeri, currentPage, entries);
+    console.log(_paginateData);
+    setTotalPages(_paginateData.totalPages);
+    setTotalItems(_paginateData.totalItems);
+    setPaginatedData(_paginateData.data);
+  }, [galeri, currentPage]);
+
+  const handleUploadGaleri = async () => {
+    if (!formData.judul || !formData.deskripsi || !formData.gambar) {
+      toast.error("Harap lengkapi semua kolom!");
+      return;
+    }
+    if (formData.deskripsi.length > MAX_CHAR_DESC) {
+      toast.error("Deskripsi tidak boleh lebih dari 60 kata.");
+      return;
+    }
+    const formDataToUpload = new FormData();
+    formDataToUpload.append("title", formData.judul);
+    formDataToUpload.append("desc", formData.deskripsi);
+    formDataToUpload.append("img", formData.gambar);
+    const result = await postGallery(TOKEN, formDataToUpload);
+    console.log(result);
+    if (result.status !== 201) {
+      await showToast("error", "Kesalahan pada server");
+      return;
+    }
+    closeModal();
+    setToggleUpdate(!toggleUpdate);
+    await showToast("success", "Berhasil upload data");
+  };
 
   const openModal = (mode, item = null) => {
     setModalMode(mode);
@@ -177,7 +235,7 @@ const UploadGaleri = () => {
   };
 
   const handleImagePreview = (image) => {
-    setPreviewImage(URL.createObjectURL(image));
+    setPreviewImage(`${APP_CONFIG.STORAGE_URL}/${image}`);
   };
 
   const handleDeskripsiPreview = (deskripsi) => {
@@ -195,11 +253,11 @@ const UploadGaleri = () => {
     return text;
   };
 
-  const filteredGaleri = galeri.filter(
-    (item) =>
-      item.judul.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.deskripsi.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredGaleri = galeri.filter(
+  //   (item) =>
+  //     item.judul.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.deskripsi.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <div className="p-5">
@@ -212,7 +270,7 @@ const UploadGaleri = () => {
           <span className="hidden sm:inline text-sm">Tambah Gambar</span>
           <span className="sm:hidden">Tambah</span>
         </button>
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="Cari..."
@@ -225,7 +283,7 @@ const UploadGaleri = () => {
             className="block w-full pr-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        </div>
+        </div> */}
       </div>
 
       {/* Tabel Galeri */}
@@ -241,44 +299,44 @@ const UploadGaleri = () => {
               <th className="border-gray-400 px-4 py-2 text-center">
                 Deskripsi
               </th>
-              <th className="border-gray-400 px-4 py-2 text-center">
+              {/* <th className="border-gray-400 px-4 py-2 text-center">
                 Tanggal Unggah
-              </th>
-              <th className="border-gray-400 px-4 py-2 text-center">Status</th>
+              </th> */}
+              {/* <th className="border-gray-400 px-4 py-2 text-center">Status</th> */}
               <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {filteredGaleri.length > 0 ? (
-              filteredGaleri.map((item, index) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((item, index) => (
                 <tr key={item.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {index + 1}
+                    {(currentPage - 1) * entries + index + 1}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <img
-                      src={URL.createObjectURL(item.gambar)}
-                      alt={item.judul}
+                      src={`${APP_CONFIG.STORAGE_URL}/${item.img}`}
+                      alt={item.title}
                       className="w-16 h-16 object-cover cursor-pointer"
-                      onClick={() => handleImagePreview(item.gambar)}
+                      onClick={() => handleImagePreview(item.img)}
                     />
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {item.judul}
+                    {item.title}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-start">
                     <div className="max-h-[6.5em] overflow-hidden">
-                      {truncateText(item.deskripsi)}
+                      {truncateText(item.desc)}
                     </div>
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  {/* <td className="border-gray-400 px-4 py-2 text-center">
                     {new Date(item.tanggal).toLocaleDateString("id-ID", {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
                     })}
-                  </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  </td> */}
+                  {/* <td className="border-gray-400 px-4 py-2 text-center">
                     <span
                       className={`text-sm ${
                         item.isPublished ? "text-green-500" : "text-red-500"
@@ -286,11 +344,11 @@ const UploadGaleri = () => {
                     >
                       {item.isPublished ? "Dipublikasi" : "Draft"}
                     </span>
-                  </td>
+                  </td> */}
                   <td className="border-gray-400 px-4 py-2">
                     <div className="flex gap-1 justify-center">
                       <div className="relative group">
-                        {item.isPublished ? (
+                        {/* {item.isPublished ? (
                           <button
                             onClick={() => handleUnpublish(item.id)}
                             className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -304,7 +362,7 @@ const UploadGaleri = () => {
                           >
                             <FiUpload />
                           </button>
-                        )}
+                        )} */}
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                           {item.isPublished ? "Unpublish" : "Publish"}
                         </span>
@@ -312,7 +370,7 @@ const UploadGaleri = () => {
 
                       <div className="relative group">
                         <button
-                          onClick={() => handleDeskripsiPreview(item.deskripsi)}
+                          onClick={() => handleDeskripsiPreview(item.desc)}
                           className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
                         >
                           <FiEye />
@@ -322,7 +380,7 @@ const UploadGaleri = () => {
                         </span>
                       </div>
 
-                      <div className="relative group">
+                      {/* <div className="relative group">
                         <button
                           onClick={() => openModal("edit", item)}
                           className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
@@ -332,7 +390,7 @@ const UploadGaleri = () => {
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                           Edit
                         </span>
-                      </div>
+                      </div> */}
 
                       <div className="relative group">
                         <button
@@ -362,6 +420,20 @@ const UploadGaleri = () => {
           </tbody>
         </table>
       </div>
+
+      {totalItems > entries && (
+        <div className="flex flex-col mt-5">
+          <Pagination
+            showControls
+            isCompact
+            color="warning"
+            className="pg"
+            initialPage={currentPage}
+            total={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
 
       <ToastContainer
         position="top-center"
@@ -457,12 +529,7 @@ const UploadGaleri = () => {
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 <span className="sm:text-sm mt-1 text-gray-700">
-                  Sisa Kata:{" "}
-                  {50 -
-                    formData.deskripsi
-                      .trim()
-                      .split(/\s+/)
-                      .filter((word) => word.length > 0).length}
+                  {formData.deskripsi.length}/{MAX_CHAR_DESC}
                 </span>
               </div>
 
@@ -474,7 +541,7 @@ const UploadGaleri = () => {
                   Batal
                 </button>
                 <button
-                  onClick={handleSave}
+                  onClick={handleUploadGaleri}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Simpan

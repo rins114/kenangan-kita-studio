@@ -16,6 +16,8 @@ import { showToast } from "@/utils/ShowToast";
 import { useRouter } from "next/navigation";
 import APP_CONFIG from "@/globals/app-config";
 import { GrDocument } from "react-icons/gr";
+import { Pagination } from "@nextui-org/react";
+import paginate from "@/utils/PaginationHelper";
 const TOKEN = localStorage.getItem("access_token");
 
 const UsersTable = () => {
@@ -31,6 +33,11 @@ const UsersTable = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const navigate = useRouter();
   const [keterangan, setKeterangan] = useState("");
+  const [paginatedData, setPaginatedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [entries, setEntries] = useState(10);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -49,6 +56,15 @@ const UsersTable = () => {
     }
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    console.log(users);
+    const _paginateData = paginate(users, currentPage, entries);
+    console.log(_paginateData);
+    setTotalPages(_paginateData.totalPages);
+    setTotalItems(_paginateData.totalItems);
+    setPaginatedData(_paginateData.data);
+  }, [users, currentPage]);
 
   //Method integrasi backend untuk verifikasi user
   const handleVerifikasiToggle = async (id) => {
@@ -251,11 +267,11 @@ const UsersTable = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.length > 0 ? (
-              users?.map((user, index) => (
+            {paginatedData?.length > 0 ? (
+              paginatedData?.map((user, index) => (
                 <tr key={user.id} className="hover:bg-gray-50 bg-white">
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {index + 1}
+                    {(currentPage - 1) * entries + index + 1}
                   </td>
                   <td className="border-gray-400 px-4 py-2">{user.name}</td>
                   <td className="border-gray-400 px-4 py-2">{user.email}</td>
@@ -321,6 +337,19 @@ const UsersTable = () => {
           </tbody>
         </table>
       </div>
+      {totalItems > entries && (
+        <div className="flex flex-col mt-5">
+          <Pagination
+            showControls
+            isCompact
+            color="warning"
+            className="pg"
+            initialPage={currentPage}
+            total={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
 
       {/* ToastContainer */}
       <ToastContainer

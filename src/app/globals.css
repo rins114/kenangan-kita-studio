@@ -55,3 +55,8 @@ body {
 .catatan div {
   border-radius: 7px;
 }
+
+.pg li {
+  /* border: 1.5px solid silver; */
+  background-color: white;
+}

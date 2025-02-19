@@ -11,6 +11,7 @@ import {
   Tooltip,
   Button,
   CircularProgress,
+  Pagination,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -32,6 +33,7 @@ import {
 } from "@/services/ClearingHouse";
 import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
+import paginate from "@/utils/PaginationHelper";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -40,61 +42,6 @@ export const columns = [
   { name: "STATUS", uid: "status" },
   { name: "Pesan", uid: "pesan" },
   { name: "AKSI", uid: "actions" },
-];
-
-export const users = [
-  {
-    id: 1,
-    nama_pemohon: "Andi Prasetyo",
-    opd: "Dinas Pekerjaan Umum dan Penataan Ruang",
-    paket_kegiatan: "Pembangunan Jalan Lingkungan",
-    barang_jasa: "Jasa Konstruksi",
-    klpd: "Kementerian PUPR",
-    nomor_sirup: "1234567890",
-    tahun_anggaran: "2024",
-    pagu_anggaran: "1.500.000.000",
-    nilai_hps: "1.450.000.000",
-    lokasi_pelaksanaan: "Kabupaten Lombok Tengah",
-    metode_pemilihan: "Tender Umum",
-    catatan:
-      "Pastikan dokumen pendukung sudah lengkap dan akurat sebelum diajukan untuk memastikan proses verifikasi berjalan lancar.",
-    file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: 0,
-  },
-  {
-    id: 2,
-    nama_pemohon: "Siti Rahmawati",
-    opd: "Dinas Kesehatan Provinsi NTB",
-    paket_kegiatan: "Pengadaan Alat Kesehatan Puskesmas",
-    barang_jasa: "Barang Medis",
-    klpd: "Kementerian Kesehatan",
-    nomor_sirup: "0987654321",
-    tahun_anggaran: "2023",
-    pagu_anggaran: "850.000.000",
-    nilai_hps: "825.000.000",
-    lokasi_pelaksanaan: "Kota Mataram",
-    metode_pemilihan: "E-Purchasing",
-    catatan: "Pengadaan harus sesuai dengan spesifikasi teknis.",
-    file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: 0,
-  },
-  {
-    id: 3,
-    nama_pemohon: "Budi Santoso",
-    opd: "Dinas Pendidikan dan Kebudayaan",
-    paket_kegiatan: "Renovasi Gedung Sekolah Dasar",
-    barang_jasa: "Jasa Renovasi",
-    klpd: "Kementerian Pendidikan",
-    nomor_sirup: "1122334455",
-    tahun_anggaran: "2025",
-    pagu_anggaran: "2.000.000.000",
-    nilai_hps: "1.950.000.000",
-    lokasi_pelaksanaan: "Kabupaten Sumbawa",
-    metode_pemilihan: "Pengadaan Langsung",
-    catatan: "Perhatikan ketentuan K3 saat pelaksanaan proyek.",
-    file: { name: "Docs 1", path: "/assets/pdf/diazka.pdf" },
-    status: 0,
-  },
 ];
 
 const statusColorMap = {
@@ -116,6 +63,11 @@ export default function TableCustom() {
   const [keterangan, setKeterangan] = useState("");
   const [clearingHouseData, setClearingHouseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [paginatedData, setPaginatedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [entries, setEntries] = useState(10);
 
   const handleOpenDetail = async (id) => {
     const result = await getClearingsHouseRequest(TOKEN);
@@ -154,7 +106,12 @@ export default function TableCustom() {
 
   useEffect(() => {
     console.log(clearingHouseData);
-  }, [clearingHouseData]);
+    const _paginateData = paginate(clearingHouseData, currentPage, entries);
+    console.log(_paginateData);
+    setTotalPages(_paginateData.totalPages);
+    setTotalItems(_paginateData.totalItems);
+    setPaginatedData(_paginateData);
+  }, [clearingHouseData, currentPage]);
 
   async function handleVerifyClearingHouseRequest(id) {
     const result = await verifyClearingsHouseRequest(TOKEN, id);
@@ -186,7 +143,6 @@ export default function TableCustom() {
     window.location.reload();
   }
 
-  const [usersData, setUsersData] = useState(users); // Simpan data users ke dalam state
   const getUserStatus = (status) => {
     const statusMap = {
       0: "Diproses",
@@ -201,7 +157,6 @@ export default function TableCustom() {
 
   useEffect(() => {
     console.log("openedDetail:", openedDetail);
-    console.log("usersData:", usersData);
 
     if (!openedDetail?.id || !usersData?.length) return;
 
@@ -210,7 +165,7 @@ export default function TableCustom() {
 
     console.log("userKeterangan:", userKeterangan);
     setKeterangan(userKeterangan);
-  }, [openedDetail, usersData]);
+  }, [openedDetail]);
 
   const handleKeteranganChange = (e) => {
     const newKeterangan = e.target.value;
@@ -439,7 +394,7 @@ export default function TableCustom() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={clearingHouseData}>
+        <TableBody items={paginatedData.data}>
           {(item) => (
             <TableRow key={item.request_id}>
               {(columnKey) => (
@@ -692,6 +647,19 @@ export default function TableCustom() {
             </div>
           </div>
         </Modal>
+      )}
+      {totalItems > entries && (
+        <div className="flex flex-col mt-5">
+          <Pagination
+            showControls
+            isCompact
+            color="warning"
+            className="pg"
+            initialPage={currentPage}
+            total={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
       )}
     </>
   );

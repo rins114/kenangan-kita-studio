@@ -16,6 +16,23 @@ const API_ENDPOINT = {
   GET_USER_ROLES: `${API_BASE_URL}roles`,
   VERIFY_USER: (id) => `${API_BASE_URL}verifikasi/${id}/verify`,
   REJECT_USER: (id) => `${API_BASE_URL}verifikasi/${id}/reject`,
+  POST_PERATURAN: `${API_BASE_URL}peraturan`,
+  GET_PERATURAN: (params = {}) => {
+    console.log(params);
+    const { title, bentuk, nomor, tahun } = params;
+    const query = new URLSearchParams();
+
+    if (title) query.append("title", title);
+    if (bentuk) query.append("bentuk_peraturan", bentuk);
+    if (nomor) query.append("no_peraturan", nomor);
+    if (tahun) query.append("tahun_peraturan", tahun);
+
+    return `${API_BASE_URL}peraturan?${query.toString()}`;
+  },
+  DELETE_PERATURAN: (id) => `${API_BASE_URL}peraturan/${id}`,
+  POST_GALERI: `${API_BASE_URL}galeri`,
+  GET_GALERI: `${API_BASE_URL}galeri`,
+  DELETE_GALERI: (id) => `${API_BASE_URL}galeri/${id}`,
 };
 
 export default API_ENDPOINT;
