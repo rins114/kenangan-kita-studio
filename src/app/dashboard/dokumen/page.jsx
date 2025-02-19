@@ -44,6 +44,7 @@ const UploadTable = () => {
     nomor: "",
     tahun: "",
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [filterCategory, setFilterCategory] = useState("");
   const [triggerUpdate, setTriggerUpdate] = useState(false);
   const [paginatedData, setPaginatedData] = useState([]);
@@ -90,7 +91,7 @@ const UploadTable = () => {
       toast.error("Harap lengkapi semua kolom!");
       return;
     }
-
+    setButtonDisabled(true);
     const formDataToUpload = new FormData();
     formDataToUpload.append("title", formData.title);
     formDataToUpload.append("no_peraturan", formData.regulationNumber);
@@ -507,6 +508,7 @@ const UploadTable = () => {
                   Batal
                 </button>
                 <button
+                  disabled={buttonDisabled}
                   onClick={handleUploadPeraturan}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
