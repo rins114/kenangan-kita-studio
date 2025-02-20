@@ -12,7 +12,7 @@ import { HiDownload, HiEye } from "react-icons/hi";
 import { getPeraturan } from "@/services/Peraturan";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
-import { showToast } from "@/utils/ShowToast";
+import { showToast } from "@/components/atoms/SweetAlert";
 
 // const TOKEN = localStorage.getItem("access_token");
 
