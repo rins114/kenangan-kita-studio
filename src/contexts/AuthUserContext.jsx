@@ -14,6 +14,10 @@ export const AuthUserProvider = ({ children }) => {
     async function fetchSession() {
       // setIsLoading(true);
       const token = localStorage.getItem("access_token");
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
       const authenticatedUser = await session(token);
       if (authenticatedUser.status === 500) {
         await showToast("error", "Kesalahan pada server");

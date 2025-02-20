@@ -13,12 +13,10 @@ export async function postPeraturan(token, formData) {
   }
 }
 
-export async function getPeraturan(token, params) {
+export async function getPeraturan(params) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_PERATURAN(params), {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
+    const response = await axios.get(API_ENDPOINT.GET_PERATURAN(params));
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

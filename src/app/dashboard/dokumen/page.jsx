@@ -60,7 +60,7 @@ const UploadTable = () => {
   useEffect(() => {
     async function fetchPeraturan() {
       setIsSearching(true);
-      const result = await getPeraturan(TOKEN, searchParams);
+      const result = await getPeraturan(searchParams);
       console.log(result);
       if (result.status !== 200) {
         await showToast("error", "Kesalahan pada server: fetchPeraturan");

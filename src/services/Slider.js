@@ -50,11 +50,9 @@ export async function toggleSliderStatus(token, id) {
   }
 }
 
-export async function getPublishedSlider(token) {
+export async function getPublishedSlider() {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_SLIDER, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.get(API_ENDPOINT.GET_PUBLISHED_SLIDER);
     return response;
   } catch (error) {
     console.log(error);
