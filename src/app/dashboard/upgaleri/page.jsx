@@ -303,8 +303,8 @@ const UploadGaleri = () => {
       </div>
 
       {/* Tabel Galeri */}
-      <div className="overflow-x-auto overflow-hidden border-2 border-gray-300 w-full rounded-lg text-sm">
-        <table className="min-w-full">
+      <div className="overflow-x-auto border-2 border-gray-300 w-full rounded-lg text-sm">
+        <table className="w-full">
           <thead>
             <tr className="bg-gray-300">
               <th className="border-gray-400 px-4 py-2 text-center">No.</th>
@@ -342,7 +342,9 @@ const UploadGaleri = () => {
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-start min-w-96 max-w-[41rem]">
                     <div className="overflow-hidden">
-                      {truncateText(item.desc)}
+                      {item.desc.length > 150
+                        ? `${item.desc.substring(0, 150)}...`
+                        : item.desc}
                     </div>
                   </td>
                   {/* <td className="border-gray-400 px-4 py-2 text-center">
@@ -392,7 +394,7 @@ const UploadGaleri = () => {
                           <FiEye />
                         </button>
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          Deskripsi Lengkap
+                          Deskripsi
                         </span>
                       </div>
 
