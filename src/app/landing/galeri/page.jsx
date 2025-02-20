@@ -89,7 +89,7 @@ export default function GaleriPage() {
   return (
     <div className="min-h-[30rem] flex justify-start items-center flex-col bg-grayBg">
       <StaticHero
-        imagePath="/assets/images/staticHero.jpg"
+        imagePath="/assets/images/banner.jpg"
         title="GALERI KEGIATAN"
       ></StaticHero>
       <div className="p-5 max-w-[90rem] min-h-[30rem] w-full flex flex-col justify-center items-center">

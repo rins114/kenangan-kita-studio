@@ -362,7 +362,9 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-start text-center md:text-left">
-              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA CLEARING HOUSE</h1>
+              <h1 className="text-2xl mb-3 font-bold">
+                GRAFIK KINERJA CLEARING HOUSE
+              </h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -398,7 +400,9 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-center md:items-end text-center md:text-right">
-              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA VERIFIKASI BERKAS</h1>
+              <h1 className="text-2xl mb-3 font-bold">
+                GRAFIK KINERJA VERIFIKASI BERKAS
+              </h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -415,21 +419,21 @@ export default function LandingPage() {
           <LogoLink
             src="/assets/images/logosbw.png"
             size={200}
-            href="https://github.com/diazkhalid"
+            href="https://www.sumbawakab.go.id"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>
           <LogoLink
             src="/assets/images/sirup.png"
             size={200}
-            href="https://github.com/diazkhalid"
+            href="https://sirup.lkpp.go.id/sirup/loginctr/index"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>
           <LogoLink
             src="/assets/images/lpse.png"
             size={200}
-            href="https://github.com/diazkhalid"
+            href="https://lpse.lkpp.go.id/eproc4"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>

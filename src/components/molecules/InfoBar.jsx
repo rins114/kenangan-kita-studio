@@ -87,10 +87,10 @@ export default function InfoBar() {
             Sumbawa Besar
           </Link>
           <Link href="/faq" className="text-sm hover:text-mainColor">
-            Faq
+            FAQ's
           </Link>
           <Link href="/faq" className="text-sm hover:text-mainColor">
-            Government
+            Pemerintah
           </Link>
         </div>
       </div>

@@ -35,7 +35,7 @@ export default function SignInForm() {
     }
     const result = await login(email, password);
     if (result.status === 401) {
-      await showToast("warning", "Email atau password salah");
+      await showToast("warning", "Email atau password salah", "top-start");
       return;
     }
     if (result.status === 200) {
