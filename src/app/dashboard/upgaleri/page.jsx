@@ -329,7 +329,7 @@ const UploadGaleri = () => {
                   <td className="border-gray-400 px-4 py-2 text-center">
                     {(currentPage - 1) * entries + index + 1}
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  <td className="border-gray-400 px-4 py-2 flex justify-center items-center">
                     <img
                       src={`${APP_CONFIG.STORAGE_URL}/${item.img}`}
                       alt={item.title}
@@ -340,8 +340,8 @@ const UploadGaleri = () => {
                   <td className="border-gray-400 px-4 py-2 text-center">
                     {item.title}
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-start">
-                    <div className="max-h-[6.5em] overflow-hidden">
+                  <td className="border-gray-400 px-4 py-2 text-start min-w-96 max-w-[41rem]">
+                    <div className="overflow-hidden">
                       {truncateText(item.desc)}
                     </div>
                   </td>
