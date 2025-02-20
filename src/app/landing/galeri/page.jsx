@@ -13,7 +13,7 @@ import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 import formatTanggal from "@/utils/FormatDateHelper";
 import paginate from "@/utils/PaginationHelper";
-const TOKEN = localStorage.getItem("access_token");
+// const TOKEN = localStorage.getItem("access_token");
 
 export default function GaleriPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function GaleriPage() {
 
   useEffect(() => {
     async function fetchPublishedGallery() {
-      const result = await getPublishedGallery(TOKEN);
+      const result = await getPublishedGallery();
       console.log(result);
       if (result.status !== 200) {
         await showToast("error", result.message);

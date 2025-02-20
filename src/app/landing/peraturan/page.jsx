@@ -12,6 +12,7 @@ import { HiDownload, HiEye } from "react-icons/hi";
 import { getPeraturan } from "@/services/Peraturan";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
+import { showToast } from "@/utils/ShowToast";
 
 // const TOKEN = localStorage.getItem("access_token");
 
@@ -67,8 +68,7 @@ export default function PeraturanPage() {
 
   useEffect(() => {
     async function fetchPeraturan() {
-      if (!token) return;
-      const result = await getPeraturan(token, searchParams);
+      const result = await getPeraturan(searchParams);
       console.log(result);
       if (result.status !== 200) {
         await showToast("error", "Kesalahan pada server: getPeraturan");
@@ -77,7 +77,7 @@ export default function PeraturanPage() {
       setPeraturan(result.data);
     }
     fetchPeraturan();
-  }, [searchParams.title, token]);
+  }, [searchParams.title]);
 
   useEffect(() => {
     console.log(peraturan);

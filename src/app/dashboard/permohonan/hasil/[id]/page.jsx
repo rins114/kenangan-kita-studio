@@ -4,6 +4,7 @@ import DataView from "@/components/atoms/DataView";
 import FileInputAtom from "@/components/atoms/FileInput";
 import FormContainer from "@/components/molecules/FormContainer";
 import PdfViewer from "@/components/molecules/ReactPdfView";
+import { useAuthUser } from "@/contexts/AuthUserContext";
 import APP_CONFIG from "@/globals/app-config";
 import { getClearingsHouseRequest } from "@/services/ClearingHouse";
 import {
@@ -34,11 +35,13 @@ export default function HasilPage({ params }) {
   const navigate = useRouter();
   const [file, setFile] = useState({ name: "", keluaran: "" });
   const [keterangan, setKeterangan] = useState("");
+  const { user } = useAuthUser();
 
   const [clearingHouseData, setClearingHouseData] = useState(null);
   const [clearingRequestOutput, setClearingRequestOutput] = useState(null);
   const [isUpdateToggle, setIsUpdateToggle] = useState(false);
   const [isUpdateTogglePressed, setIsUpdateTogglePressed] = useState(false);
+  const [laporanExist, setLaporanExist] = useState(true);
 
   const getUserStatus = (status) => {
     const statusMap = {
@@ -306,18 +309,58 @@ export default function HasilPage({ params }) {
                   fileUrl={`${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`}
                 ></DataFileView>
               )}
-              <Button
-                onPress={() => {
-                  setIsUpdateTogglePressed(true);
-                  setIsUpdateToggle(true);
-                }}
-                className="w-full rounded-xl max-w-[10rem] bg-orange-400 text-white font-medium"
-              >
-                Update Data
-              </Button>
+              {user.roles === "Sekretariat" && (
+                <Button
+                  onPress={() => {
+                    setIsUpdateTogglePressed(true);
+                    setIsUpdateToggle(true);
+                  }}
+                  className="w-full rounded-xl max-w-[10rem] bg-orange-400 text-white font-medium"
+                >
+                  Update Data
+                </Button>
+              )}
             </div>
           </div>
         )}
+      </FormContainer>
+      <FormContainer title={"Upload Laporan"}>
+        <div className="p-5 flex flex-col gap-3">
+          {!laporanExist ? (
+            <>
+              <FileInputAtom
+                handleFileChange={handleFileChange}
+                labelSize="text-md"
+                labelColor="text-zinc-500"
+                label="Upload Laporan Hasil"
+                name="laporan"
+                fileName={""}
+              ></FileInputAtom>
+              <div className="flex flex-row gap-3 w-full justify-end items-end">
+                <Button
+                  className="bg-default text-zinc-700 font-medium"
+                  onPress={() => navigate.back()}
+                >
+                  Kembali
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-secondaryColor text-white font-medium"
+                >
+                  Submit
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <DataFileView
+                labelButton="Lihat File"
+                _key={"File Laporan"}
+                fileUrl={`${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`}
+              ></DataFileView>
+            </>
+          )}
+        </div>
       </FormContainer>
       <ToastContainer
         position="top-center"

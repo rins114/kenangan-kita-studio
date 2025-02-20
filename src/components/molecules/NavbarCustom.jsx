@@ -163,6 +163,24 @@ export default function NavbarCustom() {
         <div className="space-y-1 px-4 pb-3 pt-2">
           {!pathname.startsWith("/landing/peraturan") && (
             <>
+              {!isAuthenticated ? (
+                <div className="block rounded-md px-3 py-2">
+                  <Button
+                    className="!w-full font-bold bg-mainColor text-white text-base py-2"
+                    onPress={() => (window.location.href = "/signin")}
+                  >
+                    MASUK
+                  </Button>
+                </div>
+              ) : (
+                <div
+                  className="flex flex-row gap-3 justify-start items-center cursor-pointer px-2 mb-2"
+                  onClick={() => (window.location.href = "/dashboard")}
+                >
+                  <Avatar></Avatar>
+                  <h1>{user?.name}</h1>
+                </div>
+              )}
               <div
                 className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
                   pathname === "/landing" ? "text-secondaryColor" : ""
@@ -188,20 +206,6 @@ export default function NavbarCustom() {
                 GALERI
               </div>
             </>
-          )}
-          {!isAuthenticated ? (
-            <div className="block rounded-md px-3 py-2">
-              <Button
-                className="!w-full font-bold bg-mainColor text-white text-base py-2"
-                onPress={() => (window.location.href = "/dashboard")}
-              >
-                MASUK
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <h1>{user?.name}</h1>
-            </div>
           )}
         </div>
       </div>

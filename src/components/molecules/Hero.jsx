@@ -46,8 +46,7 @@ export default function Hero() {
 
   useEffect(() => {
     async function fetchSlider() {
-      if (!token) return;
-      const result = await getPublishedSlider(token);
+      const result = await getPublishedSlider();
       console.log(result);
       if (result.status !== 200) {
         await showToast("error", "Kesalahan pada server: getPublishedSlider");
@@ -75,11 +74,11 @@ export default function Hero() {
   return (
     <div
       ref={homeRef}
-      className="flex h-screen overflow-hidden relative text-poppins z-10"
+      className="flex h-[30rem] md:h-screen overflow-hidden relative text-poppins z-10 w-full"
     >
       <Swiper
         ref={swiperRef}
-        className="mySwiper"
+        className="mySwiper w-full"
         autoplay={{
           delay: 5000, // 3 detik antar slide
           disableOnInteraction: false, // Tidak menghentikan autoplay saat interaksi
@@ -99,8 +98,9 @@ export default function Hero() {
               <Image
                 alt="hero"
                 src={APP_CONFIG.STORAGE_URL + item.img}
-                width={4000}
-                height={3000}
+                layout="fill"
+                // width={99999999999999}
+                // height={3000}
                 className="w-full h-full object-cover"
               />
             </SwiperSlide>

@@ -99,7 +99,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
                 size="sm"
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
               />
-              <p>{user?.name}</p>
+              <p className="hidden sm:block">{user?.name}</p>
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
