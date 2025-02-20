@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
 
-export const showToast = async (icon, title) => {
+export const showToast = async (icon, title, position = "top-end") => {
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: position,
     background:
       icon === "error"
         ? "#f27474"

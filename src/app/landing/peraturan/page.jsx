@@ -12,7 +12,7 @@ import { HiDownload, HiEye } from "react-icons/hi";
 import { getPeraturan } from "@/services/Peraturan";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
-import { showToast } from "@/utils/ShowToast";
+import { showToast } from "@/components/atoms/SweetAlert";
 
 // const TOKEN = localStorage.getItem("access_token");
 
@@ -133,7 +133,7 @@ export default function PeraturanPage() {
 
   return (
     <div className="flex flex-col justify-start items-center gap-5 text-poppins bg-grayBg">
-      <StaticHero imagePath="/assets/images/staticHero.jpg"></StaticHero>
+      <StaticHero imagePath="/assets/images/banner.jpg"></StaticHero>
       <div className="w-full flex flex-col min-h-96 justify-start items-center relative bottom-16 gap-7 px-5">
         <SearchBar
           searchParams={searchParams}
