@@ -6,6 +6,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 import { useAuthUser } from "@/contexts/AuthUserContext";
+import { updateUserProfile } from "@/services/Users";
+import { showToast } from "@/utils/ShowToast";
+const TOKEN = localStorage.getItem("access_token");
 
 export default function ProfilePage() {
   const navigate = useRouter();
@@ -14,16 +17,44 @@ export default function ProfilePage() {
   const [isNameEditMode, setIsNameEditMode] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const topRef = useRef(null);
-  const { user } = useAuthUser();
+  const { user, toggleUpdate, setToggleUpdateAuth } = useAuthUser();
+  const [formData, setFormData] = useState({
+    alamat: "",
+    no_npwp: "",
+    no_telp: "",
+    name: "",
+  });
   useEffect(() => {
     setUsername(user?.name);
+    setFormData((prev) => ({
+      ...prev,
+      name: user?.name,
+      alamat: user?.pemohon?.alamat_perusahaan,
+      no_npwp: user?.pemohon?.no_npwp,
+      no_telp: user?.pemohon?.no_telp ?? "-",
+    }));
   }, [user]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const scrollToTop = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  async function handleUpdateProfile() {
+    const result = await updateUserProfile(TOKEN, formData);
+    console.log(result);
+    if (result.status !== 200) {
+      await showToast("error", result.message);
+      return;
+    }
+    setToggleUpdateAuth(!toggleUpdate);
+    setIsNameEditMode(!isNameEditMode);
+  }
 
   return (
     <div className="p-5 w-full ">
@@ -44,7 +75,10 @@ export default function ProfilePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <form
-              onSubmit={() => setIsNameEditMode(false)}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleUpdateProfile();
+              }}
               className="flex gap-2 justify-center items-center w-full "
             >
               <Input
@@ -52,20 +86,25 @@ export default function ProfilePage() {
                 size="sm"
                 variant="underlined"
                 className="w-60"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={formData?.name}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
               />
             </form>
           </div>
         ) : (
           <div className="flex gap-2 justify-center items-center pl-11">
-            <h1 className="text-2xl lg:text-4xl">{username}</h1>
+            <h1 className="text-2xl lg:text-4xl">{formData?.name}</h1>
             <Button
               isIconOnly
               size="sm"
               color="transparent"
               className="flex justify-center items-center"
-              onClick={() => setIsNameEditMode(true)}
+              onPress={() => setIsNameEditMode(true)}
             >
               <FaRegEdit className="text-xl mb-1 text-warning-500" />
             </Button>
@@ -85,6 +124,9 @@ export default function ProfilePage() {
           <UserDataForm
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
+            fixedData={user?.pemohon}
+            formData={formData}
+            setFormData={setFormData}
           ></UserDataForm>
         </section>
 
@@ -94,7 +136,7 @@ export default function ProfilePage() {
               size="l"
               color="warning"
               className="flex justify-center items-center text-white "
-              onClick={() => {
+              onPress={() => {
                 setIsEditMode(true);
                 scrollToTop();
               }}
@@ -106,9 +148,10 @@ export default function ProfilePage() {
               size="l"
               color="success"
               className="flex justify-center items-center text-white"
-              onClick={() => {
+              onPress={() => {
                 setIsEditMode(false);
                 scrollToTop();
+                handleUpdateProfile();
               }}
             >
               Simpan Data
@@ -116,7 +159,7 @@ export default function ProfilePage() {
           )}
 
           <Button
-            onClick={() => {
+            onPress={() => {
               navigate.push("/dashboard/profile/ganti-password");
             }}
             className={`${
