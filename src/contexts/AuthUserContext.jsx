@@ -9,6 +9,7 @@ export const AuthUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
+  const [toggleUpdate, setToggleUpdateAuth] = useState(false);
 
   useEffect(() => {
     async function fetchSession() {
@@ -33,12 +34,14 @@ export const AuthUserProvider = ({ children }) => {
       setIsLoading(false);
     }
     fetchSession();
-  }, [pathname]);
+  }, [pathname, toggleUpdate]);
 
   const authConfig = {
     user,
     isAuthenticated: !!user,
     isLoading,
+    toggleUpdate,
+    setToggleUpdateAuth,
   };
 
   return (

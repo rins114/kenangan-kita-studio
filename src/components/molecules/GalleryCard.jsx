@@ -11,14 +11,14 @@ export default function GalleryCard({
   handleOpenedGaleri = () => {},
 }) {
   return (
-    <div className="w-full min-h-[20rem] shadow-lg bg-white overflow-hidden hover:scale-[1.01] transition-all duration-300 rounded-sm">
-      <section className="overflow-hidden flex flex-col ">
+    <div className="w-full h-[29rem] shadow-lg bg-white overflow-hidden hover:scale-[1.01] transition-all duration-300 rounded-2xl">
+      <section className="overflow-hidden flex flex-col">
         <Image
           alt=""
           src={imgPath}
           width={1000}
           height={1000}
-          className="w-full h-1/2 cursor-pointer object-cover"
+          className="w-full h-1/2 cursor-pointer object-cover rounded-2xl"
           onClick={() => handleOpenedGaleri(id)}
         />
         <div className="px-5 pt-3 pb-1">

@@ -14,6 +14,7 @@ const API_ENDPOINT = {
   GET_CLEARING_HOUSE_OUTPUT: (id) => `${API_BASE_URL}clearing-processes/${id}`,
   GET_USERS: `${API_BASE_URL}get-user`,
   GET_USER_ROLES: `${API_BASE_URL}roles`,
+  UPDATE_USER_PROFILE: `${API_BASE_URL}users/update/profile`,
   VERIFY_USER: (id) => `${API_BASE_URL}verifikasi/${id}/verify`,
   REJECT_USER: (id) => `${API_BASE_URL}verifikasi/${id}/reject`,
   POST_PERATURAN: `${API_BASE_URL}peraturan`,
@@ -42,6 +43,9 @@ const API_ENDPOINT = {
   DELETE_SLIDER: (id) => `${API_BASE_URL}slider/${id}`,
   TOOGLE_SLIDER_UPLOAD_STATUS: (id) =>
     `${API_BASE_URL}sliders/updatetrue/${id}`,
+  POST_LAPORAN_CH: `${API_BASE_URL}createlaporans`,
+  GET_ALL_LAPORAN_CH: `${API_BASE_URL}laporans`,
+  GET_LAPORAN_BY_CH_ID: (id) => `${API_BASE_URL}laporans/request/${id}`,
 };
 
 export default API_ENDPOINT;
