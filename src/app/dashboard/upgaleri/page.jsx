@@ -100,6 +100,7 @@ const UploadGaleri = () => {
     closeModal();
     setButtonDisabled(false);
     await showToast("success", "Berhasil upload data");
+    setButtonDisabled(false);
   };
 
   const openModal = (mode, item = null) => {
