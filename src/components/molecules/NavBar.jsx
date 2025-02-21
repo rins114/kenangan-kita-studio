@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../atoms/Logo";
 import {
   Navbar,
@@ -25,6 +25,12 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
   const pathname = usePathname();
   const navigate = useRouter();
   const { user } = useAuthUser();
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
+    console.log(user);
+    setAuthUser(user);
+  }, [user]);
 
   const handleLogout = async () => {
     const token = localStorage.getItem("access_token");
@@ -107,14 +113,18 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
-            <DropdownItem
-              key="team_settings"
-              onPress={() => {
-                navigate.push("/dashboard/profile");
-              }}
-            >
-              <p className="text-md text-black">Profil Pengguna</p>
-            </DropdownItem>
+            {!["Admin", "Sekretariat", "Penyedia", "Kepala_upbj"].includes(
+              authUser?.roles
+            ) && (
+              <DropdownItem
+                key="team_settings"
+                onPress={() => {
+                  navigate.push("/dashboard/profile");
+                }}
+              >
+                <p className="text-md text-black">Profil Pengguna</p>
+              </DropdownItem>
+            )}
             <DropdownItem
               key="logout"
               color="danger"
