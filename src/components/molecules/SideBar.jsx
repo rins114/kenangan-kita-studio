@@ -9,6 +9,7 @@ import { IoDocumentsSharp } from "react-icons/io5";
 import { FaClipboardList, FaListUl, FaImages, FaImage } from "react-icons/fa";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import useLogin from "@/hooks/useLogin";
+import Swal from "sweetalert2";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
@@ -95,7 +96,13 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
 
                 <Sidebar.Item
                   onClick={() => {
-                    navigate.push("/dashboard/verifikasi-berkas");
+                    Swal.fire({
+                      title: "Peringatan!",
+                      text: "Layanan dalam pengembangan",
+                      icon: "warning",
+                      confirmButtonColor: "#3085d6",
+                    });
+                    // navigate.push("/dashboard/verifikasi-berkas");
                   }}
                   icon={isMenuOpen ? "" : ""}
                   className={`cursor-pointer ${
