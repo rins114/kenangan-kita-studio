@@ -65,9 +65,9 @@ export default function ProfilePage() {
         // onClick={() => setIsNameEditMode(false)}
       >
         <Avatar
-          showFallback
-          src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-          className="h-20 w-20 md:h-48 md:w-48 mb-3"
+          isBordered
+          color="default"
+          className="h-20 w-20 md:h-48 md:w-48 mb-3 border-2 border-success-500"
         />
         {isNameEditMode ? (
           <div

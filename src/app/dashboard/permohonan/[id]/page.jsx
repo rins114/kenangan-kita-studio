@@ -288,39 +288,44 @@ export default function PermohonanDetailPage({ params }) {
             </div>
           )}
           {getUserStatus(clearingHouseData?.status) === "Selesai" && (
-            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
-              <h1 className="font-medium text-xl md:text-3xl">
-                PERMOHONAN SELESAI
-              </h1>
-              <div className="flex flex-col gap-1">
-                <h1 className="font-medium text-xl mt-8 text-red-500 text-center">
-                  Hasil Keputusan Akhir
-                </h1>
-                {clearingRequestOutput?.keluaran === "-" ||
-                !clearingRequestOutput?.keluaran ? (
-                  <h1 className="font-medium text-lg mb-5 text-justify">
-                    {clearingRequestOutput?.remarks}
+            <div className="px-5 py-5 flex flex-col justify-start items-center w-full">
+              <div className="flex flex-col gap-1 w-full">
+                <div className="p-5 w-full bg-green-500 rounded-lg">
+                  <h1 className="font-medium text-white text-xl md:text-xl">
+                    PERMOHONAN SELESAI
                   </h1>
-                ) : (
-                  <>
-                    <h1 className="font-medium text-lg mb-5 text-justify">
+                </div>
+                <div className="px-5">
+                  <h1 className="font-medium text-lg mt-4 text-black text-start">
+                    Hasil Keputusan Akhir
+                  </h1>
+                  {clearingRequestOutput?.keluaran === "-" ||
+                  !clearingRequestOutput?.keluaran ? (
+                    <h1 className="font-normal text-lg mb-5 text-justify">
                       {clearingRequestOutput?.remarks}
                     </h1>
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() => {
-                          window.open(
-                            `${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`,
-                            "_blank"
-                          );
-                        }}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
-                      >
-                        Lihat File Keputusan Akhir
-                      </button>
-                    </div>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <DataView
+                        _key="Balasan"
+                        value={clearingRequestOutput?.remarks}
+                      />
+                      <div className="flex justify-start mt-5">
+                        <button
+                          onClick={() => {
+                            window.open(
+                              `${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`,
+                              "_blank"
+                            );
+                          }}
+                          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition duration-300"
+                        >
+                          Lihat File
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}
