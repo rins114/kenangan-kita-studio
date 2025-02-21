@@ -11,6 +11,7 @@ import {
   getClearingHouseRequestOutput,
   postClearingHouseRequestOutput,
 } from "@/services/ClearingHouseOutput";
+import { getLaporanByClearingHouseId, postLaporan } from "@/services/Laporan";
 import { showToast } from "@/utils/ShowToast";
 import {
   Button,
@@ -41,7 +42,15 @@ export default function HasilPage({ params }) {
   const [clearingRequestOutput, setClearingRequestOutput] = useState(null);
   const [isUpdateToggle, setIsUpdateToggle] = useState(false);
   const [isUpdateTogglePressed, setIsUpdateTogglePressed] = useState(false);
-  const [laporanExist, setLaporanExist] = useState(true);
+  const [isUpdateLaporanToggle, setIsUpdateLaporanToggle] = useState(false);
+  const [isUpdateLaporanTogglePressed, setIsUpdateLaporanTogglePressed] =
+    useState(false);
+  const [laporanExist, setLaporanExist] = useState(null);
+  const [laporanFile, setLaporanFile] = useState({ name: "", laporan: "" });
+  const [formDataLaporan, setFormDataLaporan] = useState({
+    request_id: 0,
+    isi_laporan: "",
+  });
 
   const getUserStatus = (status) => {
     const statusMap = {
@@ -72,7 +81,26 @@ export default function HasilPage({ params }) {
       setClearingHouseData(chData);
     }
     fetchClearingHouseData();
-  }, []);
+  }, [isUpdateToggle]);
+
+  useEffect(() => {
+    async function fetchLaporanByClearingHouseId() {
+      const result = await getLaporanByClearingHouseId(TOKEN, id);
+      console.log(result);
+      if (result.status === 404) {
+        return;
+      }
+      if (result.status !== 200) {
+        await showToast(
+          "error",
+          "Kesalahan pada server: getLaporanByClearingHouseId"
+        );
+        return;
+      }
+      setLaporanExist(result.data);
+    }
+    fetchLaporanByClearingHouseId();
+  }, [isUpdateLaporanToggle]);
 
   useEffect(() => {
     async function fetchClearingHouseOutput() {
@@ -91,7 +119,7 @@ export default function HasilPage({ params }) {
       setClearingRequestOutput(result.data.data);
     }
     fetchClearingHouseOutput();
-  }, []);
+  }, [isUpdateToggle]);
 
   async function handlePostHasil(e) {
     e.preventDefault();
@@ -147,6 +175,10 @@ export default function HasilPage({ params }) {
         confirmButtonColor: "#3B82F6",
       }).then((result) => {
         if (result.isConfirmed) {
+          if (isUpdateTogglePressed) {
+            setIsUpdateToggle(!isUpdateToggle);
+            return;
+          }
           navigate.push(`/dashboard/permohonan/hasil`);
         }
       });
@@ -155,6 +187,33 @@ export default function HasilPage({ params }) {
 
   function handleFileChange(name, keluaran) {
     setFile((prevState) => ({ ...prevState, name, keluaran }));
+  }
+
+  function handleFileLaporanChange(name, laporan) {
+    setLaporanFile((prevState) => ({
+      ...prevState,
+      name,
+      laporan,
+    }));
+  }
+
+  async function handleUploadLaporan() {
+    const formDataToUpload = new FormData();
+    formDataToUpload.append("request_id", id);
+    formDataToUpload.append("isi_laporan", laporanFile.laporan);
+    const result = await postLaporan(TOKEN, formDataToUpload);
+    console.log(result);
+    if (result.status !== 201) {
+      await showToast("error", "Kesalahan pada server: postLaporan");
+      return;
+    }
+
+    await showToast("success", "Berhasil laporan upload");
+    if (isUpdateLaporanTogglePressed) {
+      setIsUpdateLaporanToggle(!isUpdateLaporanToggle);
+      return;
+    }
+    navigate.push(`/dashboard/permohonan/hasil`);
   }
 
   const formatWithDots = (number) => {
@@ -324,44 +383,69 @@ export default function HasilPage({ params }) {
           </div>
         )}
       </FormContainer>
-      <FormContainer title={"Upload Laporan"}>
-        <div className="p-5 flex flex-col gap-3">
-          {!laporanExist ? (
-            <>
-              <FileInputAtom
-                handleFileChange={handleFileChange}
-                labelSize="text-md"
-                labelColor="text-zinc-500"
-                label="Upload Laporan Hasil"
-                name="laporan"
-                fileName={""}
-              ></FileInputAtom>
-              <div className="flex flex-row gap-3 w-full justify-end items-end">
-                <Button
-                  className="bg-default text-zinc-700 font-medium"
-                  onPress={() => navigate.back()}
-                >
-                  Kembali
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-secondaryColor text-white font-medium"
-                >
-                  Submit
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <DataFileView
-                labelButton="Lihat File"
-                _key={"File Laporan"}
-                fileUrl={`${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`}
-              ></DataFileView>
-            </>
-          )}
-        </div>
-      </FormContainer>
+      {clearingRequestOutput && (
+        <FormContainer title={"Upload Laporan"}>
+          <div className="p-5 flex flex-col gap-3">
+            {!laporanExist || isUpdateLaporanToggle ? (
+              <>
+                <FileInputAtom
+                  handleFileChange={handleFileLaporanChange}
+                  labelSize="text-md"
+                  labelColor="text-zinc-500"
+                  label="Upload Laporan Hasil"
+                  name="isi_laporan"
+                  fileName={laporanFile?.laporan}
+                ></FileInputAtom>
+
+                <div className="flex flex-row gap-3 w-full justify-end items-end">
+                  {isUpdateLaporanTogglePressed && (
+                    <Button
+                      onPress={() => {
+                        setIsUpdateLaporanToggle(false);
+                      }}
+                      className="w-full rounded-xl max-w-[10rem] bg-red-500 text-white font-medium"
+                    >
+                      Batal Update
+                    </Button>
+                  )}
+                  <Button
+                    className="bg-default text-zinc-700 font-medium"
+                    onPress={() => navigate.back()}
+                  >
+                    Kembali
+                  </Button>
+                  <Button
+                    onPress={handleUploadLaporan}
+                    type="submit"
+                    className="bg-secondaryColor text-white font-medium"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <DataFileView
+                  labelButton="Lihat File"
+                  _key={"File Laporan"}
+                  fileUrl={`${APP_CONFIG.STORAGE_URL}${laporanExist?.isi_laporan}`}
+                ></DataFileView>
+                {user.roles === "Sekretariat" && (
+                  <Button
+                    onPress={() => {
+                      setIsUpdateLaporanTogglePressed(true);
+                      setIsUpdateLaporanToggle(true);
+                    }}
+                    className="w-full rounded-xl max-w-[10rem] bg-orange-400 text-white font-medium"
+                  >
+                    Update Data
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+        </FormContainer>
+      )}
       <ToastContainer
         position="top-center"
         autoClose={300}
