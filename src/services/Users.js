@@ -45,3 +45,19 @@ export async function rejectUser(token, id, keterangan) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function updateUserProfile(token, formData) {
+  try {
+    const response = await axios.put(
+      API_ENDPOINT.UPDATE_USER_PROFILE,
+      formData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}
