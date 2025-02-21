@@ -113,7 +113,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
-            {!["Admin", "Sekretariat", "Penyedia", "Kepala_upbj"].includes(
+            {!["Admin", "Sekretariat", "Kepala_upbj"].includes(
               authUser?.roles
             ) && (
               <DropdownItem
