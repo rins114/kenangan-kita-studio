@@ -39,7 +39,7 @@ export default function UserDataForm({
         label="Nama Perusahaan"
         variant="bordered"
         radius="none"
-        value={fixedData.nama_perusahaan}
+        value={fixedData?.nama_perusahaan}
         placeholder="Masukkan nama perusahaan"
         labelPlacement="outside"
         className="w-full shadow-md"
@@ -117,10 +117,9 @@ export default function UserDataForm({
         labelPlacement="outside"
         className="w-full shadow-md"
       />
-      {(user?.roles !== "Admin" ||
-        user?.roles !== "Sekretariat" ||
-        user?.roles !== "Penyedia" ||
-        user?.roles !== "Kepala_upbj") && (
+      {!["Admin", "Sekretariat", "Penyedia", "Kepala_upbj"].includes(
+        user?.roles
+      ) && (
         <>
           {" "}
           <div className={`hidden flex-col gap-2`}>

@@ -53,7 +53,7 @@ export default function ProfilePage() {
       return;
     }
     setToggleUpdateAuth(!toggleUpdate);
-    setIsNameEditMode(!isNameEditMode);
+    setIsNameEditMode(false);
   }
 
   return (
