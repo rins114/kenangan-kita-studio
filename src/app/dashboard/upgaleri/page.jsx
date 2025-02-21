@@ -139,8 +139,17 @@ const UploadGaleri = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      // Create a new image object to check dimensions
+
+    if (file) {
+      const validFormats = ["image/jpeg", "image/png", "image/jpg"];
+      if (!validFormats.includes(file.type)) {
+        toast.error(
+          "Format file tidak didukung! Pilih file .jpg, .jpeg, atau .png."
+        );
+        return;
+      }
+
+      // Buat objek gambar untuk cek dimensinya
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
@@ -149,18 +158,30 @@ const UploadGaleri = () => {
         canvas.height = size;
         const ctx = canvas.getContext("2d");
 
-        // Calculate cropping
+        // Hitung titik pemangkasan agar gambar tetap di tengah
         const offsetX = (img.width - size) / 2;
         const offsetY = (img.height - size) / 2;
 
         ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
 
-        canvas.toBlob((blob) => {
-          const croppedFile = new File([blob], file.name, { type: file.type });
-          setFormData({ ...formData, gambar: croppedFile });
-          toast.success("Gambar berhasil ditambahkan");
-        }, file.type);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const croppedFile = new File([blob], file.name, {
+                type: file.type,
+              });
+              setFormData({ ...formData, gambar: croppedFile });
+              toast.success("Gambar berhasil ditambahkan");
+            }
+          },
+          file.type,
+          1 // Kualitas gambar (1 = maksimal)
+        );
+
+        // Hindari memory leak dengan membebaskan URL
+        URL.revokeObjectURL(img.src);
       };
+
       img.src = URL.createObjectURL(file);
     } else {
       toast.error("File harus berupa gambar!");
