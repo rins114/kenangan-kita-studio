@@ -22,6 +22,7 @@ import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 import { CircularProgress, Pagination } from "@nextui-org/react";
 import paginate from "@/utils/PaginationHelper";
+import { Router } from "next/router";
 const TOKEN = localStorage.getItem("access_token");
 
 const UploadTable = () => {
@@ -107,6 +108,7 @@ const UploadTable = () => {
     setTriggerUpdate(!triggerUpdate);
     closeModal();
     await showToast("success", "Berhasil upload");
+    setButtonDisabled(false);
   };
 
   const openModal = (mode, document = null) => {
@@ -456,7 +458,7 @@ const UploadTable = () => {
                 </label>
                 <input
                   placeholder="Masukkan Nomor Peraturan..."
-                  type="text"
+                  type="number"
                   name="regulationNumber"
                   value={formData.regulationNumber}
                   onChange={handleInputChange}

@@ -149,6 +149,10 @@ export default function PeraturanPage() {
                     <div className="border-b-2 pb-2">
                       <p className="text-justify font-semibold">{item.title}</p>
                     </div>
+                    <p className="text-sm text-gray-500">
+                      {item.bentuk_peraturan} NOMOR {item.no_peraturan} TAHUN{" "}
+                      {item.tahun_peraturan}
+                    </p>
                     <div className="flex flex-row gap-3">
                       <Button
                         className="bg-gray-500 text-white font-medium"
