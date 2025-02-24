@@ -1,4 +1,4 @@
-export default function formatTanggal(isoString) {
+export function formatTanggal(isoString) {
   const bulan = [
     "Januari",
     "Februari",
@@ -20,4 +20,15 @@ export default function formatTanggal(isoString) {
   const tahun = date.getUTCFullYear();
 
   return `${hari} ${bulanNama} ${tahun}`;
+}
+
+export function formatTanggalSorting(date) {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Makassar",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  return formatter.format(date);
 }

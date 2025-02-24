@@ -12,6 +12,7 @@ import {
   Button,
   CircularProgress,
   Pagination,
+  DateRangePicker,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -34,6 +35,9 @@ import {
 import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
+import { Datepicker, Label, Select, TextInput } from "flowbite-react";
+import { formatTanggalSorting } from "@/utils/FormatDateHelper";
+import { getUserRoles } from "@/services/UserRole";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -68,6 +72,42 @@ export default function TableCustom() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [roleFilter, setRoleFilter] = useState("");
+  const [userRole, setUserRole] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [filterBody, setFilterBody] = useState({
+    role_name: roleFilter,
+    start_date: startDate,
+    end_date: endDate,
+    search: searchTerm,
+  });
+
+  useEffect(() => {
+    console.log(searchTerm);
+    setFilterBody({
+      role_name: roleFilter,
+      start_date: formatTanggalSorting(startDate),
+      end_date: formatTanggalSorting(endDate),
+      search: searchTerm,
+    });
+  }, [startDate, endDate, roleFilter, searchTerm]);
+
+  useEffect(() => {
+    async function fetchUserRole() {
+      const result = await getUserRoles();
+      console.log(result);
+      const roles = result.data?.roles?.flatMap((role) =>
+        role.subroles?.length
+          ? role.subroles.map((sub) => `${role.name}_${sub.sub_roles}`)
+          : role.name
+      );
+      setUserRole(roles);
+    }
+    fetchUserRole();
+  }, []);
 
   const handleOpenDetail = async (id) => {
     const result = await getClearingsHouseRequest(TOKEN);
@@ -88,7 +128,7 @@ export default function TableCustom() {
 
   useEffect(() => {
     async function fetchClearingHouseRequest() {
-      const result = await getClearingsHouseRequest(TOKEN);
+      const result = await getClearingsHouseRequest(TOKEN, filterBody);
       if (result.status !== 200) {
         await showToast(
           "error",
@@ -102,7 +142,12 @@ export default function TableCustom() {
       setIsLoading(false);
     }
     fetchClearingHouseRequest();
-  }, []);
+  }, [
+    filterBody.start_date,
+    filterBody.end_date,
+    filterBody.search,
+    filterBody.role_name,
+  ]);
 
   useEffect(() => {
     console.log(clearingHouseData);
@@ -379,7 +424,59 @@ export default function TableCustom() {
 
   return (
     <>
-      <Table aria-label="Example table with custom cells">
+      <div className="mb-3 flex flex-row justify-between items-end gap-3 w-full">
+        <div className="flex flex-col gap-3">
+          <div>
+            <TextInput
+              placeholder="Masukkan kata kunci"
+              color="white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-row gap-2 justify-center items-center">
+            <Datepicker
+              onChange={(value) => setStartDate(value)}
+              className="w-1/2"
+              color="white"
+              value={startDate}
+            />
+            {"-"}
+            <Datepicker
+              onChange={(value) => setEndDate(value)}
+              className="w-1/2"
+              color="white"
+              value={endDate}
+            />
+          </div>
+        </div>
+        <div>
+          <div className="w-[15rem]">
+            <div className="block mb-1">
+              <Label htmlFor="countries" value="Tipe Pemohon" />
+            </div>
+            <Select
+              id="countries"
+              required
+              color="white"
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+            >
+              <option value="">Semua</option>
+              {userRole.map((role, index) => (
+                <option key={index} value={role}>
+                  {role.startsWith("Non_Penyedia") ? role.split("_")[2] : role}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </div>
+      </div>
+
+      <Table
+        aria-label="Example table with custom cells"
+        classNames={{ inputWrapper: "!shadow-none" }}
+      >
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn

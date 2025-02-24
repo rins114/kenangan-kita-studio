@@ -11,7 +11,7 @@ import gsap from "gsap";
 import { getPublishedGallery } from "@/services/Galeri";
 import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
-import formatTanggal from "@/utils/FormatDateHelper";
+import { formatTanggal } from "@/utils/FormatDateHelper";
 import paginate from "@/utils/PaginationHelper";
 // const TOKEN = localStorage.getItem("access_token");
 

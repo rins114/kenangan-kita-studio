@@ -12,9 +12,11 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getLaporan } from "@/services/Laporan";
-import formatTanggal from "@/utils/FormatDateHelper";
+import { formatTanggal, formatTanggalSorting } from "@/utils/FormatDateHelper";
 import { useRouter } from "next/navigation";
 import { Chip, Tooltip } from "@nextui-org/react";
+import { Datepicker, Label, Select, TextInput } from "flowbite-react";
+import { getUserRoles } from "@/services/UserRole";
 const TOKEN = localStorage.getItem("access_token");
 
 const statusColorMap = {
@@ -90,7 +92,18 @@ const UsersTable = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [editedUser, setEditedUser] = useState(null);
   const [skFile, setSkFile] = useState(null);
-  const [userToDelete, setUserToDelete] = useState(null); // Menyimpan pengguna yang akan dihapus
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [roleFilter, setRoleFilter] = useState("");
+  const [userRole, setUserRole] = useState([]);
+
+  const [filterBody, setFilterBody] = useState({
+    role_name: roleFilter,
+    start_date: startDate,
+    end_date: endDate,
+    search: searchTerm,
+  });
 
   const handleView = (user) => {
     setCurrentUser(user);
@@ -98,8 +111,32 @@ const UsersTable = () => {
   };
 
   useEffect(() => {
+    console.log(searchTerm);
+    setFilterBody({
+      role_name: roleFilter,
+      start_date: formatTanggalSorting(startDate),
+      end_date: formatTanggalSorting(endDate),
+      search: searchTerm,
+    });
+  }, [startDate, endDate, roleFilter, searchTerm]);
+
+  useEffect(() => {
+    async function fetchUserRole() {
+      const result = await getUserRoles();
+      console.log(result);
+      const roles = result.data?.roles?.flatMap((role) =>
+        role.subroles?.length
+          ? role.subroles.map((sub) => `${role.name}_${sub.sub_roles}`)
+          : role.name
+      );
+      setUserRole(roles);
+    }
+    fetchUserRole();
+  }, []);
+
+  useEffect(() => {
     async function fetchLaporan() {
-      const result = await getLaporan(TOKEN);
+      const result = await getLaporan(TOKEN, filterBody);
       console.log(result);
       if (result.status === 200) {
         setLaporan(result.data);
@@ -108,7 +145,12 @@ const UsersTable = () => {
       }
     }
     fetchLaporan();
-  }, []);
+  }, [
+    filterBody.start_date,
+    filterBody.end_date,
+    filterBody.search,
+    filterBody.role_name,
+  ]);
 
   const handleEdit = (user) => {
     setEditedUser({
@@ -221,11 +263,11 @@ const UsersTable = () => {
     }
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (filterType ? user.applicantType === filterType : true)
-  );
+  // const filteredUsers = users.filter(
+  //   (user) =>
+  //     user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //     (filterType ? user.applicantType === filterType : true)
+  // );
 
   const getUserStatus = (status) => {
     const statusMap = {
@@ -242,30 +284,53 @@ const UsersTable = () => {
   return (
     <div className="p-5">
       {/* Search and Filter */}
-      <div className="flex justify-end mb-4 gap-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Cari..."
-            value={searchTerm}
-            onChange={handleSearch}
-            onFocus={(e) => e.target.nextSibling.classList.add("text-gray-950")}
-            onBlur={(e) =>
-              e.target.nextSibling.classList.remove("text-gray-950")
-            }
-            className="block w-full pl-10 pr-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+      <div className="mb-3 flex flex-row justify-between items-end gap-3 w-full">
+        <div className="flex flex-col gap-3">
+          <div>
+            <TextInput
+              placeholder="Masukkan kata kunci"
+              color="white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-row gap-2 justify-center items-center">
+            <Datepicker
+              onChange={(value) => setStartDate(value)}
+              className="w-1/2"
+              color="white"
+              value={startDate}
+            />
+            {"-"}
+            <Datepicker
+              onChange={(value) => setEndDate(value)}
+              className="w-1/2"
+              color="white"
+              value={endDate}
+            />
+          </div>
         </div>
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-          className="block px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-gray-950 focus:border-gray-950 sm:text-sm"
-        >
-          <option value="">Semua Tipe Pemohon</option>
-          <option value="Penyedia">Penyedia</option>
-          <option value="Non Penyedia">Non Penyedia</option>
-        </select>
+        <div>
+          <div className="w-[15rem]">
+            <div className="block mb-1">
+              <Label htmlFor="countries" value="Tipe Pemohon" />
+            </div>
+            <Select
+              id="countries"
+              required
+              color="white"
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+            >
+              <option value="">Semua</option>
+              {userRole.map((role, index) => (
+                <option key={index} value={role}>
+                  {role.startsWith("Non_Penyedia") ? role.split("_")[2] : role}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </div>
       </div>
 
       {/* Tabel Pengguna */}
@@ -341,7 +406,7 @@ const UsersTable = () => {
                   colSpan="6"
                   className="border-gray-400 px-4 py-2 text-center text-gray-500"
                 >
-                  Tidak ada pengguna.
+                  Tidak ada data laporan.
                 </td>
               </tr>
             )}

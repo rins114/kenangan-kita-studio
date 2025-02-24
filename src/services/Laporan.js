@@ -28,11 +28,25 @@ export async function getLaporanByClearingHouseId(token, id) {
   }
 }
 
-export async function getLaporan(token) {
+export async function getLaporan(token, requestBody) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_ALL_LAPORAN_CH, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    console.log(requestBody);
+    let filteredRequestBody;
+    if (requestBody) {
+      filteredRequestBody = Object.fromEntries(
+        Object.entries(requestBody).filter(
+          ([_, v]) => v !== null && v !== undefined && v !== ""
+        )
+      );
+    }
+    console.log(filteredRequestBody);
+    const response = await axios.post(
+      API_ENDPOINT.GET_ALL_LAPORAN_CH,
+      filteredRequestBody,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response;
   } catch (error) {
     console.log(error);
