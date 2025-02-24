@@ -14,9 +14,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { getLaporan } from "@/services/Laporan";
 import { formatTanggal, formatTanggalSorting } from "@/utils/FormatDateHelper";
 import { useRouter } from "next/navigation";
-import { Chip, Tooltip } from "@nextui-org/react";
+import { Button, Chip, Tooltip } from "@nextui-org/react";
 import { Datepicker, Label, Select, TextInput } from "flowbite-react";
 import { getUserRoles } from "@/services/UserRole";
+import { HiOutlineRefresh } from "react-icons/hi";
 const TOKEN = localStorage.getItem("access_token");
 
 const statusColorMap = {
@@ -97,6 +98,7 @@ const UsersTable = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [roleFilter, setRoleFilter] = useState("");
   const [userRole, setUserRole] = useState([]);
+  const [isDatePicker, setIsDatePicker] = useState(false);
 
   const [filterBody, setFilterBody] = useState({
     role_name: roleFilter,
@@ -111,14 +113,33 @@ const UsersTable = () => {
   };
 
   useEffect(() => {
-    console.log(searchTerm);
-    setFilterBody({
+    setFilterBody((prev) => ({
+      ...prev,
+      start_date: isDatePicker ? formatTanggalSorting(startDate) : "",
+      end_date: isDatePicker ? formatTanggalSorting(endDate) : "",
+    }));
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    setFilterBody((prev) => ({
+      ...prev,
       role_name: roleFilter,
-      start_date: formatTanggalSorting(startDate),
-      end_date: formatTanggalSorting(endDate),
+    }));
+  }, [roleFilter]);
+
+  useEffect(() => {
+    console.log("searchTerm:", searchTerm);
+    console.log("isDatePicker:", isDatePicker);
+
+    setFilterBody((prev) => ({
+      ...prev,
       search: searchTerm,
-    });
-  }, [startDate, endDate, roleFilter, searchTerm]);
+    }));
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setIsDatePicker(true);
+  }, [startDate, endDate]);
 
   useEffect(() => {
     async function fetchUserRole() {
@@ -151,6 +172,17 @@ const UsersTable = () => {
     filterBody.search,
     filterBody.role_name,
   ]);
+
+  const handleSetSemuaData = () => {
+    setSearchTerm("");
+    setRoleFilter("");
+    setFilterBody({
+      role_name: "",
+      start_date: "",
+      end_date: "",
+      search: "",
+    });
+  };
 
   const handleEdit = (user) => {
     setEditedUser({
@@ -308,6 +340,15 @@ const UsersTable = () => {
               color="white"
               value={endDate}
             />
+            <Tooltip content="Semua data">
+              <Button
+                isIconOnly
+                className="bg-mainColor"
+                onPress={handleSetSemuaData}
+              >
+                <HiOutlineRefresh className="text-lg text-white" />
+              </Button>
+            </Tooltip>
           </div>
         </div>
         <div>
