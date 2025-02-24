@@ -203,10 +203,12 @@ export default function SignUpForm({
           <Input
             isRequired
             labelPlacement="outside"
-            placeholder="Masukkan Nomor Nama Instansi Anda"
+            placeholder="Masukkan Nama Instansi Anda"
             type="text"
             name="nama_perusahaan"
-            label="Nama Instansi"
+            label={`Nama ${
+              selectedRolesName === "Penyedia" ? "Perusahaan" : "Instansi"
+            }`}
             variant="bordered"
             className="w-full !border-transparent"
             radius="none"

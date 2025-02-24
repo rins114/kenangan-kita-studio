@@ -18,7 +18,7 @@ export default function GalleryCard({
           src={imgPath}
           width={1000}
           height={1000}
-          className="w-full h-1/2 cursor-pointer object-cover rounded-2xl"
+          className="w-full h-[20rem] xl:h-1/2 cursor-pointer object-cover rounded-2xl"
           onClick={() => handleOpenedGaleri(id)}
         />
         <div className="px-5 pt-3 pb-1">

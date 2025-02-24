@@ -85,7 +85,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
         }}
       >
         <Logo
-          path="/assets/images/logo-4.png"
+          path="/assets/images/logopbj.png"
           rounded={false}
           widthSize="210"
           heightSize="50"

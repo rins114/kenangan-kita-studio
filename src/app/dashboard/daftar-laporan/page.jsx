@@ -14,8 +14,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { getLaporan } from "@/services/Laporan";
 import formatTanggal from "@/utils/FormatDateHelper";
 import { useRouter } from "next/navigation";
-import { Tooltip } from "@nextui-org/react";
+import { Chip, Tooltip } from "@nextui-org/react";
 const TOKEN = localStorage.getItem("access_token");
+
+const statusColorMap = {
+  1: "success",
+  2: "danger",
+  0: "warning",
+  5: "success",
+};
 
 const UsersTable = () => {
   const [users, setUsers] = useState([
@@ -220,6 +227,18 @@ const UsersTable = () => {
       (filterType ? user.applicantType === filterType : true)
   );
 
+  const getUserStatus = (status) => {
+    const statusMap = {
+      0: "Diproses",
+      1: "Terverifikasi",
+      2: "Ditolak",
+      3: "Dihapus",
+      5: "Selesai",
+    };
+
+    return statusMap[status] || "Tidak Diketahui";
+  };
+
   return (
     <div className="p-5">
       {/* Search and Filter */}
@@ -277,7 +296,14 @@ const UsersTable = () => {
                     {formatTanggal(user.updated_at)}
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
-                    {user?.clearing_request.status}
+                    <Chip
+                      className="capitalize"
+                      color={statusColorMap[user?.clearing_request.status]}
+                      size="sm"
+                      variant="flat"
+                    >
+                      {getUserStatus(user?.clearing_request.status)}
+                    </Chip>
                   </td>
                   <td className="border-gray-400 px-4 py-2 text-center">
                     <div className="flex flex-row gap-1 justify-center items-center">

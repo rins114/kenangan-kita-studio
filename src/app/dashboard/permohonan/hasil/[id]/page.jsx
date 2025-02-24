@@ -285,7 +285,7 @@ export default function HasilPage({ params }) {
             <div className="p-5 flex flex-col gap-3">
               <RadioGroup
                 color="primary"
-                label="Pilih Tipe Keputusan Akhir"
+                label="Pilih Penanganan"
                 orientation="horizontal"
                 onValueChange={setIsLangsung}
                 defaultValue={isLangsung}
@@ -303,7 +303,7 @@ export default function HasilPage({ params }) {
                   handleFileChange={handleFileChange}
                   labelSize="text-md"
                   labelColor="text-zinc-500"
-                  label="Upload Berkas Hasil Diskusi"
+                  label="Upload Berkas Hasil Clearing House"
                   name="keluaran"
                   fileName={file.keluaran}
                 ></FileInputAtom>
@@ -350,7 +350,7 @@ export default function HasilPage({ params }) {
           <div className="p-5">
             <div className="flex flex-col gap-3">
               <DataView
-                _key="Tipe Keputusan Akhir"
+                _key="Tipe Penanganan"
                 value={
                   clearingRequestOutput.tipe_process === "langsung"
                     ? "Langsung"
@@ -358,13 +358,13 @@ export default function HasilPage({ params }) {
                 }
               />
               <DataView
-                _key="Hasil Diskusi"
+                _key="Hasil Clearing House"
                 value={clearingRequestOutput?.remarks}
               />
               {clearingRequestOutput.tipe_process !== "langsung" && (
                 <DataFileView
                   labelButton="Lihat File"
-                  _key={"File Hasil Akhir"}
+                  _key={"File Pendukung"}
                   fileUrl={`${APP_CONFIG.STORAGE_URL}${clearingRequestOutput?.keluaran}`}
                 ></DataFileView>
               )}
@@ -392,7 +392,7 @@ export default function HasilPage({ params }) {
                   handleFileChange={handleFileLaporanChange}
                   labelSize="text-md"
                   labelColor="text-zinc-500"
-                  label="Upload Laporan Hasil"
+                  label="Upload Laporan Clearing House"
                   name="isi_laporan"
                   fileName={laporanFile?.laporan}
                 ></FileInputAtom>

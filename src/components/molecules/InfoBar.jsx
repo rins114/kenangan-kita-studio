@@ -86,9 +86,9 @@ export default function InfoBar() {
           <Link href="/faq" className="text-sm hover:text-mainColor">
             Sumbawa Besar
           </Link>
-          <Link href="/faq" className="text-sm hover:text-mainColor">
+          {/* <Link href="/faq" className="text-sm hover:text-mainColor">
             FAQ's
-          </Link>
+          </Link> */}
           <Link href="/faq" className="text-sm hover:text-mainColor">
             Pemerintah
           </Link>
