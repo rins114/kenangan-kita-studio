@@ -218,7 +218,7 @@ export default function PermohonanDetailPage({ params }) {
           )}
           {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
             <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
-              <h1 className="font-medium text-xl md:text-3xl">
+              <h1 className="font-medium text-xl md:text-3xl text-center">
                 PERMOHONAN TERVERIFIKASI
               </h1>
               <div className="w-full max-w-[10rem] md:max-w-sm mt-5">
@@ -239,7 +239,7 @@ export default function PermohonanDetailPage({ params }) {
           )}
           {getUserStatus(clearingHouseData?.status) === "Selesai" && (
             <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
-              <h1 className="font-medium text-xl md:text-3xl">
+              <h1 className="font-medium text-xl md:text-3xl text-center">
                 PERMOHONAN TERVERIFIKASI
               </h1>
               <div className="w-full max-w-[10rem] md:max-w-sm mt-5">
@@ -263,8 +263,8 @@ export default function PermohonanDetailPage({ params }) {
       {section === "Step-3" && (
         <section className="h-full border-2 rounded-xl w-full px-2 py-1 bg-white shadow-md flex justify-center items-center">
           {getUserStatus(clearingHouseData?.status) === "Terverifikasi" && (
-            <div className="px-5 py-9 flex flex-col justify-start items-center w-full max-w-3xl">
-              <h1 className="font-medium text-xl md:text-3xl">
+            <div className="px-5 py-9 flex flex-col justify-center md:min-h-[35rem] items-center w-full max-w-3xl">
+              <h1 className="font-medium text-xl md:text-3xl text-center">
                 PERMOHONAN TERVERIFIKASI
               </h1>
               <h1 className="text-lg text-warning m-5">

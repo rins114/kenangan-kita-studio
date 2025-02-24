@@ -19,13 +19,17 @@ export async function postClearingHouseRequest(data, token) {
   }
 }
 
-export async function getClearingsHouseRequest(token) {
+export async function getClearingsHouseRequest(token, filterBody) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_CLEARING_HOUSE, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post(
+      API_ENDPOINT.GET_CLEARING_HOUSE,
+      filterBody,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.log(error);
