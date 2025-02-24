@@ -29,7 +29,7 @@ export default function Breadcrumb() {
         ) : (
           <p
             className={`${
-              index === segments.length - 1 && "font-medium text-success-500"
+              index === segments.length - 1 && "font-medium text-secondaryColor"
             }`}
           >
             {formatSegment}
