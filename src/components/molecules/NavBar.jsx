@@ -98,12 +98,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
             <div className="flex justify-center items-center gap-4 cursor-pointer">
               <Avatar
                 isBordered
-                as="button"
-                className="transition-transform"
-                color="secondary"
-                name="Jason Hughes"
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                color="default"
+                className="border-2 border-success-500"
               />
               <p className="hidden sm:block">{user?.name}</p>
             </div>
@@ -113,7 +109,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
-            {!["Admin", "Sekretariat", "Penyedia", "Kepala_upbj"].includes(
+            {!["Admin", "Sekretariat", "Kepala_upbj"].includes(
               authUser?.roles
             ) && (
               <DropdownItem

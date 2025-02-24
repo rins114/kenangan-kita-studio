@@ -43,8 +43,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
         >
           <Avatar
             isBordered
-            color="success"
-            src="https://i.pravatar.cc/150?u=a04258114e29026302d"
+            color="default"
             className="border-2 border-success-500"
           />
 

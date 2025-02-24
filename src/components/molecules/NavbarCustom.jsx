@@ -108,7 +108,13 @@ export default function NavbarCustom() {
               className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
               onClick={() => (window.location.href = "/dashboard")}
             >
-              <Avatar></Avatar>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="default"
+                size="sm"
+              ></Avatar>
               {/* <h1 className="!font-normal">
                 Logged in as{" "}
                 <span className="text-secondaryColor">{user?.name}</span>
@@ -161,52 +167,59 @@ export default function NavbarCustom() {
         className="hidden absolute top-20 left-0 w-full bg-white shadow-lg z-[98] opacity-0 transform"
       >
         <div className="space-y-1 px-4 pb-3 pt-2">
-          {!pathname.startsWith("/landing/peraturan") && (
-            <>
-              {!isAuthenticated ? (
-                <div className="block rounded-md px-3 py-2">
-                  <Button
-                    className="!w-full font-bold bg-mainColor text-white text-base py-2"
-                    onPress={() => (window.location.href = "/signin")}
-                  >
-                    MASUK
-                  </Button>
-                </div>
-              ) : (
-                <div
-                  className="flex flex-row gap-3 justify-start items-center cursor-pointer px-2 mb-2"
-                  onClick={() => (window.location.href = "/dashboard")}
+          <>
+            {!isAuthenticated ? (
+              <div className="block rounded-md px-3 py-2">
+                <Button
+                  className="!w-full font-bold bg-mainColor text-white text-base py-2"
+                  onPress={() => (window.location.href = "/signin")}
                 >
-                  <Avatar></Avatar>
-                  <h1>{user?.name}</h1>
-                </div>
-              )}
-              <div
-                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                  pathname === "/landing" ? "text-secondaryColor" : ""
-                }`}
-                onClick={() => scrollToSection("home")}
-              >
-                BERANDA
+                  MASUK
+                </Button>
               </div>
+            ) : (
               <div
-                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                  pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
-                }`}
-                onClick={() => navigate.push("/landing/peraturan")}
+                className="flex flex-row gap-3 justify-start items-center cursor-pointer px-2 mb-2"
+                onClick={() => (window.location.href = "/dashboard")}
               >
-                PERATURAN
+                <Avatar></Avatar>
+                <h1>{user?.name}</h1>
               </div>
-              <div
-                className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                  pathname === "/landing/galeri" ? "text-secondaryColor" : ""
-                }`}
-                onClick={() => navigate.push("/landing/galeri")}
-              >
-                GALERI
-              </div>
-            </>
-          )}
+            )}
+            <div
+              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                pathname === "/landing" ? "text-secondaryColor" : ""
+              }`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate.push("/landing");
+              }}
+            >
+              BERANDA
+            </div>
+            <div
+              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
+              }`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate.push("/landing/peraturan");
+              }}
+            >
+              PERATURAN
+            </div>
+            <div
+              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
+                pathname === "/landing/galeri" ? "text-secondaryColor" : ""
+              }`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate.push("/landing/galeri");
+              }}
+            >
+              GALERI
+            </div>
+          </>
         </div>
       </div>
     </nav>
