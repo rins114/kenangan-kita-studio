@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="bg-white flex justify-center items-center py-10 px-7 text-poppins">
       <div className="w-full">
         <div className="w-full flex lg:flex-row gap-10 xl:gap-0 flex-col justify-center items-center">
-          <div className="md:w-[20rem] flex-col justify-center items-center lg:items-start">
+          <div className="w-[20rem] flex-col justify-center items-center lg:items-start">
             <Logo
               path="/assets/images/logopbj.png"
               rounded={false}
@@ -125,7 +125,7 @@ export default function Footer() {
               </MapContainer>
             </div>
             <div className="flex flex-col gap-10 md:flex-row justify-start items-start">
-              <div className="flex md:flex-row flex-row justify-center px-5 w-full items-start gap-5">
+              <div className="flex md:flex-row flex-col justify-center px-5 w-full items-start gap-5">
                 <div className="flex flex-col justify-center items-center md:items-start">
                   <p className="font-medium text-gray-900">Menu Utama</p>
 

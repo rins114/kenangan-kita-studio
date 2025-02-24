@@ -12,6 +12,7 @@ import {
   Button,
   CircularProgress,
   Pagination,
+  DateRangePicker,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/contexts/AuthUserContext";
@@ -34,6 +35,7 @@ import {
 import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
+import { Datepicker, Label, Select, TextInput } from "flowbite-react";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -379,7 +381,35 @@ export default function TableCustom() {
 
   return (
     <>
-      <Table aria-label="Example table with custom cells">
+      <div className="mb-3 flex flex-row justify-between items-end gap-3 w-full">
+        <div className="flex flex-col gap-3">
+          <div>
+            <TextInput placeholder="Masukkan kata kunci" />
+          </div>
+          <div className="flex flex-row gap-2 justify-center items-center">
+            <Datepicker className="w-1/2" color="white" />
+            {"-"}
+            <Datepicker className="w-1/2" color="white" />
+          </div>
+        </div>
+        <div>
+          <div className="w-[15rem]">
+            <div className="block mb-1">
+              <Label htmlFor="countries" value="Tipe Pemohon" />
+            </div>
+            <Select id="countries" required>
+              <option>Penyedia</option>
+              <option>Bendahara</option>
+              <option>PPK</option>
+              <option>PA</option>
+            </Select>
+          </div>
+        </div>
+      </div>
+      <Table
+        aria-label="Example table with custom cells"
+        classNames={{ inputWrapper: "!shadow-none" }}
+      >
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
