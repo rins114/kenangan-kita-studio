@@ -62,7 +62,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
         <Sidebar.ItemGroup>
           <Sidebar.Item
             className={`${
-              pathname === "/dashboard" ? "bg-slate-500/40" : ""
+              pathname === "/dashboard" ? "bg-secondaryColor/60" : ""
             } cursor-pointer text-secondaryColor`}
             onClick={() => {
               navigate.push("/dashboard");
@@ -86,7 +86,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
                   icon={isMenuOpen ? "" : ""}
                   className={`cursor-pointer ${
                     pathname === "/dashboard/clearing-house"
-                      ? "bg-slate-500/40"
+                      ? "bg-secondaryColor/60"
                       : ""
                   }`}
                 >
@@ -106,7 +106,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
                   icon={isMenuOpen ? "" : ""}
                   className={`cursor-pointer ${
                     pathname === "/dashboard/verifikasi-berkas"
-                      ? "bg-slate-500/40"
+                      ? "bg-secondaryColor/60"
                       : ""
                   }`}
                 >
@@ -119,7 +119,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           </Sidebar.Item> */}
           <Sidebar.Item
             className={`${
-              pathname === "/dashboard/permohonan" ? "bg-slate-500/40" : ""
+              pathname === "/dashboard/permohonan" ? "bg-secondaryColor/60" : ""
             } cursor-pointer`}
             onClick={() => {
               navigate.push("/dashboard/permohonan");
@@ -132,7 +132,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {user?.roles === "Admin" && (
             <Sidebar.Item
               className={`${
-                pathname === "/dashboard/users" ? "bg-slate-500/40" : ""
+                pathname === "/dashboard/users" ? "bg-secondaryColor/60" : ""
               } cursor-pointer`}
               onClick={() => {
                 navigate.push("/dashboard/users");
@@ -146,7 +146,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {user?.roles === "Admin" && (
             <Sidebar.Item
               className={`${
-                pathname === "/dashboard/dokumen" ? "bg-slate-500/40" : ""
+                pathname === "/dashboard/dokumen" ? "bg-secondaryColor/60" : ""
               } cursor-pointer`}
               onClick={() => {
                 navigate.push("/dashboard/dokumen");
@@ -160,7 +160,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {user?.roles === "Admin" && (
             <Sidebar.Item
               className={`${
-                pathname === "/dashboard/upgaleri" ? "bg-slate-500/40" : ""
+                pathname === "/dashboard/upgaleri" ? "bg-secondaryColor/60" : ""
               } cursor-pointer`}
               onClick={() => {
                 navigate.push("/dashboard/upgaleri");
@@ -174,7 +174,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           {user?.roles === "Admin" && (
             <Sidebar.Item
               className={`${
-                pathname === "/dashboard/upslider" ? "bg-slate-500/40" : ""
+                pathname === "/dashboard/upslider" ? "bg-secondaryColor/60" : ""
               } cursor-pointer`}
               onClick={() => {
                 navigate.push("/dashboard/upslider");
@@ -189,7 +189,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
             <Sidebar.Item
               className={`${
                 pathname === "/dashboard/daftar-laporan"
-                  ? "bg-slate-500/40"
+                  ? "bg-secondaryColor/60"
                   : ""
               } cursor-pointer`}
               onClick={() => {

@@ -727,7 +727,7 @@ export default function TableCustom() {
                   className={`text-white ${
                     openedDetail.status === 1
                       ? "bg-gray-500 cursor-not-allowed text-black"
-                      : "bg-secondaryColor"
+                      : "bg-green-500"
                   }`}
                   onPress={async () => {
                     if (openedDetail.status !== 1) {
