@@ -236,10 +236,23 @@ export default function LandingPage() {
               >
                 <div>
                   <p className="text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quidem ipsa at veritatis unde rem? Itaque assumenda aperiam
-                    ab laborum quasi error rerum dicta voluptate voluptatem ex
-                    accusamus, at impedit quos!
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc arcu nisi, dictum non aliquam eget, pulvinar consequat
+                    enim. Nulla malesuada lacinia sollicitudin. Sed in
+                    pellentesque lectus. Sed iaculis ligula purus. Aliquam sed
+                    turpis risus. Duis non vulputate nulla. In accumsan velit
+                    nec leo elementum sodales. Praesent faucibus sollicitudin
+                    nunc quis suscipit. Interdum et malesuada fames ac ante
+                    ipsum primis in faucibus. Cras eget dolor posuere, commodo
+                    sem nec, auctor quam. Integer efficitur rhoncus augue, non
+                    cursus sem suscipit eu. Cras tincidunt quam nec turpis porta
+                    aliquam. Donec eu placerat augue. Nam at accumsan ligula.
+                    Nullam suscipit volutpat dui, a euismod ex tristique quis.
+                    Integer venenatis dolor eu rhoncus ultrices. Donec vel nisl
+                    convallis, tincidunt odio id, imperdiet odio. Aenean
+                    eleifend gravida efficitur. Sed pellentesque ex aliquam
+                    felis facilisis faucibus. Integer rutrum aliquet nulla at
+                    consectetur.
                   </p>
                 </div>
               </AnimatedScroll>
