@@ -63,11 +63,17 @@ export default function ClearingHousePage() {
     }
     const result = await postClearingHouseRequest(formDataToSend, TOKEN);
     if (result.status === 403) {
-      await showToast(
-        "warning",
-        "Akun belum di verifikasi. Silahkan hubungi admin."
-      );
-      return;
+      await Swal.fire({
+        icon: "warning",
+        title: "Akun Belum Terverifikasi!",
+        html: `
+            <strong style="font-size: 18px; color: red;">PERINGATAN!</strong><br>
+            Maaf, akun anda belum terverifikasi.<br>
+            Anda belum dapat menggunakan layanan <b>ClearingHouse</b><br>
+            Silahkan menunggu konfirmasi dari admin
+          `,
+        confirmButtonText: "OK",
+      });
     }
 
     if (result.status !== 200) {
