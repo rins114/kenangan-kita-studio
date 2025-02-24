@@ -99,7 +99,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }) {
               <Avatar
                 isBordered
                 color="default"
-                className="border-2 border-success-500"
+                className="border-2 border-secondaryColor"
               />
               <p className="hidden sm:block">{user?.name}</p>
             </div>

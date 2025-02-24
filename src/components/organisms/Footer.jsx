@@ -27,7 +27,7 @@ export default function Footer() {
               className=""
             ></Logo>
             {/* <p className="justify-start items-start font-medium text-gray-900">Alamat</p> */}
-            <p className="text-md text-center lg:text-left mt-3">
+            <p className="text-md text-justify lg:text-justify mt-3">
               Jl. Garuda No. 1, Lempeh, Kecamatan Sumbawa, Kabupaten Sumbawa,
               Nusa Tenggara Barat. 84316
             </p>

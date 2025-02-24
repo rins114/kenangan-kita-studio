@@ -44,7 +44,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           <Avatar
             isBordered
             color="default"
-            className="border-2 border-success-500"
+            className="border-2 border-secondaryColor"
           />
 
           <div className={`${isMenuOpen ? "" : ""}`}>
@@ -63,7 +63,7 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
           <Sidebar.Item
             className={`${
               pathname === "/dashboard" ? "bg-slate-500/40" : ""
-            } cursor-pointer`}
+            } cursor-pointer text-secondaryColor`}
             onClick={() => {
               navigate.push("/dashboard");
             }}

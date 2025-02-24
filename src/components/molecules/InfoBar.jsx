@@ -77,7 +77,7 @@ export default function InfoBar() {
           ref={weatherRef}
           className="flex gap-1 justify-center items-center text-white border-r-1 border-white px-3"
         >
-          <TiWeatherPartlySunny className="text-orange-500 text-lg" />
+          <TiWeatherPartlySunny className="text-blue-300 text-lg" />
           <p className="text-sm">
             {`${time.getDate()} ${months[time.getMonth()]}`}
           </p>
@@ -99,14 +99,14 @@ export default function InfoBar() {
           ref={timeRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <TbPhoneCall className="text-blue-700 text-md" />
+          <TbPhoneCall className="text-blue-300 text-md" />
           <p className="text-white text-sm">+6281 2345 6789</p>
         </div>
         <div
           ref={contactRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <FaRegClock className="text-blue-700 text-md" />
+          <FaRegClock className="text-blue-300 text-md" />
           <time
             className="text-white text-sm"
             dateTime="2024-01-01"
@@ -117,7 +117,7 @@ export default function InfoBar() {
         </div>
         <div className="flex gap-3 justify-center items-center px-3">
           <Link href={"https://www.facebook.com/"} target="_blank">
-            <FaFacebookSquare className="text-blue-600 text-md" />
+            <FaFacebookSquare className="text-blue-400 text-md" />
           </Link>
           <Link href={"https://twitter.com/"} target="_blank">
             <FaTwitterSquare className="text-black text-md" />
