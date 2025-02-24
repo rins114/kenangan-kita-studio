@@ -28,7 +28,6 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function DashboardPage() {
-
   const { user } = useAuthUser();
   const { isLoading } = useLogin();
 
@@ -132,8 +131,8 @@ export default function DashboardPage() {
   return (
     <div className="p-5 flex flex-col justify-start items-center gap-3">
       <div className="w-full text-center text-xl font-bold mb-5">
-        {greeting ? greeting : "Halo"} {user?.name}, Selamat Datang di SIMPRO PBJ Kabupaten
-        Sumbawa!
+        {greeting ? greeting : "Halo"} {user?.name}, Selamat Datang di SIMPRO
+        PBJ Kabupaten Sumbawa!
       </div>
       <div className="w-full flex flex-col lg:flex-row gap-5 justify-center items-center h-full">
         <div className="flex flex-col w-full max-w-md xl:w-1/2 border-none rounded-md justify-center items-center min-h-96 shadow-none bg-white">
