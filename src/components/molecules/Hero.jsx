@@ -74,7 +74,7 @@ export default function Hero() {
   return (
     <div
       ref={homeRef}
-      className="flex h-[auto] overflow-hidden relative top-[6rem] text-poppins w-full"
+      className="flex h-[auto] overflow-hidden relative top-[5rem] md:top-[6rem] text-poppins w-full"
     >
       <Swiper
         ref={swiperRef}
