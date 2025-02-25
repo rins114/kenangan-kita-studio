@@ -23,6 +23,7 @@ import { showToast } from "@/utils/ShowToast";
 import APP_CONFIG from "@/globals/app-config";
 import { Pagination } from "@nextui-org/react";
 import paginate from "@/utils/PaginationHelper";
+import ImageCropper from "@/components/molecules/ImageCropper";
 const TOKEN = localStorage.getItem("access_token");
 
 const UploadSlider = () => {
@@ -49,6 +50,8 @@ const UploadSlider = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [preProcessImages, setPreProcessImages] = useState(null);
+  const [blobImages, setBlobImages] = useState(null);
 
   useEffect(() => {
     async function fetchSlider() {
@@ -85,6 +88,7 @@ const UploadSlider = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setPreProcessImages(null);
     resetFormData();
   };
 
@@ -100,11 +104,40 @@ const UploadSlider = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    console.log(preProcessImages);
+  }, [preProcessImages]);
+
+  const getBlob = (blob) => {
+    setBlobImages(blob);
+  };
+
+  //Here
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, gambar: file });
-    toast.success("File dokumen ditambahkan");
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      setPreProcessImages(reader.result);
+    };
   };
+
+  const convertBlobToFile = (blob, fileName = "image.jpg") => {
+    return blob ? new File([blob], fileName, { type: blob.type }) : null;
+  };
+
+  useEffect(() => {
+    if (!blobImages) return;
+
+    const file = convertBlobToFile(blobImages, "Image 1");
+    if (file) {
+      setFormData((prev) => ({ ...prev, gambar: file }));
+      // toast.success("File dokumen ditambahkan");
+    }
+  }, [blobImages]);
 
   const handlePublish = async (id) => {
     const result = await toggleSliderStatus(TOKEN, id);
@@ -338,14 +371,14 @@ const UploadSlider = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white rounded-lg p-6 w-1/2 md:w-1/2 shadow-lg backdrop-blur-sm max-h-[90vh]"
+              className="bg-white rounded-lg p-6 w-full md:max-w-3xl shadow-lg backdrop-blur-sm max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-lg font-semibold mb-4 items-center justify-center text-center">
                 {modalMode === "add" ? "TAMBAH GAMBAR" : "EDIT GAMBAR"}
               </h2>
 
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col justify-center items-center">
                 <button
                   type="button"
                   onClick={() => document.getElementById("file-input").click()}
@@ -362,10 +395,18 @@ const UploadSlider = () => {
                   className="hidden"
                 />
                 {formData.gambar && (
-                  <p className="mt-2 text-sm text-gray-600 w-full md:w-1/2">
+                  <p className="mt-2 text-sm text-gray-600 text-start w-full">
                     File Terpilih:{" "}
                     <span className="font-medium">{formData.gambar.name}</span>
                   </p>
+                )}
+                {preProcessImages && (
+                  <div className="w-full max-w-xl h-[30rem] flex justify-center items-center mt-5">
+                    <ImageCropper
+                      getBlob={getBlob}
+                      inputImg={preProcessImages}
+                    />
+                  </div>
                 )}
               </div>
 

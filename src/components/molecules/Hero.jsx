@@ -74,7 +74,7 @@ export default function Hero() {
   return (
     <div
       ref={homeRef}
-      className="flex h-[30rem] md:h-screen overflow-hidden relative text-poppins z-10 w-full"
+      className="flex h-[auto] overflow-hidden relative top-16 text-poppins w-full"
     >
       <Swiper
         ref={swiperRef}
@@ -98,10 +98,10 @@ export default function Hero() {
               <Image
                 alt="hero"
                 src={APP_CONFIG.STORAGE_URL + item.img}
-                layout="fill"
-                // width={99999999999999}
-                // height={3000}
-                className="w-full h-full object-cover"
+                layout="intrinsic"
+                width={999990}
+                height={600}
+                className="w-auto h-auto max-w-full max-h-full object-contain"
               />
             </SwiperSlide>
           ))
