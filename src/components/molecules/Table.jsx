@@ -38,6 +38,7 @@ import paginate from "@/utils/PaginationHelper";
 import { Datepicker, Label, Select, TextInput } from "flowbite-react";
 import { formatTanggalSorting } from "@/utils/FormatDateHelper";
 import { getUserRoles } from "@/services/UserRole";
+import { HiOutlineRefresh } from "react-icons/hi";
 
 export const columns = [
   { name: "NAMA", uid: "nama_pemohon" },
@@ -77,6 +78,7 @@ export default function TableCustom() {
   const [roleFilter, setRoleFilter] = useState("");
   const [userRole, setUserRole] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isDatePicker, setIsDatePicker] = useState(false);
 
   const [filterBody, setFilterBody] = useState({
     role_name: roleFilter,
@@ -86,14 +88,58 @@ export default function TableCustom() {
   });
 
   useEffect(() => {
-    console.log(searchTerm);
-    setFilterBody({
+    setFilterBody((prev) => ({
+      ...prev,
+      start_date: isDatePicker ? formatTanggalSorting(startDate) : "",
+      end_date: isDatePicker ? formatTanggalSorting(endDate) : "",
+    }));
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    setFilterBody((prev) => ({
+      ...prev,
       role_name: roleFilter,
-      start_date: formatTanggalSorting(startDate),
-      end_date: formatTanggalSorting(endDate),
+    }));
+  }, [roleFilter]);
+
+  useEffect(() => {
+    console.log("searchTerm:", searchTerm);
+    console.log("isDatePicker:", isDatePicker);
+
+    setFilterBody((prev) => ({
+      ...prev,
       search: searchTerm,
+    }));
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setIsDatePicker(true);
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    async function fetchUserRole() {
+      const result = await getUserRoles();
+      console.log(result);
+      const roles = result.data?.roles?.flatMap((role) =>
+        role.subroles?.length
+          ? role.subroles.map((sub) => `${role.name}_${sub.sub_roles}`)
+          : role.name
+      );
+      setUserRole(roles);
+    }
+    fetchUserRole();
+  }, []);
+
+  const handleSetSemuaData = () => {
+    setSearchTerm("");
+    setRoleFilter("");
+    setFilterBody({
+      role_name: "",
+      start_date: "",
+      end_date: "",
+      search: "",
     });
-  }, [startDate, endDate, roleFilter, searchTerm]);
+  };
 
   useEffect(() => {
     async function fetchUserRole() {
@@ -448,6 +494,15 @@ export default function TableCustom() {
               color="white"
               value={endDate}
             />
+            <Tooltip content="Semua data">
+              <Button
+                isIconOnly
+                className="bg-mainColor"
+                onPress={handleSetSemuaData}
+              >
+                <HiOutlineRefresh className="text-lg text-white" />
+              </Button>
+            </Tooltip>
           </div>
         </div>
         <div>
