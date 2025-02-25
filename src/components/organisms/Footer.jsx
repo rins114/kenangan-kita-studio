@@ -3,6 +3,7 @@ import Logo from "../atoms/Logo";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { usePathname } from "next/navigation";
 
 const customMarkerIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
@@ -14,8 +15,13 @@ const customMarkerIcon = L.icon({
 });
 
 export default function Footer() {
+  const pathname = usePathname();
   return (
-    <footer className="bg-white flex justify-center items-center py-10 px-7 text-poppins">
+    <footer
+      className={`bg-white flex justify-center items-center py-10 px-7 text-poppins ${
+        pathname === "/landing" && "relative top-16"
+      }`}
+    >
       <div className="w-full">
         <div className="w-full flex lg:flex-row gap-10 xl:gap-0 flex-col justify-center items-center">
           <div className="w-[20rem] flex-col justify-center items-center lg:items-start">
