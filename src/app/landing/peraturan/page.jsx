@@ -164,7 +164,7 @@ export default function PeraturanPage() {
                         Pratinjau
                       </Button>
                       <Button
-                        className="bg-mainColor text-white font-medium"
+                        className="bg-secondaryColor text-white font-medium"
                         onPress={() =>
                           handleDownload(APP_CONFIG.STORAGE_URL + item.file)
                         }

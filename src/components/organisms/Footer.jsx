@@ -39,8 +39,8 @@ export default function Footer() {
             </p>
 
             <div className="flex flex-col justify-center items-center">
-              <p className="font-medium mt-5">Ikuti Sosial Media Kami</p>
-              <ul className="flex gap-6">
+              <p className="font-medium mt-8">Ikuti Sosial Media Kami</p>
+              <ul className="flex gap-6 mt-3">
                 <li>
                   <a
                     href="#"
@@ -94,7 +94,7 @@ export default function Footer() {
                     href="#"
                     rel="noreferrer"
                     target="_blank"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-blue-500 transition hover:opacity-75"
                   >
                     <span className="sr-only">Twitter</span>
 
@@ -139,7 +139,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-blue-500"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         Beranda{" "}
@@ -149,7 +149,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-blue-500"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         Peraturan{" "}
@@ -159,7 +159,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-blue-500"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         Galeri{" "}
@@ -175,7 +175,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-blue-500"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         SumbawaKab{" "}
@@ -185,7 +185,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         SiRUP{" "}
@@ -195,7 +195,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="#"
-                        className="text-gray-700 transition hover:opacity-75"
+                        className="text-gray-700 transition hover:opacity-75 hover:underline hover:text-secondaryColor"
                       >
                         {" "}
                         LPSE{" "}
