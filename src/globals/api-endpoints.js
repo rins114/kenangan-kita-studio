@@ -46,6 +46,7 @@ const API_ENDPOINT = {
   POST_LAPORAN_CH: `${API_BASE_URL}createlaporans`,
   GET_ALL_LAPORAN_CH: `${API_BASE_URL}laporans`,
   GET_LAPORAN_BY_CH_ID: (id) => `${API_BASE_URL}laporans/request/${id}`,
+  GET_STATS_CH_STATUS: `${API_BASE_URL}grafik/status-counts`,
 };
 
 export default API_ENDPOINT;

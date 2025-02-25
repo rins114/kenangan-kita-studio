@@ -173,6 +173,7 @@ export default function TableCustom() {
   };
 
   useEffect(() => {
+    console.log(filterBody);
     async function fetchClearingHouseRequest() {
       const result = await getClearingsHouseRequest(TOKEN, filterBody);
       if (result.status !== 200) {

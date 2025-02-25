@@ -21,9 +21,14 @@ export async function postClearingHouseRequest(data, token) {
 
 export async function getClearingsHouseRequest(token, filterBody) {
   try {
+    const filteredBody = Object.fromEntries(
+      Object.entries(filterBody).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ""
+      )
+    );
     const response = await axios.post(
       API_ENDPOINT.GET_CLEARING_HOUSE,
-      filterBody,
+      filteredBody,
       {
         headers: {
           Authorization: `Bearer ${token}`,
