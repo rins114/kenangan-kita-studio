@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="w-full flex lg:flex-row gap-10 xl:gap-0 flex-col justify-center items-center">
           <div className="w-[20rem] flex-col justify-center items-center lg:items-start">
             <Logo
-              path="/assets/images/logopbj.png"
+              path="/assets/images/logonew.png"
               rounded={false}
               widthSize="300"
               heightSize="80"

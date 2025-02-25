@@ -52,7 +52,7 @@ export default function NavbarCustom() {
         onClick={() => navigate.push("/landing")}
       >
         <Logo
-          path="/assets/images/logopbj.png"
+          path="/assets/images/logonew.png"
           rounded={false}
           widthSize="210"
           heightSize="55"

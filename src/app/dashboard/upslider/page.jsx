@@ -371,7 +371,7 @@ const UploadSlider = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white rounded-lg p-6 w-full md:max-w-3xl shadow-lg backdrop-blur-sm max-h-[90vh]"
+              className="bg-white rounded-lg p-6 w-full md:max-w-3xl shadow-lg backdrop-blur-sm max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-lg font-semibold mb-4 items-center justify-center text-center">
@@ -385,7 +385,7 @@ const UploadSlider = () => {
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
                 >
                   <FiUpload className="inline mr-2" />
-                  Pilih Gambar (.jpg, .jpeg, .png)
+                  Pilih Gambar 1920x720 (.jpg, .jpeg, .png)
                 </button>
                 <input
                   id="file-input"
@@ -401,7 +401,7 @@ const UploadSlider = () => {
                   </p>
                 )}
                 {preProcessImages && (
-                  <div className="w-full max-w-xl h-[30rem] flex justify-center items-center mt-5">
+                  <div className="w-full max-w-xl h-[18rem] flex justify-center items-center mt-5">
                     <ImageCropper
                       getBlob={getBlob}
                       inputImg={preProcessImages}
