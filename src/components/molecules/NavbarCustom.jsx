@@ -98,14 +98,14 @@ export default function NavbarCustom() {
         <li>
           {!isAuthenticated ? (
             <Button
-              className="bg-mainColor rounded-full !text-white font-semibold py-2 px-5"
+              className="bg-secondaryColor rounded-full !text-white font-semibold py-2 px-5"
               onPress={() => navigate.push("/signin")}
             >
               MASUK
             </Button>
           ) : (
             <div
-              className="cursor-pointer rounded-full border-2 h-10 w-10 flex justify-center items-center overflow-hidden"
+              className="cursor-pointer rounded-full border-2 border-secondaryColor h-10 w-10 flex justify-center items-center overflow-hidden"
               onClick={() => (window.location.href = "/dashboard")}
             >
               <Avatar
@@ -171,7 +171,7 @@ export default function NavbarCustom() {
             {!isAuthenticated ? (
               <div className="block rounded-md px-3 py-2">
                 <Button
-                  className="!w-full font-bold bg-mainColor text-white text-base py-2"
+                  className="!w-full font-bold bg-secondaryColor text-white text-base py-2"
                   onPress={() => (window.location.href = "/signin")}
                 >
                   MASUK
