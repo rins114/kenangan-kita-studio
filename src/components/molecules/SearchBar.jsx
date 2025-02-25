@@ -10,7 +10,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
 
 export default function SearchBar({ searchParams, setSearchParams }) {
@@ -18,18 +18,10 @@ export default function SearchBar({ searchParams, setSearchParams }) {
 
   // Data untuk dropdown bentuk peraturan
   const bentukPeraturan = [
-    { label: "Undang-Undang", value: "UU" },
-    { label: "Peraturan Pemerintah", value: "PP" },
-    { label: "Peraturan Presiden", value: "PERPRES" },
-    { label: "Peraturan Menteri", value: "PERMEN" },
-    { label: "Keputusan Presiden", value: "KEPRES" },
+    { label: "PERWAL", value: "perwal" },
+    { label: "PERDA", value: "perda" },
+    { label: "KEPWAL", value: "kepwal" },
   ];
-
-  // Generate tahun dari 1945-2024
-  const years = Array.from({ length: 2024 - 1945 + 1 }, (_, index) => ({
-    label: String(1945 + index),
-    value: String(1945 + index),
-  })).reverse(); // Urutkan dari yang terbaru
 
   // State untuk menyimpan nilai filter
   const [filters, setFilters] = useState({
@@ -39,9 +31,20 @@ export default function SearchBar({ searchParams, setSearchParams }) {
   });
 
   const handleFilterChange = (name, value) => {
-    setFilters((prev) => ({
+    console.log(name, value);
+    setSearchParams((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleClearFilter = () => {
+    setSearchParams((prev) => ({
+      ...prev,
+      title: "",
+      bentuk: "",
+      nomor: "",
+      tahun: "",
     }));
   };
 
@@ -49,6 +52,10 @@ export default function SearchBar({ searchParams, setSearchParams }) {
     console.log("Filter yang diterapkan:", filters);
     onClose();
   };
+
+  useEffect(() => {
+    console.log("searchParams", searchParams);
+  }, [searchParams]);
 
   return (
     <>
@@ -105,17 +112,17 @@ export default function SearchBar({ searchParams, setSearchParams }) {
         <Button
           size="lg"
           isIconOnly
-          className="flex md:hidden bg-gray-500 text-white font-medium"
+          className="flex md:hidden bg-secondaryColor text-white font-medium"
           onClick={onOpen}
         >
           <FaFilter />
         </Button>
         <Button
           size="lg"
-          className="hidden md:flex bg-gray-500 text-white font-medium"
+          className="hidden md:flex bg-secondaryColor text-white font-medium"
           onClick={onOpen}
         >
-          Filter
+          Adv. Search
         </Button>
       </form>
 
@@ -144,7 +151,9 @@ export default function SearchBar({ searchParams, setSearchParams }) {
                     labelPlacement="outside"
                     placeholder="Pilih bentuk peraturan"
                     variant="bordered"
-                    selectedKeys={filters.bentuk ? [filters.bentuk] : []}
+                    selectedKeys={
+                      searchParams.bentuk ? [searchParams.bentuk] : []
+                    }
                     onChange={(e) =>
                       handleFilterChange("bentuk", e.target.value)
                     }
@@ -161,39 +170,38 @@ export default function SearchBar({ searchParams, setSearchParams }) {
                     labelPlacement="outside"
                     placeholder="Masukkan nomor peraturan"
                     variant="bordered"
-                    value={filters.nomorPeraturan}
+                    value={searchParams.nomor}
                     onChange={(e) =>
-                      handleFilterChange("nomorPeraturan", e.target.value)
+                      handleFilterChange("nomor", e.target.value)
                     }
                   />
 
-                  <Select
+                  <Input
                     label="Tahun Peraturan"
                     labelPlacement="outside"
-                    placeholder="Pilih tahun peraturan"
+                    placeholder="Masukkan Tahun peraturan"
                     variant="bordered"
-                    selectedKeys={
-                      filters.tahunPeraturan ? [filters.tahunPeraturan] : []
-                    }
+                    value={searchParams.tahun}
                     onChange={(e) =>
-                      handleFilterChange("tahunPeraturan", e.target.value)
+                      handleFilterChange("tahun", e.target.value)
                     }
-                  >
-                    {years.map((year) => (
-                      <SelectItem key={year.value} value={year.value}>
-                        {year.label}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  />
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onClick={onClose}>
+                <Button
+                  color="warning"
+                  variant="light"
+                  onPress={handleClearFilter}
+                >
+                  Bersihkan
+                </Button>
+                <Button color="danger" variant="light" onPress={onClose}>
                   Batal
                 </Button>
                 <Button
                   color="primary"
-                  onClick={handleSearch}
+                  onPress={handleSearch}
                   className="bg-mainColor"
                 >
                   Cari
