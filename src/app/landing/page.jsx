@@ -214,7 +214,7 @@ export default function LandingPage() {
   const { aboutRef, layananRef, kinerjaRef } = useNavigation();
   return (
     //bg-custom-gradient from-mainColor/60 to-thirdColor/40
-    <div className="w-full flex flex-col justify-start items-center text-poppins relative top-16">
+    <div className="w-full flex flex-col justify-start items-center text-poppins relative top-[6rem]">
       <div className="w-full bg-grayBg">
         <AnimatedScroll
           yFrom={150}

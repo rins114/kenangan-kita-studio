@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer
       className={`bg-white flex justify-center items-center py-10 px-7 text-poppins ${
-        pathname === "/landing" && "relative top-16"
+        pathname === "/landing" && "relative top-[6rem]"
       }`}
     >
       <div className="w-full">
