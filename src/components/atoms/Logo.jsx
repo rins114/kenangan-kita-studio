@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Logo({
-  path = "/assets/images/logopbj.png",
+  path = "/assets/images/logonew.png",
   widthSize = "50",
   heightSize = "50",
   alt = "logo",
