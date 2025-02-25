@@ -15,12 +15,17 @@ import {
   user,
 } from "@nextui-org/react";
 import { IoHome } from "react-icons/io5";
+import { getClearingHouseStatusStats } from "@/services/Stats";
+import { showToast } from "@/utils/ShowToast";
+import { getStatusString } from "@/utils/GetStatusHelper";
 const ReactPdfView = dynamic(
   () => import("@/components/molecules/ReactPdfView"),
   {
     ssr: false, // Disable server-side rendering
   }
 );
+
+const TOKEN = localStorage.getItem("access_token");
 
 // Dynamically import ReactApexChart to avoid SSR issues
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -30,6 +35,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 export default function DashboardPage() {
   const { user } = useAuthUser();
   const { isLoading } = useLogin();
+  const [stats, setStats] = useState([]);
 
   const [greeting, setGreeting] = useState("");
 
@@ -105,13 +111,13 @@ export default function DashboardPage() {
   };
 
   const pieChart = {
-    series: [2, 4, 3, 10],
+    series: stats?.datasets ?? [],
     options: {
       chart: {
         width: 380,
         type: "pie",
       },
-      labels: ["Diajukan", "Ditolak", "Terverifikasi", "Selesai"],
+      labels: stats?.labels ?? [],
       responsive: [
         {
           breakpoint: 480,
@@ -127,6 +133,30 @@ export default function DashboardPage() {
       ],
     },
   };
+
+  useEffect(() => {
+    async function fetchStats() {
+      const result = await getClearingHouseStatusStats(TOKEN);
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", result.message);
+        return;
+      }
+      const newLabel = result?.data?.labels?.map((label) =>
+        getStatusString(label)
+      );
+      setStats((prev) => ({
+        ...prev,
+        datasets: result.data.datasets,
+        labels: newLabel,
+      }));
+    }
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
+    console.log(stats);
+  }, [stats]);
 
   return (
     <div className="p-5 flex flex-col justify-start items-center gap-3">
