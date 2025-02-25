@@ -19,8 +19,9 @@ export async function postClearingHouseRequest(data, token) {
   }
 }
 
-export async function getClearingsHouseRequest(token, filterBody) {
+export async function getClearingsHouseRequest(token, filterBody = {}) {
   try {
+    console.log(filterBody);
     const filteredBody = Object.fromEntries(
       Object.entries(filterBody).filter(
         ([_, value]) => value !== undefined && value !== null && value !== ""

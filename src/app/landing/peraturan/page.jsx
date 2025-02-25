@@ -77,7 +77,12 @@ export default function PeraturanPage() {
       setPeraturan(result.data);
     }
     fetchPeraturan();
-  }, [searchParams.title]);
+  }, [
+    searchParams.title,
+    searchParams.bentuk,
+    searchParams.nomor,
+    searchParams.tahun,
+  ]);
 
   useEffect(() => {
     console.log(peraturan);

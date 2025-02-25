@@ -157,7 +157,7 @@ export default function GaleriPage() {
               </div> */}
             </div>
             <div className="md:w-1/2 flex flex-col pb-5 md:pb-7 md:py-7 justify-center items-start z-[40] overflow-hidden">
-              <h1 className="md:w-full w-[96%] text-xl sm:text-2xl font-semibold px-5 py-3 bg-mainColor text-white mb-3 rounded-r-full md:rounded-r-none md:rounded-l-full pr-10 line-clamp-3">
+              <h1 className="md:w-full w-[96%] text-xl sm:text-2xl font-semibold px-5 py-3 bg-red-700 text-white mb-3 rounded-r-full md:rounded-r-none md:rounded-l-full pr-10 line-clamp-3">
                 {openedGaleri.title}
               </h1>
               <div className="px-5 md:px-0 md:pr-10 md:pl-6">

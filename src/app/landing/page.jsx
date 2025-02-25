@@ -59,17 +59,7 @@ export default function LandingPage() {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: [
-          "Feb",
-          "Mar",
-          "Apr",
-          // "May",
-          // "Jun",
-          // "Jul",
-          // "Aug",
-          // "Sep",
-          // "Oct",
-        ],
+        categories: ["Feb", "Mar", "Apr"],
       },
       yaxis: {
         title: {

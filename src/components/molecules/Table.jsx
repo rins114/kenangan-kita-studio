@@ -87,6 +87,11 @@ export default function TableCustom() {
     search: searchTerm,
   });
 
+  const filteredColumns =
+    authUser.roles === "Sekretariat"
+      ? columns.filter((column) => column.uid !== "pesan")
+      : columns;
+
   useEffect(() => {
     setFilterBody((prev) => ({
       ...prev,
@@ -506,7 +511,10 @@ export default function TableCustom() {
             </Tooltip>
           </div>
         </div>
-        <div>
+
+        {(authUser.roles === "Admin" ||
+          authUser.roles === "Sekretariat" ||
+          authUser.roles === "Kepala_upbj") && (
           <div className="w-[15rem]">
             <div className="block mb-1">
               <Label htmlFor="countries" value="Tipe Pemohon" />
@@ -526,14 +534,14 @@ export default function TableCustom() {
               ))}
             </Select>
           </div>
-        </div>
+        )}
       </div>
 
       <Table
         aria-label="Example table with custom cells"
         classNames={{ inputWrapper: "!shadow-none" }}
       >
-        <TableHeader columns={columns}>
+        <TableHeader columns={filteredColumns}>
           {(column) => (
             <TableColumn
               key={column.uid}
