@@ -109,12 +109,12 @@ export default function PeraturanPage() {
   }, [peraturan, currentPage]);
 
   const pieChartData = {
-    series: peraturanStatusStats?.datasets,
+    series: peraturanStatusStats?.datasets ?? [],
     options: {
       chart: {
         type: "donut",
       },
-      labels: peraturanStatusStats?.labels,
+      labels: peraturanStatusStats?.name ?? [],
       responsive: [
         {
           breakpoint: 480,

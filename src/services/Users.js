@@ -1,9 +1,15 @@
 import API_ENDPOINT from "@/globals/api-endpoints";
 import axios from "axios";
 
-export async function getUsers(token) {
+export async function getUsers(token, filterBody = {}) {
   try {
-    const response = await axios.get(API_ENDPOINT.GET_USERS, {
+    const filteredBody = Object.fromEntries(
+      Object.entries(filterBody).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ""
+      )
+    );
+    console.log(filterBody);
+    const response = await axios.post(API_ENDPOINT.GET_USERS, filteredBody, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(response);
