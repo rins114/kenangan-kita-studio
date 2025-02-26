@@ -13,6 +13,7 @@ import { getPeraturan } from "@/services/Peraturan";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
 import { showToast } from "@/components/atoms/SweetAlert";
+import { getPeraturanStatusStats } from "@/services/Stats";
 
 // const TOKEN = localStorage.getItem("access_token");
 
@@ -26,6 +27,7 @@ export default function PeraturanPage() {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
   const [peraturan, setPeraturan] = useState([]);
+  const [peraturanStatusStats, setPeraturanStatusStats] = useState([]);
 
   const [searchParams, setSearchParams] = useState({
     title: "",
@@ -53,6 +55,19 @@ export default function PeraturanPage() {
     } catch (error) {
       console.error("Error accessing localStorage:", error);
     }
+  }, []);
+
+  useEffect(() => {
+    async function fetchPeraturanStats() {
+      const result = await getPeraturanStatusStats();
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", result.message);
+        return;
+      }
+      setPeraturanStatusStats(result.data);
+    }
+    fetchPeraturanStats();
   }, []);
 
   useEffect(() => {
@@ -94,12 +109,12 @@ export default function PeraturanPage() {
   }, [peraturan, currentPage]);
 
   const pieChartData = {
-    series: [20, 55, 25],
+    series: peraturanStatusStats?.datasets,
     options: {
       chart: {
         type: "donut",
       },
-      labels: ["KEPWAL", "PERWAL", "PERDA"],
+      labels: peraturanStatusStats?.labels,
       responsive: [
         {
           breakpoint: 480,
