@@ -9,6 +9,8 @@ import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import LogoLink from "@/components/atoms/LogoLink";
 import { useRouter } from "next/navigation";
 import useScrollToTop from "@/hooks/useScrollToTop";
+import { getPermohonanStats } from "@/services/Stats";
+import { showToast } from "@/utils/ShowToast";
 const AnimatedScroll = dynamic(
   () => import("@/components/gsap/AnimatedScroll"),
   { ssr: false }
@@ -20,24 +22,25 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 export default function LandingPage() {
   const router = useRouter();
+  const [chProcessStats, setChProcessStats] = useState([]);
 
   useScrollToTop();
 
+  useEffect(() => {
+    async function fetchChProcessStats() {
+      const result = await getPermohonanStats();
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", result.message);
+        return;
+      }
+      setChProcessStats(result.data);
+    }
+    fetchChProcessStats();
+  }, []);
+
   const columnChart = {
-    series: [
-      {
-        name: "Permohonan",
-        data: [44, 55, 57],
-      },
-      {
-        name: "Selesai",
-        data: [34, 35, 47],
-      },
-      {
-        name: "Ditolak",
-        data: [10, 20, 10],
-      },
-    ],
+    series: chProcessStats?.datasets ?? [],
     options: {
       chart: {
         type: "bar",
@@ -59,7 +62,20 @@ export default function LandingPage() {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: ["Feb", "Mar", "Apr"],
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "Mei",
+          "Jun",
+          "Jul",
+          "Agu",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Des",
+        ],
       },
       yaxis: {
         title: {
@@ -214,10 +230,12 @@ export default function LandingPage() {
         >
           <section
             ref={aboutRef}
-            className="flex flex-col justify-center items-center gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
+            className="flex flex-col justify-center items-center gap-5 md:gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
           >
-            <h1 className="text-3xl font-semibold">APA ITU SIMPRO PBJ?</h1>
-            <div className="flex flex-col-reverse md:flex-row gap-10 w-full">
+            <h1 className="md:text-3xl text-xl font-semibold">
+              APA ITU SIMPRO PBJ?
+            </h1>
+            <div className="flex flex-col-reverse md:flex-row gap-5 md:gap-10 w-full">
               <AnimatedScroll
                 className="md:w-1/2"
                 xFrom={-10}
@@ -252,7 +270,7 @@ export default function LandingPage() {
                 opacityFrom={0}
                 duration={1}
               >
-                <div className="relative w-full h-64 md:h-96 min-h-80">
+                <div className="relative w-full h-52 xs:h-96 md:min-h-80">
                   <Image
                     alt="img"
                     src={"/assets/images/auth-2.jpg"}
@@ -377,8 +395,8 @@ export default function LandingPage() {
             </div>
           </AnimatedScroll>
         </div>
-
-        <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
+        {/* Verifikasi Berkas Grafik */}
+        {/* <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
           <AnimatedScroll
             className="w-full md:w-1/2"
             xFrom={10}
@@ -414,7 +432,7 @@ export default function LandingPage() {
               </p>
             </div>
           </AnimatedScroll>
-        </div>
+        </div> */}
       </div>
       <div className="min-h-72 bg-grayBg w-full mt-10 px-7 py-14 flex flex-col justify-around items-center gap-5">
         <h1 className="text-3xl font-semibold">LINK TERKAIT</h1>

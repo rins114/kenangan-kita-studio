@@ -12,3 +12,23 @@ export async function getClearingHouseStatusStats(token) {
     return { status: error.status, error: error.message };
   }
 }
+
+export async function getPeraturanStatusStats() {
+  try {
+    const response = await axios.get(API_ENDPOINT.GET_STATS_PERATURAN_BENTUK);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}
+
+export async function getPermohonanStats() {
+  try {
+    const response = await axios.get(API_ENDPOINT.GET_STATS_CH_PROCESS);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return { status: error.status, error: error.message };
+  }
+}

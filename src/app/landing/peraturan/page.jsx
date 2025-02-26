@@ -13,6 +13,7 @@ import { getPeraturan } from "@/services/Peraturan";
 import APP_CONFIG from "@/globals/app-config";
 import paginate from "@/utils/PaginationHelper";
 import { showToast } from "@/components/atoms/SweetAlert";
+import { getPeraturanStatusStats } from "@/services/Stats";
 
 // const TOKEN = localStorage.getItem("access_token");
 
@@ -26,6 +27,7 @@ export default function PeraturanPage() {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
   const [peraturan, setPeraturan] = useState([]);
+  const [peraturanStatusStats, setPeraturanStatusStats] = useState([]);
 
   const [searchParams, setSearchParams] = useState({
     title: "",
@@ -53,6 +55,19 @@ export default function PeraturanPage() {
     } catch (error) {
       console.error("Error accessing localStorage:", error);
     }
+  }, []);
+
+  useEffect(() => {
+    async function fetchPeraturanStats() {
+      const result = await getPeraturanStatusStats();
+      console.log(result);
+      if (result.status !== 200) {
+        await showToast("error", result.message);
+        return;
+      }
+      setPeraturanStatusStats(result.data);
+    }
+    fetchPeraturanStats();
   }, []);
 
   useEffect(() => {
@@ -94,12 +109,12 @@ export default function PeraturanPage() {
   }, [peraturan, currentPage]);
 
   const pieChartData = {
-    series: [20, 55, 25],
+    series: peraturanStatusStats?.datasets ?? [],
     options: {
       chart: {
         type: "donut",
       },
-      labels: ["KEPWAL", "PERWAL", "PERDA"],
+      labels: peraturanStatusStats?.name ?? [],
       responsive: [
         {
           breakpoint: 480,
@@ -146,7 +161,9 @@ export default function PeraturanPage() {
         ></SearchBar>
         <div className="w-full max-w-[90rem] flex flex-col md:flex-row gap-7">
           <section className="flex flex-col justify-start items-center md:w-2/3 border-2 min-h-80 rounded-2xl px-5 py-10 gap-7 shadow-md bg-white">
-            <h1 className="text-2xl font-bold">DAFTAR PERATURAN</h1>
+            <h1 className="md:text-2xl text-xl text-center font-bold">
+              DAFTAR PERATURAN
+            </h1>
             <ul className="flex flex-col gap-5 w-full">
               {paginatedData.map((item, index) => (
                 <li key={index} className="w-full">
@@ -166,7 +183,7 @@ export default function PeraturanPage() {
                         }
                       >
                         <HiEye className="text-lg" />
-                        Pratinjau
+                        <span className="hidden xs:flex">Pratinjau</span>
                       </Button>
                       <Button
                         className="bg-secondaryColor text-white font-medium"
@@ -175,7 +192,7 @@ export default function PeraturanPage() {
                         }
                       >
                         <HiDownload className="text-lg" />
-                        Unduh
+                        <span className="hidden xs:flex">Unduh</span>
                       </Button>
                     </div>
                   </div>
@@ -198,7 +215,9 @@ export default function PeraturanPage() {
           </section>
           <section className="flex flex-col md:w-1/3">
             <div className="flex flex-col justify-start items-center w-full border-2 rounded-2xl px-5 py-10 shadow-md bg-white gap-7">
-              <h1 className="text-2xl font-bold">PRODUK HUKUM</h1>
+              <h1 className="md:text-2xl text-xl text-center  font-bold">
+                PRODUK HUKUM
+              </h1>
               <ReactApexChart
                 options={pieChartData.options}
                 series={pieChartData.series}

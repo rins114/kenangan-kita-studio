@@ -60,3 +60,7 @@ body {
   /* border: 1.5px solid silver; */
   background-color: white;
 }
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+}

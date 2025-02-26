@@ -24,7 +24,7 @@ export default function Footer() {
     >
       <div className="w-full">
         <div className="w-full flex lg:flex-row gap-10 xl:gap-0 flex-col justify-center items-center">
-          <div className="w-[20rem] flex-col justify-center items-center lg:items-start">
+          <div className="w-[15rem] xs:w-[20rem] flex-col justify-center items-center lg:items-start">
             <Logo
               path="/assets/images/logonew.png"
               rounded={false}
@@ -33,7 +33,7 @@ export default function Footer() {
               className=""
             ></Logo>
             {/* <p className="justify-start items-start font-medium text-gray-900">Alamat</p> */}
-            <p className="text-md text-justify lg:text-justify mt-3">
+            <p className="text-sm xs:text-lg text-justify lg:text-justify mt-3">
               Jl. Garuda No. 1, Lempeh, Kecamatan Sumbawa, Kabupaten Sumbawa,
               Nusa Tenggara Barat. 84316
             </p>
@@ -112,9 +112,9 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:ml-10 gap-10 justify-center items-center">
-            <div className="flex justify-center items-center h-80 rounded-xl overflow-hidden min-w-[20rem] md:w-[20rem] lg:w-[25rem] xl:w-[30rem]">
+            <div className="flex justify-center items-center h-80 rounded-xl overflow-hidden min-w-[15rem] xs:w-[20rem] lg:w-[25rem] xl:w-[30rem]">
               <MapContainer
-                center={[-8.489673, 117.419503]}
+                center={[-8.48971027681701, 117.41993693477433]}
                 zoom={50}
                 className="w-full h-full z-10"
               >
@@ -123,7 +123,7 @@ export default function Footer() {
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <Marker
-                  position={[-8.489673, 117.419503]}
+                  position={[-8.48971027681701, 117.41993693477433]}
                   icon={customMarkerIcon}
                 >
                   <Popup>Alamat Kantor PBJ Kab. Sumbawa.</Popup>

@@ -61,7 +61,7 @@ export default function SearchBar({ searchParams, setSearchParams }) {
     <>
       <form
         action=""
-        className="flex flex-row gap-5 w-full max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-montserrat shadow-md"
+        className="flex flex-row gap-1 md:gap-5 w-full max-w-[90rem] p-5 bg-white border-1 rounded-2xl z-[20] text-montserrat shadow-md"
       >
         <Input
           value={searchParams.title}
@@ -71,7 +71,7 @@ export default function SearchBar({ searchParams, setSearchParams }) {
               title: e.target.value,
             }))
           }
-          size="lg"
+          size="md"
           placeholder="Masukkan kata kunci pencarian"
           variant="bordered"
           classNames={{
@@ -96,13 +96,13 @@ export default function SearchBar({ searchParams, setSearchParams }) {
           }}
           startContent={<FaSearch />}
         />
-        <Button
-          size="lg"
+        {/* <Button
+          size="md"
           isIconOnly
           className="flex md:hidden bg-mainColor text-white font-medium"
         >
           <FaSearch />
-        </Button>
+        </Button> */}
         {/* <Button
           size="lg"
           className="hidden md:flex bg-mainColor text-white font-medium"
@@ -110,7 +110,7 @@ export default function SearchBar({ searchParams, setSearchParams }) {
           Search
         </Button> */}
         <Button
-          size="lg"
+          size="md"
           isIconOnly
           className="flex md:hidden bg-secondaryColor text-white font-medium"
           onClick={onOpen}
@@ -118,7 +118,7 @@ export default function SearchBar({ searchParams, setSearchParams }) {
           <FaFilter />
         </Button>
         <Button
-          size="lg"
+          size="md"
           className="hidden md:flex bg-secondaryColor text-white font-medium"
           onClick={onOpen}
         >

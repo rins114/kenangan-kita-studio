@@ -18,6 +18,8 @@ import APP_CONFIG from "@/globals/app-config";
 import { GrDocument } from "react-icons/gr";
 import { Pagination } from "@nextui-org/react";
 import paginate from "@/utils/PaginationHelper";
+import { getUserRoles } from "@/services/UserRole";
+import { Select } from "flowbite-react";
 const TOKEN = localStorage.getItem("access_token");
 
 const UsersTable = () => {
@@ -38,10 +40,12 @@ const UsersTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [filterBody, setFilterBody] = useState({ name: "", role_name: "" });
+  const [userRole, setUserRole] = useState([]);
 
   useEffect(() => {
     async function fetchUsers() {
-      const result = await getUsers(TOKEN);
+      const result = await getUsers(TOKEN, filterBody);
       if (result.status === 403) {
         await showToast("warning", "Forbidden access!");
         navigate.back();
@@ -55,7 +59,7 @@ const UsersTable = () => {
       setUsers(result.data.data);
     }
     fetchUsers();
-  }, []);
+  }, [filterBody.name, filterBody.role_name]);
 
   useEffect(() => {
     console.log(users);
@@ -195,6 +199,24 @@ const UsersTable = () => {
     }
   };
 
+  useEffect(() => {
+    async function fetchUserRole() {
+      const result = await getUserRoles();
+      console.log(result);
+      const roles = result.data?.roles?.flatMap((role) =>
+        role.subroles?.length
+          ? role.subroles.map((sub) => `${role.name}_${sub.sub_roles}`)
+          : role.name
+      );
+      setUserRole(roles);
+    }
+    fetchUserRole();
+  }, []);
+
+  useEffect(() => {
+    console.log(userRole);
+  }, [userRole]);
+
   const handleSkFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -221,12 +243,14 @@ const UsersTable = () => {
     <div className="p-5">
       {/* Search and Filter */}
       <div className="flex justify-end mb-4 gap-4">
-        <div className="relative">
+        <div className="relative flex flex-row justify-center items-center">
           <input
             type="text"
             placeholder="Cari..."
-            value={searchTerm}
-            onChange={handleSearch}
+            value={filterBody.name}
+            onChange={(e) => {
+              setFilterBody((prev) => ({ ...prev, name: e.target.value }));
+            }}
             onFocus={(e) => e.target.nextSibling.classList.add("text-gray-950")}
             onBlur={(e) =>
               e.target.nextSibling.classList.remove("text-gray-950")
@@ -235,15 +259,22 @@ const UsersTable = () => {
           />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-          className="block px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-gray-950 focus:border-gray-950 sm:text-sm"
+        <Select
+          id="tipe_pengguna"
+          color="white"
+          value={filterBody?.role_name}
+          className="w-[20%]"
+          onChange={(e) =>
+            setFilterBody((prev) => ({ ...prev, role_name: e.target.value }))
+          }
         >
-          <option value="">Semua Tipe Pemohon</option>
-          <option value="Penyedia">Penyedia</option>
-          <option value="Non Penyedia">Non Penyedia</option>
-        </select>
+          <option value="">Semua</option>
+          {userRole?.map((role, index) => (
+            <option key={index} value={role}>
+              {role.startsWith("Non_Penyedia") ? role.split("_")[2] : role}
+            </option>
+          ))}
+        </Select>
       </div>
 
       {/* Tabel Pengguna */}
