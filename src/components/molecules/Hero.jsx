@@ -6,7 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { Autoplay } from "swiper/modules";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
 import { getPublishedSlider } from "@/services/Slider";
 import APP_CONFIG from "@/globals/app-config";
 import { CircularProgress } from "@nextui-org/react";
@@ -84,7 +85,11 @@ export default function Hero() {
           disableOnInteraction: false, // Tidak menghentikan autoplay saat interaksi
         }}
         loop={true}
-        modules={[Autoplay]}
+        pagination={{
+          clickable: true,
+          // dynamicBullets: true,
+        }}
+        modules={[Autoplay, Pagination]}
       >
         {slider.length === 0 ? (
           <SwiperSlide>

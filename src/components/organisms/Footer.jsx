@@ -114,7 +114,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row sm:ml-10 gap-10 justify-center items-center">
             <div className="flex justify-center items-center h-80 rounded-xl overflow-hidden min-w-[20rem] md:w-[20rem] lg:w-[25rem] xl:w-[30rem]">
               <MapContainer
-                center={[-8.489673, 117.419503]}
+                center={[-8.48971027681701, 117.41993693477433]}
                 zoom={50}
                 className="w-full h-full z-10"
               >
@@ -123,7 +123,7 @@ export default function Footer() {
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <Marker
-                  position={[-8.489673, 117.419503]}
+                  position={[-8.48971027681701, 117.41993693477433]}
                   icon={customMarkerIcon}
                 >
                   <Popup>Alamat Kantor PBJ Kab. Sumbawa.</Popup>

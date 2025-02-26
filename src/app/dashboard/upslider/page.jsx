@@ -240,34 +240,40 @@ const UploadSlider = () => {
         <table className="min-w-full">
           <thead>
             <tr className="bg-gray-300">
-              <th className="border-gray-400 px-4 py-2 text-center">No.</th>
-              <th className="border-gray-400 px-4 py-2 text-start">
+              <th className="border-gray-400 px-3 py-2 text-center w-[5%]">
+                No.
+              </th>
+              <th className="border-gray-400 px-3 py-2 text-start w-[20%]">
                 Gambar Slider
               </th>
-              <th className="border-gray-400 px-4 py-2 text-start">Judul</th>
-              <th className="border-gray-400 px-4 py-2 text-start">Status</th>
-              <th className="border-gray-400 px-4 py-2 text-center">Aksi</th>
+              <th className="border-gray-400 px-3 py-2 text-start">Judul</th>
+              <th className="border-gray-400 px-3 py-2 text-center w-[20%]">
+                Status
+              </th>
+              <th className="border-gray-400 px-3 py-2 text-center w-[20%]">
+                Aksi
+              </th>
             </tr>
           </thead>
           <tbody>
             {paginatedData.length > 0 ? (
               paginatedData.map((item, index) => (
                 <tr key={item.id} className="hover:bg-gray-50 bg-white">
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  <td className="border-gray-400 px-3 py-2 text-center">
                     {(currentPage - 1) * entries + index + 1}
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-center">
+                  <td className="border-gray-400 px-3 py-2 flex justify-start items-center">
                     <img
                       src={`${APP_CONFIG.STORAGE_URL}/${item.img}`}
                       alt={item.title}
-                      className="w-16 h-16 object-cover cursor-pointer"
+                      className="w-40 h-16 object-cover cursor-pointer"
                       onClick={() => handleImagePreview(item.img)}
                     />
                   </td>
-                  <td className="border-gray-400 px-4 py-2 text-start">
+                  <td className="border-gray-400 px-3 py-2 text-start">
                     {item.title}
                   </td>
-                  <td className="border-gray-400 px-4 py-2">
+                  <td className="border-gray-400 px-3 py-2 text-center">
                     <span
                       className={`text-sm ${
                         item.is_upload ? "text-green-500" : "text-red-500"
@@ -276,7 +282,7 @@ const UploadSlider = () => {
                       {item.is_upload ? "Dipublikasi" : "Draft"}
                     </span>
                   </td>
-                  <td className="border-gray-400 px-4 py-2">
+                  <td className="border-gray-400 px-3 py-2">
                     <div className="flex gap-1 justify-center">
                       <div className="relative group">
                         {item.is_upload ? (
