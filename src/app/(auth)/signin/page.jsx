@@ -26,7 +26,7 @@ export default function SignInPage() {
           {/* <Logo size={150} bordered></Logo> */}
           <div className="lg:w-1/2 justify-center items-center flex flex-col gap-1 mb-3">
             <h1 className="text-2xl">Masuk Akun</h1>
-            <hr className="border-2 w-1/2 border-mainColor" />
+            <hr className="border-2 w-1/2 border-secondaryColor" />
           </div>
 
           <SignInForm />

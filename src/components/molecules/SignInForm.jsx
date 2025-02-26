@@ -66,7 +66,7 @@ export default function SignInForm() {
           variant="bordered"
           errorMessage={invalidMessage}
           isInvalid={isEmailValid}
-          className="w-full !border-transparent"
+          className="w-full !border-transparent border-secondaryColor"
           radius="none"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -100,18 +100,20 @@ export default function SignInForm() {
           className="w-full"
         />
         <Link href="#">
-          <p className="text-sm hover:underline">Lupa Password?</p>
+          <p className="text-sm hover:underline hover:text-secondaryColor">
+            Lupa Password?
+          </p>
         </Link>
       </div>
       <Button
         type="submit"
-        className="w-full rounded-sm bg-mainColor text-white"
+        className="w-full rounded-sm bg-secondaryColor text-white"
       >
         Masuk
       </Button>
       <Button
         type="button"
-        className="w-full rounded-sm border-2 border-mainColor text-mainColor bg-white"
+        className="w-full rounded-sm border-2 border-secondaryColor text-secondaryColor bg-white"
         onClick={() => navigate.push("/signup")}
       >
         Buat Akun

@@ -257,14 +257,14 @@ export default function SignUpForm({
       <Button
         type="submit"
         size="lg"
-        className="w-full rounded-sm bg-mainColor text-white h-[5rem] lg:h-[3rem]"
+        className="w-full rounded-sm bg-secondaryColor text-white h-[5rem] lg:h-[3rem]"
       >
         Daftar
       </Button>
       <p>
         Sudah punya akun?{" "}
         <span>
-          <Link href="/signin" className="text-mainColor hover:underline">
+          <Link href="/signin" className="text-secondaryColor hover:underline">
             Sign In
           </Link>
         </span>
