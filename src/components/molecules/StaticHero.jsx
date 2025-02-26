@@ -23,7 +23,7 @@ export default function StaticHero({
       ></Image>
       <div className="bg-custom-gradient from-mainColor/60 via-mainColor/40 to-secondaryColor/40 z-10 absolute top-0 left-0 w-full h-full flex flex-col text-white justify-center items-center px-7">
         <div className="flex flex-col font-bold max-w-4xl justify-center items-center border-b-2 py-3 overflow-hidden mt-16">
-          <h1 id="heroTitle" className="text-center text-5xl md:text-7xl">
+          <h1 id="heroTitle" className="text-center text-4xl md:text-7xl">
             {title}
           </h1>
         </div>

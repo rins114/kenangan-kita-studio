@@ -214,10 +214,12 @@ export default function LandingPage() {
         >
           <section
             ref={aboutRef}
-            className="flex flex-col justify-center items-center gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
+            className="flex flex-col justify-center items-center gap-5 md:gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
           >
-            <h1 className="text-3xl font-semibold">APA ITU SIMPRO PBJ?</h1>
-            <div className="flex flex-col-reverse md:flex-row gap-10 w-full">
+            <h1 className="md:text-3xl text-xl font-semibold">
+              APA ITU SIMPRO PBJ?
+            </h1>
+            <div className="flex flex-col-reverse md:flex-row gap-5 md:gap-10 w-full">
               <AnimatedScroll
                 className="md:w-1/2"
                 xFrom={-10}
@@ -252,7 +254,7 @@ export default function LandingPage() {
                 opacityFrom={0}
                 duration={1}
               >
-                <div className="relative w-full h-64 md:h-96 min-h-80">
+                <div className="relative w-full h-52 xs:h-96 md:min-h-80">
                   <Image
                     alt="img"
                     src={"/assets/images/auth-2.jpg"}

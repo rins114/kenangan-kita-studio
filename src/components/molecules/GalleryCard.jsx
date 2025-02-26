@@ -11,30 +11,28 @@ export default function GalleryCard({
   handleOpenedGaleri = () => {},
 }) {
   return (
-    <div className="w-full h-[29rem] shadow-lg bg-white overflow-hidden hover:scale-[1.01] transition-all duration-300 rounded-2xl">
-      <section className="overflow-hidden flex flex-col">
-        <Image
-          alt=""
-          src={imgPath}
-          width={1000}
-          height={1000}
-          className="w-full h-[20rem] xl:h-1/2 cursor-pointer object-cover rounded-2xl"
+    <div className="w-full pb-5 max-w-sm md:max-w-full shadow-lg bg-white flex flex-col overflow-hidden hover:scale-[1.01] transition-all duration-300 rounded-2xl">
+      <Image
+        alt=""
+        src={imgPath}
+        width={1000}
+        height={1000}
+        className="w-full cursor-pointer object-cover rounded-2xl"
+        onClick={() => handleOpenedGaleri(id)}
+      />
+      <div className="px-5 pt-3">
+        <h1
+          className="font-medium line-clamp-2 text-sm lg:text-lg xl:text-xl hover:underline cursor-pointer"
           onClick={() => handleOpenedGaleri(id)}
-        />
-        <div className="px-5 pt-3 pb-1">
-          <h1
-            className="font-medium line-clamp-2 text-md lg:text-xl hover:underline cursor-pointer"
-            onClick={() => handleOpenedGaleri(id)}
-          >
-            {title}
-          </h1>
-          <p className="text-xs md:text-sm text-secondaryColor font-normal cursor-default">
-            {date}
-          </p>
-        </div>
-      </section>
-      <section className="cursor-default">
-        <div className="px-5 pb-5">
+        >
+          {title}
+        </h1>
+        <p className="text-xs md:text-sm text-secondaryColor font-normal cursor-default">
+          {date}
+        </p>
+      </div>
+      <section className="cursor-default mt-2">
+        <div className="px-5">
           <p className="line-clamp-3 text-justify text-sm">{desc}</p>
         </div>
       </section>

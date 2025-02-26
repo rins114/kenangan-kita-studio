@@ -119,14 +119,14 @@ export default function InfoBar() {
           ref={timeRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <TbPhoneCall className="text-blue-300 text-md" />
+          <TbPhoneCall className="text-white text-md" />
           <p className="text-white text-sm">+6281 2345 6789</p>
         </div>
         <div
           ref={contactRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <FaRegClock className="text-blue-300 text-md" />
+          <FaRegClock className="text-white text-md" />
           <time
             className="text-white text-sm"
             dateTime="2024-01-01"
