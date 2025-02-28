@@ -67,7 +67,7 @@ export default function ProfilePage() {
         <Avatar
           isBordered
           color="default"
-          className="h-20 w-20 md:h-48 md:w-48 mb-3 border-2 border-success-500"
+          className="h-20 w-20 md:h-48 md:w-48 mb-3 border-2 border-secondaryColor"
         />
         {isNameEditMode ? (
           <div
@@ -106,17 +106,17 @@ export default function ProfilePage() {
               className="flex justify-center items-center"
               onPress={() => setIsNameEditMode(true)}
             >
-              <FaRegEdit className="text-xl mb-1 text-warning-500" />
+              <FaRegEdit className="text-xl mb-1 text-secondaryColor" />
             </Button>
           </div>
         )}
-        <p className="text-success-500 mt-1 text-sm md:text-lg">
+        <p className="text-secondaryColor mt-1 text-sm md:text-lg">
           {user?.email}
         </p>
 
         <section className="flex mt-5 w-full flex-col">
           <div className="flex justify-start items-center gap-3">
-            <h1 className="pb-1 border-b-3 border-success-500 text-md lg:text-lg font-bold">
+            <h1 className="pb-1 border-b-3 border-secondaryColor text-md lg:text-lg font-bold">
               PROFIL PENGGUNA
             </h1>
           </div>
@@ -134,8 +134,7 @@ export default function ProfilePage() {
           {!isEditMode ? (
             <Button
               size="l"
-              color="warning"
-              className="flex justify-center items-center text-white "
+              className="flex justify-center items-center text-white bg-secondaryColor"
               onPress={() => {
                 setIsEditMode(true);
                 scrollToTop();
@@ -158,7 +157,7 @@ export default function ProfilePage() {
             </Button>
           )}
 
-          <Button
+          {/*<Button
             onPress={() => {
               navigate.push("/dashboard/profile/ganti-password");
             }}
@@ -167,7 +166,7 @@ export default function ProfilePage() {
             } flex-col gap-2 bg-danger-500 text-white font-medium`}
           >
             Ganti Password
-          </Button>
+          </Button>*/}
         </div>
       </div>
     </div>

@@ -503,7 +503,7 @@ export default function TableCustom() {
             <Tooltip content="Semua data">
               <Button
                 isIconOnly
-                className="bg-mainColor"
+                className="bg-secondaryColor"
                 onPress={handleSetSemuaData}
               >
                 <HiOutlineRefresh className="text-lg text-white" />

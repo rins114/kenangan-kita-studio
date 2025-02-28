@@ -99,11 +99,11 @@ export default function SignInForm() {
           type={isVisible ? "text" : "password"}
           className="w-full"
         />
-        <Link href="#">
+        {/*<Link href="#">
           <p className="text-sm hover:underline hover:text-secondaryColor">
             Lupa Password?
           </p>
-        </Link>
+        </Link>*/}
       </div>
       <Button
         type="submit"
