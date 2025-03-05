@@ -213,7 +213,7 @@ const UploadSlider = () => {
       <div className="flex justify-between items-center mb-6 gap-2">
         <button
           onClick={() => openModal("add")}
-          className="bg-secondaryColor text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
+          className="bg-secondaryColor text-white px-4 py-2 rounded hover:bg-red-600 flex items-center gap-2 shadow-lg"
         >
           <FiUpload className="text-sm" />
           <span className="hidden sm:inline text-sm">Tambah Gambar</span>

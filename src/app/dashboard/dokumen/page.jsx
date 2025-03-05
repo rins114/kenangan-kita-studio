@@ -416,7 +416,7 @@ const UploadTable = () => {
               <div className="mb-4">
                 <button
                   onClick={() => document.getElementById("file-input").click()}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
+                  className="bg-secondaryColor text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
                 >
                   <FiUpload className="inline mr-2" />
                   Pilih File (.pdf)

@@ -72,7 +72,7 @@ export default function SearchBar({ searchParams, setSearchParams }) {
             }))
           }
           size="md"
-          placeholder="Masukkan kata kunci pencarian"
+          placeholder="Masukkan kata kunci pencarian..."
           variant="bordered"
           classNames={{
             label: "text-black/50 dark:text-white/90",
