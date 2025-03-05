@@ -265,7 +265,7 @@ export default function SignUpForm({
         Sudah punya akun?{" "}
         <span>
           <Link href="/signin" className="text-secondaryColor hover:underline">
-            Sign In
+            Masuk Akun
           </Link>
         </span>
       </p>

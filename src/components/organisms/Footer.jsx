@@ -253,9 +253,11 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
-        <p className="text-sm text-gray-500 text-center mt-10">
-          &copy; 2024. Diskominfotiksan. All rights reserved.
+        <p className="text-sm text-gray-500 text-center mt-10 italic">
+          SIMPRO PBJ V 1.1.0
+        </p>
+        <p className="text-sm text-gray-500 text-center">
+          &copy; 2024. Diskominfotiksan Kab. Sumbawa. All rights reserved.
         </p>
       </div>
     </footer>

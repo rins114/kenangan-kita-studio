@@ -302,7 +302,7 @@ const UploadGaleri = () => {
       <div className="flex justify-between items-center mb-6 gap-2">
         <button
           onClick={() => openModal("add")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
+          className="bg-secondaryColor text-white px-4 py-2 rounded hover:bg-red-600 flex items-center gap-2 shadow-lg"
         >
           <FiUpload className="text-sm" />
           <span className="hidden sm:inline text-sm">Tambah Gambar</span>
@@ -516,7 +516,7 @@ const UploadGaleri = () => {
               <div className="mb-4">
                 <button
                   onClick={() => document.getElementById("file-input").click()}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full text-center"
+                  className="bg-secondaryColor text-white px-4 py-2 rounded hover:bg-red-600 w-full text-center"
                 >
                   <FiUpload className="inline mr-2" />
                   Pilih Gambar (.jpg, .jpeg, .png)
