@@ -1,14 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
-export default function LogoAuth({
+export default function Logo({
   path = "/assets/images/logo.png",
   size = "50",
   alt = "logo",
   bordered = false,
   hoverEffect = false,
-  classNameContainer = "",
-  classNameImage = "",
+  classNameContainer='',
+  classNameImage=''
 }) {
   return (
     <div

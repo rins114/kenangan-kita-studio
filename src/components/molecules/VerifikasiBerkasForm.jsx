@@ -11,11 +11,7 @@ export default function VerifikasiBerkasForm({
   isUploading,
 }) {
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex p-3 gap-3 flex-col z-0"
-      ref={ref}
-    >
+    <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
       <Input
         size="md"
         label="Nama Pemohon"
@@ -27,8 +23,8 @@ export default function VerifikasiBerkasForm({
         value={formData.nama_pemohon}
         onChange={handleChange}
       />
-      <div className="flex flex-col lg:flex-row gap-3 truncate">
-        <div className="flex flex-col w-full lg:w-1/2 gap-3">
+      <div className="flex gap-3">
+        <div className="flex flex-col w-1/2 gap-3">
           <Input
             size="md"
             label="Nama Organisasi Perangkat Daerah"
@@ -63,7 +59,7 @@ export default function VerifikasiBerkasForm({
             onChange={handleChange}
           />
         </div>
-        <div className="flex flex-col w-full lg:w-1/2 gap-3">
+        <div className="flex flex-col w-1/2 gap-3">
           <Input
             size="md"
             label="Tahun Anggaran"
@@ -99,8 +95,8 @@ export default function VerifikasiBerkasForm({
           />
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row gap-3">
-        <div className="flex flex-col w-full lg:w-1/2 gap-3">
+      <div className="flex gap-3">
+        <div className="flex flex-col w-1/2 gap-3">
           <FileInputAtom
             handleFileChange={handleFileChange}
             label="Surat Keputusan Penetapan PPK"
@@ -132,7 +128,7 @@ export default function VerifikasiBerkasForm({
             fileName={formData.dokumenAnggaran}
           />
         </div>
-        <div className="flex flex-col w-full lg:w-1/2 gap-3">
+        <div className="flex flex-col w-1/2 gap-3">
           <FileInputAtom
             handleFileChange={handleFileChange}
             label="Waktu Penggunaan Barang/Jasa"
@@ -175,17 +171,11 @@ export default function VerifikasiBerkasForm({
           input: "resize-y min-h-[170px] !rounded-none",
         }}
       />
-      <div className="flex flex-col xs:flex-row gap-3 justify-end items-center">
-        <Button
-          type="submit"
-          className="text-sm bg-green-500 text-white font-medium"
-        >
+      <div className="flex gap-3 justify-end items-center">
+        <Button type="submit" className="bg-green-500 text-white font-medium">
           Simpan
         </Button>
-        <Button
-          type="submit"
-          className="text-sm bg-warning-500 text-white font-medium"
-        >
+        <Button type="submit" className="bg-warning-500 text-white font-medium">
           Simpan & Ajukan
         </Button>
       </div>

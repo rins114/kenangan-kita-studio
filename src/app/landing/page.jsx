@@ -9,8 +9,6 @@ import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import LogoLink from "@/components/atoms/LogoLink";
 import { useRouter } from "next/navigation";
 import useScrollToTop from "@/hooks/useScrollToTop";
-import { getPermohonanStats } from "@/services/Stats";
-import { showToast } from "@/utils/ShowToast";
 const AnimatedScroll = dynamic(
   () => import("@/components/gsap/AnimatedScroll"),
   { ssr: false }
@@ -22,25 +20,24 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 export default function LandingPage() {
   const router = useRouter();
-  const [chProcessStats, setChProcessStats] = useState([]);
 
   useScrollToTop();
 
-  useEffect(() => {
-    async function fetchChProcessStats() {
-      const result = await getPermohonanStats();
-      console.log(result);
-      if (result.status !== 200) {
-        await showToast("error", result.message);
-        return;
-      }
-      setChProcessStats(result.data);
-    }
-    fetchChProcessStats();
-  }, []);
-
   const columnChart = {
-    series: chProcessStats?.datasets ?? [],
+    series: [
+      {
+        name: "Permohonan",
+        data: [44, 55, 57],
+      },
+      {
+        name: "Selesai",
+        data: [34, 35, 47],
+      },
+      {
+        name: "Ditolak",
+        data: [10, 20, 10],
+      },
+    ],
     options: {
       chart: {
         type: "bar",
@@ -63,18 +60,15 @@ export default function LandingPage() {
       },
       xaxis: {
         categories: [
-          "Jan",
           "Feb",
           "Mar",
           "Apr",
-          "Mei",
-          "Jun",
-          "Jul",
-          "Agu",
-          "Sep",
-          "Okt",
-          "Nov",
-          "Des",
+          // "May",
+          // "Jun",
+          // "Jul",
+          // "Aug",
+          // "Sep",
+          // "Oct",
         ],
       },
       yaxis: {
@@ -220,7 +214,7 @@ export default function LandingPage() {
   const { aboutRef, layananRef, kinerjaRef } = useNavigation();
   return (
     //bg-custom-gradient from-mainColor/60 to-thirdColor/40
-    <div className="w-full flex flex-col justify-start items-center text-poppins relative top-[5rem] md:top-[6rem]">
+    <div className="w-full flex flex-col justify-start items-center text-poppins">
       <div className="w-full bg-grayBg">
         <AnimatedScroll
           yFrom={150}
@@ -230,12 +224,10 @@ export default function LandingPage() {
         >
           <section
             ref={aboutRef}
-            className="flex flex-col justify-center items-center gap-5 md:gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
+            className="flex flex-col justify-center items-center gap-10 py-12 md:py-24 px-5 w-full max-w-7xl scroll-mt-20 md:scroll-mt-[27rem]"
           >
-            <h1 className="md:text-3xl text-xl font-semibold">
-              APA ITU SIMPRO PBJ?
-            </h1>
-            <div className="flex flex-col-reverse md:flex-row gap-5 md:gap-10 w-full">
+            <h1 className="text-3xl font-semibold">APA ITU SIMPRO PBJ?</h1>
+            <div className="flex flex-col-reverse md:flex-row gap-10 w-full">
               <AnimatedScroll
                 className="md:w-1/2"
                 xFrom={-10}
@@ -244,23 +236,10 @@ export default function LandingPage() {
               >
                 <div>
                   <p className="text-justify">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc arcu nisi, dictum non aliquam eget, pulvinar consequat
-                    enim. Nulla malesuada lacinia sollicitudin. Sed in
-                    pellentesque lectus. Sed iaculis ligula purus. Aliquam sed
-                    turpis risus. Duis non vulputate nulla. In accumsan velit
-                    nec leo elementum sodales. Praesent faucibus sollicitudin
-                    nunc quis suscipit. Interdum et malesuada fames ac ante
-                    ipsum primis in faucibus. Cras eget dolor posuere, commodo
-                    sem nec, auctor quam. Integer efficitur rhoncus augue, non
-                    cursus sem suscipit eu. Cras tincidunt quam nec turpis porta
-                    aliquam. Donec eu placerat augue. Nam at accumsan ligula.
-                    Nullam suscipit volutpat dui, a euismod ex tristique quis.
-                    Integer venenatis dolor eu rhoncus ultrices. Donec vel nisl
-                    convallis, tincidunt odio id, imperdiet odio. Aenean
-                    eleifend gravida efficitur. Sed pellentesque ex aliquam
-                    felis facilisis faucibus. Integer rutrum aliquet nulla at
-                    consectetur.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Quidem ipsa at veritatis unde rem? Itaque assumenda aperiam
+                    ab laborum quasi error rerum dicta voluptate voluptatem ex
+                    accusamus, at impedit quos!
                   </p>
                 </div>
               </AnimatedScroll>
@@ -270,7 +249,7 @@ export default function LandingPage() {
                 opacityFrom={0}
                 duration={1}
               >
-                <div className="relative w-full h-52 xs:h-96 md:min-h-80">
+                <div className="relative w-full h-64 md:h-96 min-h-80">
                   <Image
                     alt="img"
                     src={"/assets/images/auth-2.jpg"}
@@ -383,9 +362,7 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-start text-center md:text-left">
-              <h1 className="text-2xl mb-3 font-bold">
-                GRAFIK KINERJA CLEARING HOUSE
-              </h1>
+              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA CLEARING HOUSE</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -395,8 +372,8 @@ export default function LandingPage() {
             </div>
           </AnimatedScroll>
         </div>
-        {/* Verifikasi Berkas Grafik */}
-        {/* <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
+
+        <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center md:justify-start items-center gap-10 md:gap-16 h-auto md:h-96">
           <AnimatedScroll
             className="w-full md:w-1/2"
             xFrom={10}
@@ -421,9 +398,7 @@ export default function LandingPage() {
             duration={1}
           >
             <div className="flex flex-col h-auto md:h-full justify-center items-center md:items-end text-center md:text-right">
-              <h1 className="text-2xl mb-3 font-bold">
-                GRAFIK KINERJA VERIFIKASI BERKAS
-              </h1>
+              <h1 className="text-2xl mb-3 font-bold">GRAFIK KINERJA VERIFIKASI BERKAS</h1>
               <p className="text-justify">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
                 accusamus provident quo ut aspernatur, fugit ipsum dolores
@@ -432,7 +407,7 @@ export default function LandingPage() {
               </p>
             </div>
           </AnimatedScroll>
-        </div> */}
+        </div>
       </div>
       <div className="min-h-72 bg-grayBg w-full mt-10 px-7 py-14 flex flex-col justify-around items-center gap-5">
         <h1 className="text-3xl font-semibold">LINK TERKAIT</h1>
@@ -440,21 +415,21 @@ export default function LandingPage() {
           <LogoLink
             src="/assets/images/logosbw.png"
             size={200}
-            href="https://www.sumbawakab.go.id"
+            href="https://github.com/diazkhalid"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>
           <LogoLink
             src="/assets/images/sirup.png"
             size={200}
-            href="https://sirup.lkpp.go.id/sirup/loginctr/index"
+            href="https://github.com/diazkhalid"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>
           <LogoLink
             src="/assets/images/lpse.png"
             size={200}
-            href="https://lpse.lkpp.go.id/eproc4"
+            href="https://github.com/diazkhalid"
             bordered={false}
             className={"hover:scale-110 transition-all duration-300"}
           ></LogoLink>

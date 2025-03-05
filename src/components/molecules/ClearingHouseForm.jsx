@@ -11,27 +11,9 @@ export default function ClearingHouseForm({
   handleFileChange,
   file,
   isUploading,
-  fileInputRef,
 }) {
-  const [isTyping, setIsTyping] = React.useState(false);
-  const formatWithDots = (number) => {
-    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
-  const handleKeyDown = (e) => {
-    if (
-      !/[0-9]/.test(e.key) &&
-      !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "."].includes(e.key)
-    ) {
-      e.preventDefault();
-    }
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex p-3 gap-3 flex-col z-0 truncate"
-      ref={ref}
-    >
+    <form onSubmit={handleSubmit} className="flex p-3 gap-3 flex-col" ref={ref}>
       <div className="flex flex-col w-full gap-3">
         <Input
           labelPlacement="outside"
@@ -45,8 +27,8 @@ export default function ClearingHouseForm({
           value={formData.nama_pemohon}
           onChange={handleChange}
         />
-        <div className="flex flex-col lg:flex-row gap-3">
-          <div className="flex flex-col w-full lg:w-1/2 gap-3">
+        <div className="flex gap-3">
+          <div className="flex flex-col w-1/2 gap-3">
             <Input
               labelPlacement="outside"
               placeholder="Masukkan nama Organisasi Perangkat Daerah"
@@ -54,8 +36,8 @@ export default function ClearingHouseForm({
               label="Nama Organisasi Perangkat Daerah"
               radius="sm"
               variant="bordered"
-              name="nama_opd"
-              value={formData.nama_opd}
+              name="opd"
+              value={formData.opd}
               onChange={handleChange}
             />
             <Input
@@ -76,8 +58,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               size="md"
-              name="nama_barang_jasa"
-              value={formData.nama_barang_jasa}
+              name="barang_jasa"
+              value={formData.barang_jasa}
               onChange={handleChange}
             />
             <Input
@@ -87,8 +69,8 @@ export default function ClearingHouseForm({
               label="Nama K/L/PD"
               radius="sm"
               variant="bordered"
-              name="nama_klpd"
-              value={formData.nama_klpd}
+              name="klpd"
+              value={formData.klpd}
               onChange={handleChange}
             />
             <Input
@@ -98,13 +80,12 @@ export default function ClearingHouseForm({
               label="Nomor Sirup"
               radius="sm"
               variant="bordered"
-              name="no_sirup"
-              type="number"
-              value={formData.no_sirup}
+              name="nomor_sirup"
+              value={formData.nomor_sirup}
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-col w-full lg:w-1/2 gap-3">
+          <div className="flex flex-col w-1/2 gap-3">
             <Input
               labelPlacement="outside"
               placeholder="Masukkan Tahun Anggaran"
@@ -112,9 +93,8 @@ export default function ClearingHouseForm({
               label="Tahun Anggaran"
               radius="sm"
               variant="bordered"
-              name="thn_anggaran"
-              type="number"
-              value={formData.thn_anggaran}
+              name="tahun_anggaran"
+              value={formData.tahun_anggaran}
               onChange={handleChange}
             />
             <Input
@@ -125,18 +105,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="pagu_anggaran"
-              type="text"
-              value={
-                isTyping
-                  ? formData.pagu_anggaran
-                  : formData.pagu_anggaran
-                  ? `Rp. ${formatWithDots(formData.pagu_anggaran)},00`
-                  : ""
-              }
-              onFocus={() => setIsTyping(true)}
-              onBlur={() => setIsTyping(false)}
+              value={formData.pagu_anggaran}
               onChange={handleChange}
-              onKeyDown={handleKeyDown}
             />
             <Input
               labelPlacement="outside"
@@ -146,18 +116,8 @@ export default function ClearingHouseForm({
               radius="sm"
               variant="bordered"
               name="nilai_hps"
-              type="text"
-              value={
-                isTyping
-                  ? formData.nilai_hps
-                  : formData.nilai_hps
-                  ? `Rp. ${formatWithDots(formData.nilai_hps)},00`
-                  : ""
-              }
-              onFocus={() => setIsTyping(true)}
-              onBlur={() => setIsTyping(false)}
+              value={formData.nilai_hps}
               onChange={handleChange}
-              onKeyDown={handleKeyDown}
             />
             <Input
               labelPlacement="outside"
@@ -166,8 +126,8 @@ export default function ClearingHouseForm({
               label="Lokasi Pelaksanaan"
               radius="sm"
               variant="bordered"
-              name="lokasi_pelaksana"
-              value={formData.lokasi_pelaksana}
+              name="lokasi_pelaksanaan"
+              value={formData.lokasi_pelaksanaan}
               onChange={handleChange}
             />
             <Input
@@ -203,7 +163,7 @@ export default function ClearingHouseForm({
               <div className="flex flex-col items-center justify-center pb-6 pt-5 gap-2">
                 <CircularProgress color="warning" aria-label="Loading..." />
                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  Memproses...
+                  Uploading...
                 </p>
               </div>
             )}
@@ -245,8 +205,7 @@ export default function ClearingHouseForm({
             )}
             <FileInput
               id="dropzone-file"
-              name="surat_permohonan"
-              ref={fileInputRef}
+              name="file"
               className="hidden"
               onChange={handleFileChange}
             />
@@ -270,7 +229,10 @@ export default function ClearingHouseForm({
         />
       </div>
 
-      <div className="flex flex-col xs:flex-row gap-3 justify-center items-center">
+      <div className="flex gap-3 justify-end items-center">
+        <Button type="submit" className="bg-green-500 text-white font-medium">
+          Simpan
+        </Button>
         <Button type="submit" className="bg-warning-500 text-white font-medium">
           Simpan & Ajukan
         </Button>

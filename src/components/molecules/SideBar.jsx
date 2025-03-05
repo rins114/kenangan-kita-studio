@@ -1,29 +1,27 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiChartPie, HiUser } from "react-icons/hi";
-import { usePathname, useRouter } from "next/navigation";
+import {
+  HiArrowSmRight,
+  HiChartPie,
+  HiInbox,
+  HiShoppingBag,
+  HiTable,
+  HiUser,
+} from "react-icons/hi";
+import { useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/react";
-import { useAuthUser } from "@/contexts/AuthUserContext";
-import { IoDocumentsSharp } from "react-icons/io5";
-import { FaClipboardList, FaListUl, FaImages, FaImage } from "react-icons/fa";
-import { MdOutlineFeaturedPlayList } from "react-icons/md";
-import useLogin from "@/hooks/useLogin";
-import Swal from "sweetalert2";
 
 export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
   const navigate = useRouter();
-  const { user, isAuthenticated } = useAuthUser();
-  const { isLoading } = useLogin();
-  const pathname = usePathname();
   return (
     <Sidebar
-      // collapsed={true}
-      // collapseBehavior="collapse"
+      collapsed={isMenuOpen}
+      collapseBehavior="collapse"
       aria-label="Sidebar with multi-level dropdown example"
       className={`z-20 h-screen ${
         !isMenuOpen ? "side" : "sideHide"
-      } dark bg-gray-800 z-20 top-20 md:top-0 relative`}
+      } dark bg-gray-800`}
     >
       {/* <Sidebar.Logo
         href="#"
@@ -38,170 +36,50 @@ export default function SideBar({ isMenuOpen, setIsMenuOpen }) {
       <Sidebar.Items className="mb-5 w-full px-2 flex justify-center items-center border-b-2 border-gray-500 pb-5">
         <div
           className={`flex ${
-            isMenuOpen ? "" : ""
+            isMenuOpen ? "flex-col" : ""
           } w-full gap-3 justify-start items-center text-white`}
         >
           <Avatar
             isBordered
-            color="default"
-            className="border-2 border-secondaryColor"
+            color="success"
+            src="https://i.pravatar.cc/150?u=a04258114e29026302d"
+            className="border-2 border-success-500"
           />
-
-          <div className={`${isMenuOpen ? "" : ""}`}>
-            <h1 className="text-md">{user?.name}</h1>
-            <p className="text-xs">
-              {user?.roles?.startsWith("Non_Penyedia_")
-                ? user?.roles.split("_")[2]
-                : user?.roles}
-            </p>
+          <div className={`${isMenuOpen ? "hidden" : ""}`}>
+            <h1 className="text-md">Diaz</h1>
+            <p className="text-xs">Non Penyedia</p>
           </div>
         </div>
       </Sidebar.Items>
-
       <Sidebar.Items className="">
         <Sidebar.ItemGroup>
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard" ? "bg-secondaryColor/60" : ""
-            } cursor-pointer text-secondaryColor`}
-            onClick={() => {
-              navigate.push("/dashboard");
-            }}
-            icon={HiChartPie}
-          >
-            Dashboard
+          <Sidebar.Item href="/dashboard" icon={HiChartPie}>
+            Beranda
           </Sidebar.Item>
-
-          {user?.roles !== "Admin" &&
-            user?.roles !== "Sekretariat" &&
-            user?.roles !== "Kepala_upbj" && (
-              <Sidebar.Collapse
-                icon={MdOutlineFeaturedPlayList}
-                label="Layanan"
-              >
-                <Sidebar.Item
-                  onClick={() => {
-                    navigate.push("/dashboard/clearing-house");
-                  }}
-                  icon={isMenuOpen ? "" : ""}
-                  className={`cursor-pointer ${
-                    pathname === "/dashboard/clearing-house"
-                      ? "bg-secondaryColor/60"
-                      : ""
-                  }`}
-                >
-                  Clearing House
-                </Sidebar.Item>
-
-                <Sidebar.Item
-                  onClick={() => {
-                    Swal.fire({
-                      title: "Peringatan!",
-                      text: "Layanan dalam pengembangan",
-                      icon: "warning",
-                      confirmButtonColor: "#3085d6",
-                    });
-                    // navigate.push("/dashboard/verifikasi-berkas");
-                  }}
-                  icon={isMenuOpen ? "" : ""}
-                  className={`cursor-pointer ${
-                    pathname === "/dashboard/verifikasi-berkas"
-                      ? "bg-secondaryColor/60"
-                      : ""
-                  }`}
-                >
-                  Verifikasi Berkas
-                </Sidebar.Item>
-              </Sidebar.Collapse>
-            )}
+          <Sidebar.Collapse icon={HiShoppingBag} label="Layanan">
+            <Sidebar.Item
+              href="/dashboard/clearing-house"
+              icon={isMenuOpen ? HiArrowSmRight : ""}
+            >
+              Clearing House
+            </Sidebar.Item>
+            <Sidebar.Item
+              href="/dashboard/verifikasi-berkas"
+              icon={isMenuOpen ? HiArrowSmRight : ""}
+            >
+              Verifikasi Berkas
+            </Sidebar.Item>
+          </Sidebar.Collapse>
           {/* <Sidebar.Item href="#" icon={HiInbox}>
             
           </Sidebar.Item> */}
-          <Sidebar.Item
-            className={`${
-              pathname === "/dashboard/permohonan" ? "bg-secondaryColor/60" : ""
-            } cursor-pointer`}
-            onClick={() => {
-              navigate.push("/dashboard/permohonan");
-            }}
-            icon={FaListUl}
-          >
+          <Sidebar.Item href="/dashboard/permohonan" icon={HiUser}>
             Daftar Permohonan
           </Sidebar.Item>
-
-          {user?.roles === "Admin" && (
-            <Sidebar.Item
-              className={`${
-                pathname === "/dashboard/users" ? "bg-secondaryColor/60" : ""
-              } cursor-pointer`}
-              onClick={() => {
-                navigate.push("/dashboard/users");
-              }}
-              icon={HiUser}
-            >
-              Daftar Pengguna
-            </Sidebar.Item>
-          )}
-
-          {user?.roles === "Admin" && (
-            <Sidebar.Item
-              className={`${
-                pathname === "/dashboard/dokumen" ? "bg-secondaryColor/60" : ""
-              } cursor-pointer`}
-              onClick={() => {
-                navigate.push("/dashboard/dokumen");
-              }}
-              icon={IoDocumentsSharp}
-            >
-              Dokumen Peraturan
-            </Sidebar.Item>
-          )}
-
-          {user?.roles === "Admin" && (
-            <Sidebar.Item
-              className={`${
-                pathname === "/dashboard/upgaleri" ? "bg-secondaryColor/60" : ""
-              } cursor-pointer`}
-              onClick={() => {
-                navigate.push("/dashboard/upgaleri");
-              }}
-              icon={FaImage}
-            >
-              Foto Galeri
-            </Sidebar.Item>
-          )}
-
-          {user?.roles === "Admin" && (
-            <Sidebar.Item
-              className={`${
-                pathname === "/dashboard/upslider" ? "bg-secondaryColor/60" : ""
-              } cursor-pointer`}
-              onClick={() => {
-                navigate.push("/dashboard/upslider");
-              }}
-              icon={FaImages}
-            >
-              Foto Slider
-            </Sidebar.Item>
-          )}
-
-          {user?.roles === "Kepala_upbj" && (
-            <Sidebar.Item
-              className={`${
-                pathname === "/dashboard/daftar-laporan"
-                  ? "bg-secondaryColor/60"
-                  : ""
-              } cursor-pointer`}
-              onClick={() => {
-                navigate.push("/dashboard/daftar-laporan");
-              }}
-              icon={FaClipboardList}
-            >
-              Daftar Laporan
-            </Sidebar.Item>
-          )}
-
-          {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
+          {/* <Sidebar.Item href="#" icon={HiShoppingBag}>
+            Products
+          </Sidebar.Item>
+          <Sidebar.Item href="#" icon={HiArrowSmRight}>
             Sign In
           </Sidebar.Item> */}
           {/* {[...Array(10)].map((_, index) => (

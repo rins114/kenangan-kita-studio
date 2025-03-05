@@ -2,36 +2,15 @@
 import { useNavigation } from "@/contexts/NavigationContext";
 import gsap from "gsap";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
-import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
-import { getPublishedSlider } from "@/services/Slider";
-import APP_CONFIG from "@/globals/app-config";
-import { CircularProgress } from "@nextui-org/react";
-import { showToast } from "@/utils/ShowToast";
-// const TOKEN = localStorage.getItem("access_token");
+import { Autoplay } from "swiper/modules";
 
 export default function Hero() {
   const { homeRef } = useNavigation();
   const swiperRef = useRef(null);
-  const [slider, setSlider] = useState([]);
-  const [token, setToken] = useState(null); // Gunakan state untuk menyimpan token
-
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        const savedToken = localStorage.getItem("access_token");
-        if (savedToken) {
-          setToken(savedToken);
-        }
-      }
-    } catch (error) {
-      console.error("Error accessing localStorage:", error);
-    }
-  }, []);
 
   // Function to handle the fade-in animation
   const handleSlideChange = () => {
@@ -44,19 +23,6 @@ export default function Hero() {
       );
     }
   };
-
-  useEffect(() => {
-    async function fetchSlider() {
-      const result = await getPublishedSlider();
-      console.log(result);
-      if (result.status !== 200) {
-        await showToast("error", "Kesalahan pada server: getPublishedSlider");
-        return;
-      }
-      setSlider(result.data);
-    }
-    fetchSlider();
-  }, [token]);
 
   useEffect(() => {
     gsap.from("#heroTitle", { opacity: 0, y: 100, duration: 1 });
@@ -75,45 +41,40 @@ export default function Hero() {
   return (
     <div
       ref={homeRef}
-      className="flex h-[auto] overflow-hidden relative top-[5rem] md:top-[6rem] text-poppins w-full"
+      className="flex h-screen overflow-hidden relative text-poppins z-10"
     >
       <Swiper
         ref={swiperRef}
-        className="mySwiper w-full"
+        className="mySwiper"
         autoplay={{
           delay: 5000, // 3 detik antar slide
           disableOnInteraction: false, // Tidak menghentikan autoplay saat interaksi
         }}
         loop={true}
-        pagination={{
-          clickable: true,
-          // dynamicBullets: true,
-        }}
-        modules={[Autoplay, Pagination]}
+        modules={[Autoplay]}
       >
-        {slider.length === 0 ? (
-          <SwiperSlide>
-            <div className="flex justify-center items-center h-full">
-              <CircularProgress></CircularProgress>
-            </div>
-          </SwiperSlide>
-        ) : (
-          slider?.map((item) => (
-            <SwiperSlide key={item.id}>
-              <Image
-                alt="hero"
-                src={APP_CONFIG.STORAGE_URL + item.img}
-                layout="intrinsic"
-                width={999990}
-                height={10000}
-                className="w-auto h-auto max-w-full max-h-full object-contain"
-              />
-            </SwiperSlide>
-          ))
-        )}
+        <SwiperSlide>
+          <Image
+            alt="hero"
+            src="/assets/images/hero-2.jpg"
+            width={4000}
+            height={3000}
+            className="w-full h-full object-cover"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            alt="hero"
+            src="/assets/images/hero-1.jpg"
+            width={4000}
+            height={3000}
+            className="w-full h-full object-cover"
+          />
+        </SwiperSlide>
+        {/* Tambahkan slide lainnya jika perlu */}
       </Swiper>
 
-      {/* <div className="bg-custom-gradient from-mainColor/60 via-mainColor/40 to-secondaryColor/40 z-10 absolute top-0 left-0 w-full h-full flex flex-col text-white justify-center items-center px-7">
+      <div className="bg-custom-gradient from-mainColor/60 via-mainColor/40 to-secondaryColor/40 z-10 absolute top-0 left-0 w-full h-full flex flex-col text-white justify-center items-center px-7">
         <div className="flex flex-col font-bold max-w-4xl justify-center items-center border-b-2 py-3 overflow-hidden">
           <h1 id="heroTitle" className="text-center text-5xl md:text-7xl">
             SELAMAT DATANG DI SIMPRO PBJ
@@ -124,7 +85,7 @@ export default function Hero() {
             SISTEM INFORMASI PROAKTIF PENGADAAN BARANG DAN JASA
           </h1>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

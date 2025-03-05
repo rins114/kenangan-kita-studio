@@ -3,26 +3,22 @@ import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../atoms/Logo";
-import { Avatar, Button } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@nextui-org/react";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { useNavigation } from "@/contexts/NavigationContext";
-import { useAuthUser } from "@/contexts/AuthUserContext";
 
 export default function NavbarCustom() {
   const navigate = useRouter();
   const pathname = usePathname();
   const { scrollToSection } = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, isAuthenticated } = useAuthUser();
 
   const menuRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
   useEffect(() => {
     if (isMenuOpen) {
       gsap.to(menuRef.current, {
@@ -52,77 +48,94 @@ export default function NavbarCustom() {
         onClick={() => navigate.push("/landing")}
       >
         <Logo
-          path="/assets/images/logonew.png"
+          path="/assets/images/logo-4.png"
           rounded={false}
           widthSize="210"
           heightSize="55"
         ></Logo>
       </div>
-      <ul className="md:flex gap-5 h-full justify-start items-center font-semibold hidden">
-        <li
-          className={`cursor-pointer hover:text-secondaryColor ${
-            pathname === "/landing" ? "text-secondaryColor" : ""
-          }`}
-        >
-          <div
-            className="py-2 lg:px-3"
-            onClick={() => navigate.push("/landing")}
-          >
-            <p>BERANDA</p>
-          </div>
-        </li>
-        <li
-          className={`cursor-pointer hover:text-secondaryColor ${
-            pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
-          }`}
-        >
-          <div
-            className="py-2 lg:px-3"
-            onClick={() => navigate.push("/landing/peraturan")}
-          >
-            <p>PERATURAN</p>
-          </div>
-        </li>
-        <li
-          className={`cursor-pointer hover:text-secondaryColor ${
-            pathname === "/landing/galeri" ? "text-secondaryColor" : ""
-          }`}
-        >
-          <div
-            className="py-2 lg:px-3"
-            onClick={() => navigate.push("/landing/galeri")}
-          >
-            <p>GALERI</p>
-          </div>
-        </li>
-        <li>
-          {!isAuthenticated ? (
-            <Button
-              className="bg-secondaryColor rounded-full !text-white font-semibold py-2 px-5"
-              onPress={() => navigate.push("/signin")}
-            >
-              MASUK
-            </Button>
-          ) : (
+      {!pathname.startsWith("/landing/peraturan") && (
+        <ul className="md:flex gap-5 h-full justify-start items-center font-medium hidden">
+          <li className="cursor-pointer hover:text-secondaryColor">
             <div
-              className="cursor-pointer rounded-full border-2 border-secondaryColor h-10 w-10 flex justify-center items-center overflow-hidden"
-              onClick={() => (window.location.href = "/dashboard")}
+              className="py-2 lg:px-3 "
+              onClick={() => scrollToSection("home")}
             >
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="default"
-                size="sm"
-              ></Avatar>
-              {/* <h1 className="!font-normal">
-                Logged in as{" "}
-                <span className="text-secondaryColor">{user?.name}</span>
-              </h1> */}
+              <p>Home</p>
             </div>
-          )}
-        </li>
-      </ul>
+          </li>
+
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => scrollToSection("about")}
+            >
+              <p>About</p>
+            </div>
+          </li>
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => scrollToSection("layanan")}
+            >
+              <p>Layanan</p>
+            </div>
+          </li>
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => scrollToSection("kinerja")}
+            >
+              <p>Kinerja</p>
+            </div>
+          </li>
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => navigate.push("/landing/peraturan")}
+            >
+              <p>Peraturan</p>
+            </div>
+          </li>
+          <li>
+            <Button
+              className="!rounded-md font-medium bg-mainColor text-white px-7"
+              onClick={() => navigate.push("/signin")}
+            >
+              Masuk
+            </Button>
+          </li>
+        </ul>
+      )}
+      {pathname.startsWith("/landing/peraturan") && (
+        <ul className="md:flex gap-5 h-full justify-start items-center font-medium hidden">
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => navigate.push("/landing")}
+            >
+              <p>Home</p>
+            </div>
+          </li>
+
+          <li className="cursor-pointer hover:text-secondaryColor">
+            <div
+              className="py-2 lg:px-3 "
+              onClick={() => navigate.push("/landing/peraturan")}
+            >
+              <p>Peraturan</p>
+            </div>
+          </li>
+          <li>
+            <Button
+              className="!rounded-md font-medium bg-mainColor text-white px-7"
+              onClick={() => navigate.push("/signin")}
+            >
+              Masuk
+            </Button>
+          </li>
+        </ul>
+      )}
 
       <div className="absolute inset-y-0 right-5 flex items-center md:hidden">
         <button
@@ -167,59 +180,66 @@ export default function NavbarCustom() {
         className="hidden absolute top-20 left-0 w-full bg-white shadow-lg z-[98] opacity-0 transform"
       >
         <div className="space-y-1 px-4 pb-3 pt-2">
-          <>
-            {!isAuthenticated ? (
-              <div className="block rounded-md px-3 py-2">
-                <Button
-                  className="!w-full font-bold bg-secondaryColor text-white text-base py-2"
-                  onPress={() => (window.location.href = "/signin")}
-                >
-                  MASUK
-                </Button>
-              </div>
-            ) : (
+          {!pathname.startsWith("/landing/peraturan") && (
+            <>
               <div
-                className="flex flex-row gap-3 justify-start items-center cursor-pointer px-2 mb-2"
-                onClick={() => (window.location.href = "/dashboard")}
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => scrollToSection("home")}
               >
-                <Avatar></Avatar>
-                <h1>{user?.name}</h1>
+                Home
               </div>
-            )}
-            <div
-              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                pathname === "/landing" ? "text-secondaryColor" : ""
-              }`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate.push("/landing");
-              }}
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => scrollToSection("about")}
+              >
+                About
+              </div>
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => scrollToSection("layanan")}
+              >
+                Layanan
+              </div>
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => scrollToSection("kinerja")}
+              >
+                Kinerja
+              </div>
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => navigate.push("/landing/peraturan")}
+              >
+                Peraturan
+              </div>
+            </>
+          )}
+
+          {pathname.startsWith("/landing/peraturan") && (
+            <>
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => navigate.push("/landing")}
+              >
+                Home
+              </div>
+              <div
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer"
+                onClick={() => navigate.push("/landing/peraturan")}
+              >
+                Peraturan
+              </div>
+            </>
+          )}
+
+          <div className="block rounded-md px-3 py-2">
+            <Button
+              className="!w-full font-medium bg-mainColor text-white text-base py-2"
+              onClick={() => navigate.push("/signin")}
             >
-              BERANDA
-            </div>
-            <div
-              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                pathname === "/landing/peraturan" ? "text-secondaryColor" : ""
-              }`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate.push("/landing/peraturan");
-              }}
-            >
-              PERATURAN
-            </div>
-            <div
-              className={`block rounded-md px-3 py-2 text-base font-bold text-gray-700 hover:bg-gray-200 hover:text-gray-900 cursor-pointer ${
-                pathname === "/landing/galeri" ? "text-secondaryColor" : ""
-              }`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate.push("/landing/galeri");
-              }}
-            >
-              GALERI
-            </div>
-          </>
+              Masuk
+            </Button>
+          </div>
         </div>
       </div>
     </nav>

@@ -2,13 +2,10 @@
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { TiWeatherPartlySunny } from "react-icons/ti";
-import { TbBrandYoutubeFilled, TbPhoneCall } from "react-icons/tb";
+import { TbPhoneCall } from "react-icons/tb";
 import { FaRegClock, FaTwitterSquare, FaYoutubeSquare } from "react-icons/fa";
 import { FaFacebookSquare } from "react-icons/fa";
 import gsap from "gsap";
-import { FaSquareXTwitter, FaSquareYoutube } from "react-icons/fa6";
-import { IoLogoYoutube } from "react-icons/io";
-import { IoCloudyNightOutline } from "react-icons/io5";
 
 export default function InfoBar() {
   const [time, updateTime] = useState(new Date());
@@ -70,18 +67,6 @@ export default function InfoBar() {
     });
   }, []);
 
-  function isBetweenTime() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-
-    const nowInMinutes = hours * 60 + minutes;
-    const startTime = 3 * 60;
-    const endTime = 18 * 60;
-
-    return nowInMinutes > startTime && nowInMinutes < endTime;
-  }
-
   return (
     <section
       ref={infoBarRef}
@@ -92,25 +77,20 @@ export default function InfoBar() {
           ref={weatherRef}
           className="flex gap-1 justify-center items-center text-white border-r-1 border-white px-3"
         >
-          {isBetweenTime() ? (
-            <TiWeatherPartlySunny className="text-orange-300 text-lg mb-[0.2rem]" />
-          ) : (
-            <IoCloudyNightOutline className="text-blue-300 text-lg mb-[0.2rem]" />
-          )}
-
+          <TiWeatherPartlySunny className="text-orange-500 text-lg" />
           <p className="text-sm">
             {`${time.getDate()} ${months[time.getMonth()]}`}
           </p>
         </div>
         <div className="flex gap-5 justify-center items-center text-white px-3">
           <Link href="/faq" className="text-sm hover:text-mainColor">
-            Sumbawa Besar
+            In my area
           </Link>
-          {/* <Link href="/faq" className="text-sm hover:text-mainColor">
-            FAQ's
-          </Link> */}
           <Link href="/faq" className="text-sm hover:text-mainColor">
-            Pemerintah
+            Faq
+          </Link>
+          <Link href="/faq" className="text-sm hover:text-mainColor">
+            Government
           </Link>
         </div>
       </div>
@@ -119,34 +99,31 @@ export default function InfoBar() {
           ref={timeRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <TbPhoneCall className="text-white text-md" />
+          <TbPhoneCall className="text-blue-700 text-md" />
           <p className="text-white text-sm">+6281 2345 6789</p>
         </div>
         <div
           ref={contactRef}
           className="flex gap-2 justify-center items-center px-3 border-r-1 border-white"
         >
-          <FaRegClock className="text-white text-md" />
+          <FaRegClock className="text-blue-700 text-md" />
           <time
             className="text-white text-sm"
             dateTime="2024-01-01"
             suppressHydrationWarning
           >
-            {time.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
+            {time.toLocaleTimeString()}
           </time>
         </div>
         <div className="flex gap-3 justify-center items-center px-3">
           <Link href={"https://www.facebook.com/"} target="_blank">
-            <FaFacebookSquare className="text-white text-md" />
+            <FaFacebookSquare className="text-blue-600 text-md" />
           </Link>
           <Link href={"https://twitter.com/"} target="_blank">
-            <FaSquareXTwitter className="text-white text-md" />
+            <FaTwitterSquare className="text-black text-md" />
           </Link>
           <Link href={"https://www.youtube.com/"} target="_blank">
-            <TbBrandYoutubeFilled className="text-white text-md" />
+            <FaYoutubeSquare className="text-red-700 text-md" />
           </Link>
         </div>
       </div>

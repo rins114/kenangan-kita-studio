@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Logo({
-  path = "/assets/images/logonew.png",
+  path = "/assets/images/logo.png",
   widthSize = "50",
   heightSize = "50",
   alt = "logo",
@@ -26,7 +26,6 @@ export default function Logo({
         style={{ width: `${widthSize}px`, height: `${heightSize}px` }}
         width={500}
         height={500}
-        priority
       ></Image>
     </div>
   );
